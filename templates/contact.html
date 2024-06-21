@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}
+Flask Exercise -- Contact page --
+{% endblock %}
+{% block content %}
+<div class="container"> 
+    <h1>Contact Us</h1> 
+    <form method="POST" action="{{ url_for('home') }}"> 
+        {{ form.csrf_token }} 
+        <p> 
+            {{ form.name.label }}  
+            <br> 
+            {{ form.name }} 
+        </p> 
+        <p> 
+            {{ form.email.label }}  
+            <br> 
+            {{ form.email(size=30) }} 
+        </p> 
+        <p> 
+            {{ form.message.label }}  
+            <br> 
+            {{ form.message }} 
+        </p> 
+        {{ form.submit }} 
+    </form> 
+</div> 
+
+--------------------------------------------------------
+
+<address>
+    Chlau5206<br />
+    Redmond Way<br />
+    Redmond, WA 98052-5206<br />
+    <abbr title="Phone">P:</abbr>
+    (111)222-3333
+</address>
+
+<address>
+    <strong>Support:</strong>   <a href="mailto:SupportSE@chlau5206.com">Support@chlau5206.com</a><br />
+    <strong>Marketing:</strong> <a href="mailto:Marketing@chlau5206.com">Marketing@chlau5206.com</a>
+</address>
+
+{% endblock %}

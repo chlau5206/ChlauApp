@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}
+Exchange Rate
+{% endblock %}
+{% block content %}
+
+<!--
+        How to convert JSON data to a html table using JavaScript/jQuery?
+        https://www.geeksforgeeks.org/how-to-convert-json-data-to-a-html-table-using-javascript-jquery/
+
+ -->
+ <table>
+    <tr valign="top">
+        <td bgcolor="#eee" width="400" height="200">
+            <h2>Exchange Rate (USD based)</h2>
+
+            <script src="{{ url_for('static', filename='ExchangeRates.js')}}"></script>
+            <script>printExchangeRates()</script>
+
+        </td>
+    </tr>
+
+</table>
+
+{% endblock %}
