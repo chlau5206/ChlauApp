@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}
+User Login
+{% endblock %}
+{% block content %}
+
+<div class="body-content">
+    {% if current_user.is_authenticated %}
+        <h1>
+        <span class="message">
+            Hello there, 
+            {%if name %}
+                {{ name }}!<br>
+            {% endif %}
+        </span>
+        </h1>
+        <nav>
+            <ul>
+            <li><a href="/register">Create account</a></li>
+            <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    {% else %}
+        What's your name? Login please.<br />
+        <a href="/login">Login</a>            
+    {% endif %}
+</div>
+
+{% endblock %}
