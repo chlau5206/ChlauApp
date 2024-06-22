@@ -11,23 +11,22 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user
 
 # ## Custom Contact Us #########################
 from flask_wtf import CSRFProtect
-# from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm
 # from wtforms import StringField, validators, PasswordField, SubmitField 
 # from wtforms.validators import DataRequired, Email 
 import email_validator 
 
 # contactUsModule import contactForm
-import contactUsModule
-
-from Security import KEY
-
+from . import contactUsModule
+# from Security import KEY
+KEY = "AlohaFriday"
 
 ## User Create and Login with SQLite ##############
 # Tells flask-sqlalchemy what database to connect to
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 # Enter a secret key
-app.config["SECRET_KEY"] = KEY()
-app.secret_key = KEY()
+app.config["SECRET_KEY"] = KEY
+
 # Initialize flask-sqlalchemy extension
 db = SQLAlchemy()
 
@@ -57,8 +56,8 @@ def loader_user(user_id):
     return Users.query.get(user_id)
 
 ## Custom Contact Us #####################################################
-# app.secret_key = KEY()
-# csrf = CSRFProtect(app)
+app.secret_key = KEY()
+csrf = CSRFProtect(app)
 # class contactForm(): 
 #     name = StringField(label='Name', validators=[DataRequired()]) 
 #     email = StringField(label='Email', 
