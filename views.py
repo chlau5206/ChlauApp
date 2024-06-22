@@ -56,7 +56,7 @@ def loader_user(user_id):
     return Users.query.get(user_id)
 
 ## Custom Contact Us #####################################################
-app.secret_key = KEY()
+app.secret_key = KEY
 csrf = CSRFProtect(app)
 # class contactForm(): 
 #     name = StringField(label='Name', validators=[DataRequired()]) 
