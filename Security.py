@@ -3,5 +3,6 @@
 
 # class Security:
 def KEY(): 
-    return 'HappyHour'
+    return 'AlohaFriday'
+    # return 'HappyHour'
 

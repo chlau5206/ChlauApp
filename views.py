@@ -18,6 +18,8 @@ import email_validator
 
 # contactUsModule import contactForm
 from . import contactUsModule
+
+# from . import Security
 # from Security import KEY
 KEY = "AlohaFriday"
 
@@ -26,6 +28,7 @@ KEY = "AlohaFriday"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 # Enter a secret key
 app.config["SECRET_KEY"] = KEY
+app.secret_key = KEY
 
 # Initialize flask-sqlalchemy extension
 db = SQLAlchemy()
@@ -56,7 +59,6 @@ def loader_user(user_id):
     return Users.query.get(user_id)
 
 ## Custom Contact Us #####################################################
-app.secret_key = KEY
 csrf = CSRFProtect(app)
 # class contactForm(): 
 #     name = StringField(label='Name', validators=[DataRequired()]) 
@@ -115,7 +117,7 @@ def firstUser():
         # to login route (created later on)
         return redirect(url_for("home"))
     # Renders sign_up template if user made a GET request
-    return render_template("firstUser.html")
+    return render_template("login.html")
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
