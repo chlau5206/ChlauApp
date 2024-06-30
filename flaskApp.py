@@ -1,6 +1,7 @@
-''' Flask exercise -- views.py -- 5/16/2024
+''' Flask exercise -- flaskApp.py - 6/30/2024
 '''
-from . import app
+import sys
+# from . import app
 from flask import Flask, abort
 from flask import render_template, redirect, url_for, request, jsonify
 from datetime import datetime
@@ -16,8 +17,12 @@ from flask_wtf import FlaskForm
 # from wtforms.validators import DataRequired, Email 
 import email_validator 
 
+# from . import Security
+# from Security import KEY
+
 # contactUsModule import contactForm
-from . import contactUsModule
+# from . import contactUsModule
+app = Flask(__name__)
 
 # from . import Security
 # from Security import KEY
