@@ -8,12 +8,41 @@ Member page
   <p><strong>Error:</strong> {{ error }}
 {% endif %}
 
-  <form action="#" method="POST">
+  <!-- <form action="#" method="POST">
     <label for="username">Username:</label>
     <input type="text" name="username" /><br />
     <label for="password">Password:</label>
     <input type="password" name="password" />
     <input type="hidden" name="csrf_token" value = "{{ csrf_token()}}" /><br /><br />
     <button type="submit">Login</button>
-</form>
+</form> -->
+
+
+<div class="container">
+
+    <form method="POST" action="{{ url_for('home') }}">
+      {{ form.csrf_token }}
+      <p>
+        {{ form.userName.label }}
+        <br>
+        {{ form.userName }}
+      </p>
+      <p>
+        {{ form.password.label }}
+        <br>
+        {{ form.password }}
+      </p>
+      
+      {{ form.submit }}
+    </form>
+
+
+
+
+</div>
+{% if error %}
+<p><strong>Error:</strong> {{ error }}
+  {% endif %}
+
+
 {% endblock %}

@@ -11,23 +11,24 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 
 # ## Custom Contact Us #########################
-from flask_wtf import CSRFProtect
-from flask_wtf import FlaskForm
-# from wtforms import StringField, validators, PasswordField, SubmitField 
-# from wtforms.validators import DataRequired, Email 
+from flask_wtf import CSRFProtect, FlaskForm
+from wtforms import StringField, SubmitField 
+# from wtforms import DecimalField, RadioField, SelectField, TextAreaField, FileField 
+from wtforms.validators import InputRequired, DataRequired, Email 
+  
+
+
 import email_validator 
+from contactUsModule import contactForm, loginForm
 
 # from . import Security
-# from Security import KEY
+from Security import KEY
+# def KEY() -> str:
+#     return "AlohaFriday"
 
-# contactUsModule import contactForm
-# from . import contactUsModule
+
 app = Flask(__name__)
 
-# from . import Security
-# from Security import KEY
-def KEY() -> str:
-    return "AlohaFriday"
 
 ## User Create and Login with SQLite ##############
 # Tells flask-sqlalchemy what database to connect to
@@ -87,13 +88,14 @@ def about():
 
 @app.route("/contact/", methods=["GET", "POST"])
 def contact():
-    cform = contactUsModule.contactForm()
-    # if  cform.validate_on_submit(): 
-    #     print(f"Name:{cform.name.data},  
-    #           E-mail:{cform.email.data},  
-    #           message:{cform.message.data}") 
-    # else: 
-    #     print("Invalid Credentials") 
+    cform = contactForm()
+    if  cform.validate_on_submit(): 
+        # name = cform.name.data
+        # email = cform.email.data
+        # message = cform.message.data
+        print(f"Name:{cform.name.data}, E-mail:{cform.email.data}, message:{cform.message.data}") 
+    else: 
+        print("Invalid Credentials") 
     return render_template("contact.html", form=cform)
 
 @app.route("/hello/")
@@ -145,18 +147,41 @@ def register():
     # Renders sign_up template if user made a GET request
     return render_template("signUp.html", error = error)
 
+# @app.route("/login", methods=["GET","POST"])
+# def login():
+#     # If a post request was made, find the user by 
+#     # filtering for the username
+#     error = None
+#     if request.method == "POST":
+#         user = Users.query.filter_by(
+#             username=request.form.get("username").strip()).first()
+#         # Check if the password entered is the 
+#         # same as the user's password
+#         if (user != None and user.password == request.form.get("password").strip()):
+#             # Use the login_user method to log in the user
+#                 login_user(user)
+#                 return redirect(url_for("hello_there", name=f"{user.username}"))
+#         else:
+#             error = 'Invalid username or password. Please try again!'
+
+#         # Redirect the user back to the home
+#         # (we'll create the home route in a moment)
+#     return render_template("login.html", error = error)
+
 @app.route("/login", methods=["GET","POST"])
 def login():
     # If a post request was made, find the user by 
     # filtering for the username
     error = None
-    if request.method == "POST":
-        retry = 5
+    lForm = loginForm()
+    if lForm.validate_on_submit():
+        name = lForm.userName.data
+        pw = lForm.password.data
         user = Users.query.filter_by(
-            username=request.form.get("username").strip()).first()
+            username=request.form.get(name).strip()).first()
         # Check if the password entered is the 
         # same as the user's password
-        if (user != None and user.password == request.form.get("password").strip()):
+        if (user != None and user.password == request.form.get(pw).strip()):
             # Use the login_user method to log in the user
                 login_user(user)
                 return redirect(url_for("hello_there", name=f"{user.username}"))
@@ -165,7 +190,10 @@ def login():
 
         # Redirect the user back to the home
         # (we'll create the home route in a moment)
-    return render_template("login.html", error = error)
+    return render_template("login.html", form =lForm, error = error)
+
+
+
 
 @app.route("/logout")
 def logout():
