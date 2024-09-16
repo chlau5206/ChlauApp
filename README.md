@@ -1,5 +1,5 @@
-## Flask-based project
-Purpose: The project runs on PythonAnywhere.
+## Project 
+This project uses Flask framework based.
 
 ## install ChlauApp
 1. Create project folder
