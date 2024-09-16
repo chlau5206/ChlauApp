@@ -10,7 +10,7 @@ User Login
         <span class="message">
             Hello there, 
             {%if name %}
-                {{ name }}!<br>
+                {{ name }}!<br />
             {% endif %}
         </span>
         </h1>
@@ -24,6 +24,10 @@ User Login
         Unknow member.  Login please.<br />
         <a href="/login">Login</a>            
     {% endif %}
+    <br />
+    <br />
+    <br />
+    {{ date }}
 </div>
 
 {% endblock %}
