@@ -1,18 +1,20 @@
 function getExchangeRates(){
 	fetch("./CurrentExchangeRates.json")
-		.then((response) => response.Json())
-		.then((Json) => {
+		.then((response) => response.json())
+		.then((json) => rate = json.parse(json)
+		
+		// {
 
-			// var Json = '{....}'
-			// var obj = JSON.parse(Json)
+			// // var Json = '{....}'
+			// // var obj = JSON.parse(Json)
 
-			return JSON.parse(Json)
-		} )
-		.catch((e) => console.error(e))
+			// return JSON.parse(Json)
+		// } )
+		// .catch((e) => console.error(e))
 
 	// var Json ='{"success": true,"timestamp": 1718739664,"base": "EUR","date": "2024-06-18","rates":{"USD": 1.073797,"EUR": 1}}'
 
-	return JSON.parse(Json)
+	return rate
 }
 
 function printExchangeRates(){
