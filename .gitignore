@@ -1,3 +1,6 @@
+# Git 
+.git/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -193,3 +196,4 @@ FirstUser.html
 # ignore files
 *.bak
 *.old
+API_ExchangeRage.py
