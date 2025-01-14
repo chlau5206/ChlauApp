@@ -1,5 +1,8 @@
 ## Project 
-This project uses Flask framework based.
+This project uses Flask framework based.  The project is posted in pythonanywhere.com. 
+https://chlau5206.pythonanywhere.com
+
+## Note: pythonanywhere need to renew the website every 3 month.
 
 ## install ChlauApp
 1. Create project folder
