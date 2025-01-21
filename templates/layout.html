@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}ChlauApp 5206{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
     
         <div class="navbar">
-            <a href="{{ url_for('home') }}" class="navbar-brand">ChLau5206</a>
-            <a href="{{ url_for('exchangeRate') }}" class="navbar-item">Exchange Rate</a>
-            <a href="{{ url_for('about') }}" class="navbar-item">About</a>
-            <a href="{{ url_for('contact') }}" class="navbar-item">Contact Us</a>
+            <a href="{{ url_for('main.home') }}" class="navbar-brand">ChLau5206</a>
+            <a href="{{ url_for('main.exchangeRate') }}" class="navbar-item">Exchange Rate</a>
+            <a href="{{ url_for('main.about') }}" class="navbar-item">About</a>
+            <a href="{{ url_for('main.contact') }}" class="navbar-item">Contact Us</a>
         </div>
     </head>
     <body>
@@ -18,7 +18,7 @@
             {% endblock %}
             <hr/>
             <footer>
-                <p>&copy; 2024 Chlau5206</p>
+                <p>&copy; 2025 Chlau5206</p>
             </footer>
         </div>
     </body>

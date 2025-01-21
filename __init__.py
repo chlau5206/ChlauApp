@@ -17,15 +17,6 @@ if not sys.version_info.major == 3 and sys.version_info.minor >= 10:
 # Create the database instance
 db = SQLAlchemy()
 
-class User(db.Model):
-    # from flask_login import UserMixin
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(250), unique=True, nullable=False)
-    password = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(250), unique=True, nullable=False)
-
-    def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
 
 def create_app():
     app = Flask(__name__) 
@@ -50,23 +41,23 @@ def create_app():
 
     db.init_app(app)
 
-    with app.app_context():
-        # from . import models
-        db.create_all() # Create tables if they don't exist
+    # with app.app_context():
+    #     # from . import models
+    #     db.create_all() # Create tables if they don't exist
 
     
-    #     # Register views here 
-    #     from .views import register_views 
-    #     register_views(app)
-
+    # Register views here 
+    from .views import main
+    app.register_blueprint(main)
     
-    # app.register_blueprint(main)
+    # from .admin import admin
     # app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
     return app
 
 
 # Initialize app 
-main = create_app()
+# main = create_app()
+app = create_app()
 
-from . import views
+#from . import views

@@ -5,17 +5,14 @@ from flask import render_template, redirect, url_for, request, jsonify, abort
 
 from datetime import datetime
 
-# contactUsModule import contactForm
-from . import contactUsModule
-from . import models
 
-from . import db # Import the db object from __init__.py 
-from . import User # Import the model from __init__.py
-from . import main
+from . import contactUsModule   # contactUsModule import contactForm
+from . import db                # Import the db object from __init__.py 
+from . import models            # Import the model from __init__.py
 
-##  create Blueprint
-# from flask import Blueprint
-# main = Blueprint('main', __name__)
+#  create Blueprint
+from flask import Blueprint
+main = Blueprint('main', __name__)
 
 # def register_views(app):
 #     app.register_blueprint(main)
@@ -25,10 +22,9 @@ from . import main
 ##############
 
 @main.route("/")
-@main.route("/home")
 def home():
-    # items = User.query.all()
-    return render_template("home.html")
+    users = models.User.query.all()
+    return render_template("home.html", items=users)
 # main.add_url_rule('/', 'home', home)
 
 @main.route("/about/")

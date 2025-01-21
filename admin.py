@@ -1,5 +1,5 @@
 ## admin.py
-from flask import Flask, abort
+# from flask import Flask, abort
 from flask import render_template, redirect, url_for, request, jsonify
 from datetime import datetime
 
@@ -7,8 +7,14 @@ from datetime import datetime
 # from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 
+from . import db
 from . import models
-from . import contactUsModule
+
+from flask import Blueprint
+admin = Blueprint('admin', __name__)
+
+
+
 
 # # LoginManager is needed for our application 
 # # to be able to log in and out users
@@ -24,13 +30,11 @@ def loader_user(user_id):
     return user_id
 
 
-from flask import Blueprint
-admin = Blueprint('admin', __name__)
-
 
 @admin.route("/hello/")
 @admin.route("/hello/<name>")
 def hello_there(name = None):
+    users = models.User.query.all()
     return render_template(
         "index.html",
         name=name,
