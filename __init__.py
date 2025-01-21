@@ -41,17 +41,20 @@ def create_app():
 
     db.init_app(app)
 
-    # with app.app_context():
-    #     # from . import models
-    #     db.create_all() # Create tables if they don't exist
 
-    
     # Register views here 
     from .views import main
     app.register_blueprint(main)
     
     # from .admin import admin
     # app.register_blueprint(admin_blueprint, url_prefix='/admin')
+
+
+    with app.app_context():
+        # from . import models
+        db.create_all() # Create tables if they don't exist
+
+    
 
     return app
 
