@@ -196,4 +196,5 @@ FirstUser.html
 # ignore files
 *.bak
 *.old
+.env
 API_ExchangeRage.py

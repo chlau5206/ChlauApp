@@ -1,16 +1,19 @@
+# contact Us Module
 ## Custom Contact Us #########################
-# from . import app
-# from flask import Flask, render_template, request, redirect, url_for 
-# import email_validator 
 
-from flask_wtf import FlaskForm 
+from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, validators, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, InputRequired
 
+import email_validator 
+
+# ## using CSRF for Contact Us web form #########################
+# csrf = CSRFProtect()
+
 class contactForm(FlaskForm): 
     name = StringField(label='Name', validators=[DataRequired()]) 
-    email = StringField(label='Email', validators=[ 
-        DataRequired(), Email(granular_message=True)]) 
+    email = StringField(label='Email', 
+                        validators=[DataRequired(), Email(granular_message=True)]) 
     message= StringField(label='Message') 
     submit = SubmitField(label="Submit") 
 
