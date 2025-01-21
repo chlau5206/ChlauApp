@@ -24,6 +24,6 @@ Sign Up
         </form>
     {% else %}
         What's your name? Login please.<br />
-        <a href="{{ url_for('login') }}" class="navbar-item">Login</a>
+        <a href="{{ url_for('admin.login') }}" class="navbar-item">Login</a>
     {% endif %}
 {% endblock %}

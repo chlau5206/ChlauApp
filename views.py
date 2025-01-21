@@ -1,21 +1,16 @@
 ''' Flask web page -- views.py
 '''
 # from . import main
-from flask import render_template, redirect, url_for, request, jsonify, abort
+from flask import render_template #, redirect, url_for, request, jsonify, abort
 
-from datetime import datetime
-
-
-from . import contactUsModule   # contactUsModule import contactForm
-from . import db                # Import the db object from __init__.py 
+# from . import db                # Import the db object from __init__.py 
+from . import FormModule   # contactUsModule import contactForm
 from . import models            # Import the model from __init__.py
 
 #  create Blueprint
 from flask import Blueprint
 main = Blueprint('main', __name__)
 
-# def register_views(app):
-#     app.register_blueprint(main)
 
 ##############
 # Main Route #
@@ -25,7 +20,7 @@ main = Blueprint('main', __name__)
 def home():
     users = models.User.query.all()
     return render_template("home.html", items=users)
-# main.add_url_rule('/', 'home', home)
+main.add_url_rule('/', 'home', home)
 
 @main.route("/about/")
 def about():
@@ -33,7 +28,7 @@ def about():
 
 @main.route("/contact/", methods=["GET", "POST"])
 def contact():
-    cform = contactUsModule.contactForm()
+    cform = FormModule.contactForm()
     # if  cform.validate_on_submit(): 
     #     print(f"Name:{cform.name.data},  
     #           E-mail:{cform.email.data},  

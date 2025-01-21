@@ -1,60 +1,52 @@
 ## admin.py
 # from flask import Flask, abort
+
 from flask import render_template, redirect, url_for, request, jsonify
-from datetime import datetime
-
-# ## User Create/login #################################
-# from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user
-
+from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 from . import db
+from . import login_manager
+#from . import app
+from . import FormModule
 from . import models
+from .models import User
 
+
+# Create Admin Blueprint
 from flask import Blueprint
 admin = Blueprint('admin', __name__)
 
-
-
-
-# # LoginManager is needed for our application 
-# # to be able to log in and out users
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-
-
+from datetime import datetime
 
 # Creates a user loader callback that returns the user object given an id
-@login_manager.user_loader
-def loader_user(user_id):
-    # return models.Users.query.get(user_id)
-    return user_id
-
+# @login_manager.user_loader
+# def loader_user(user_id):
+#     return User.query.get(user_id)
 
 
 @admin.route("/hello/")
 @admin.route("/hello/<name>")
+@login_required
 def hello_there(name = None):
-    users = models.User.query.all()
     return render_template(
         "index.html",
-        name=name,
+        name=current_user,
         date=datetime.now()
     )
 
-@admin.route('/firstUser', methods=["GET", "POST"])
+@admin.route('/firstUser', methods=["GET","POST"])
 def firstUser():
-  # If the user made a POST request, create the first user
-    if request.method == "POST":
-        user = Users(username=request.form.get("username").strip(),
-                     password=request.form.get("password").strip())
+    # If the users database is empty, create the first user
+    if not models.User.query.all():
+        user = models.User(username=request.form.get("username").strip(),
+                        password=request.form.get("password").strip())
         # Add the user to the database
         db.session.add(user)
         # Commit the changes made
         db.session.commit()
         # Once user account created, redirect them
         # to login route (created later on)
-        return redirect(url_for("home"))
-    # Renders sign_up template if user made a GET request
+            # return redirect(url_for("home"))
+            # Renders sign_up template if user made a GET request
     return render_template("login.html")
 
 @admin.route('/register', methods=["GET", "POST"])
@@ -63,16 +55,19 @@ def register():
     if request.method == "POST":
         username=request.form.get("username").strip()
         password=request.form.get("password").strip()
-        if username.isalnum() and password.isalnum():
-            user = Users(username, password)
-            db.session.add(user)
-            # Commit the changes made
-            db.session.commit()
-            # Once user account created, redirect them
-            # to login route (created later on)
-            return redirect(url_for("hello_there"))
-        else: 
-            error = "Invalid username or password. Either alpha or number."
+        try: 
+            if username.isalnum() and password.isalnum():
+                user = models.User(username, password)
+                db.session.add(user)
+                # Commit the changes made
+                db.session.commit()
+                # Once user account created, redirect them
+                # to login route (created later on)
+                return redirect(url_for("hello_there"))
+            else: 
+                error = "Invalid username or password. Either alpha or number."
+        except:
+            print ("Error: add user failed.")
         # Add the user to the database
     # Renders sign_up template if user made a GET request
     return render_template("signUp.html", error = error)
@@ -83,8 +78,12 @@ def login():
     # filtering for the username
     error = None
     if request.method == "POST":
-        retry = 5
-        user = Users.query.filter_by(
+        # retry = 5
+        # username = request.form['username']
+        # password = request.form['password']
+        # user = User.query.filter_by( username=username).first()
+        
+        user = User.query.filter_by(
             username=request.form.get("username").strip()).first()
         # Check if the password entered is the 
         # same as the user's password
@@ -102,7 +101,7 @@ def login():
 @admin.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("home"))
+    return redirect(url_for("main.home"))
 
 @admin.errorhandler(404)
 def not_found(e):

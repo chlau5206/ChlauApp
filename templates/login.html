@@ -20,7 +20,7 @@ Member page
 
 <div class="container">
 
-    <form method="POST" action="{{ url_for('home') }}">
+    <form method="POST" action="{{ url_for('main.home') }}">
       {{ form.csrf_token }}
       <p>
         {{ form.userName.label }}
