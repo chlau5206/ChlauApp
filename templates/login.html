@@ -3,46 +3,30 @@
 Member page
 {% endblock %}
 {% block content %}
-  <h1>Login to your account</h1>
-{% if error %}
-  <p><strong>Error:</strong> {{ error }}
-{% endif %}
-
-  <!-- <form action="#" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" name="username" /><br />
-    <label for="password">Password:</label>
-    <input type="password" name="password" />
-    <input type="hidden" name="csrf_token" value = "{{ csrf_token()}}" /><br /><br />
-    <button type="submit">Login</button>
-</form> -->
-
-
-<div class="container">
-
-    <form method="POST" action="{{ url_for('main.home') }}">
-      {{ form.csrf_token }}
-      <p>
-        {{ form.userName.label }}
-        <br>
-        {{ form.userName }}
-      </p>
-      <p>
-        {{ form.password.label }}
-        <br>
-        {{ form.password }}
-      </p>
-      
-      {{ form.submit }}
-    </form>
-
-
-
-
-</div>
-{% if error %}
-<p><strong>Error:</strong> {{ error }}
-  {% endif %}
-
-
+<h1>Login to your account</h1>
+    {% if error %}
+    <p>
+        <strong>Error:</strong> {{ error }}
+    </p>
+    (% else % )
+    <div class="container">
+        <form method="POST" action="{{ url_for('main.home') }}">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.userName.label }}<br />
+                {{ form.userName(size=32) }}<br />
+                {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password(size=32) }}<br>
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit() }}</p>
+    </div>
+    {% endif %}
 {% endblock %}

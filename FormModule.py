@@ -2,13 +2,15 @@
 ## Custom Contact Us #########################
 
 from flask_wtf import FlaskForm, CSRFProtect
-from wtforms import StringField, validators, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, InputRequired
 
-import email_validator 
+# from . import app
+
+# import email_validator 
 
 # ## using CSRF for Contact Us web form #########################
-# csrf = CSRFProtect()
+# csrf = CSRFProtect(app)
 
 class contactForm(FlaskForm): 
     name = StringField(label='Name', validators=[DataRequired()]) 
@@ -17,10 +19,10 @@ class contactForm(FlaskForm):
     message= StringField(label='Message') 
     submit = SubmitField(label="Submit") 
 
-class loginForm(FlaskForm):
+class LoginForm(FlaskForm):
     userName = StringField(label='User name: ', validators=[DataRequired()]) 
     password = PasswordField(label="Password: ", validators=[InputRequired()]) 
-    submit = SubmitField(label="Log In") 
+    submit = SubmitField(label="Login") 
 
 class MyForm(FlaskForm): 
     name = StringField('Name', validators=[InputRequired()]) 

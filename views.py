@@ -2,10 +2,14 @@
 '''
 # from . import main
 from flask import render_template #, redirect, url_for, request, jsonify, abort
+from flask_login import current_user, login_required
+from datetime import datetime
 
 # from . import db                # Import the db object from __init__.py 
 from . import FormModule   # contactUsModule import contactForm
-from . import models            # Import the model from __init__.py
+# from . import models            # Import the model from __init__.py
+# from .models import User
+from . import admin
 
 #  create Blueprint
 from flask import Blueprint
@@ -17,9 +21,10 @@ main = Blueprint('main', __name__)
 ##############
 
 @main.route("/")
+@main.route("/home")
 def home():
-    users = models.User.query.all()
-    return render_template("home.html", items=users)
+    # users = models.User.query.all()
+    return render_template("home.html")
 main.add_url_rule('/', 'home', home)
 
 @main.route("/about/")
@@ -41,4 +46,14 @@ def contact():
 def exchangeRate():
     return render_template("exchangeRate.html")
 
+@main.route("/member")
+@login_required
+def member():
+    # current_user
+    return render_template(
+        "member.html",
+        name=current_user.username,
+        date=datetime.now()
+    )
+    
 

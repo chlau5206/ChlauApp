@@ -8,17 +8,26 @@ import sys
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 
-## Check Python at lease version 3.10
-if not (sys.version_info.major == 3 and sys.version_info.minor >= 10):
-	print("Python 3.10 or higher is required.")
-	print("You are using Python {}.{}. ".format(sys.version_info_major, sys.version_info.minor))
-	sys.exit(1)    # fail. 
+# from .models import User
 
-db = SQLAlchemy()
-login_manager = LoginManager()
+# def firstUser():
+#     # If the users database is empty, create the first user
+#     from .models import User
+#     if not User.query.all():  
+#         user = User(username="Admin", password="Secret")
+#         # Add the user to the database
+#         db.session.add(user)
+#         # Commit the changes made
+#         db.session.commit()
+#     return None
+
+
+
 
 def create_app():
+    from .models import User
     app = Flask(__name__) 
     
     ''' Load configurations from environment variables
@@ -30,6 +39,9 @@ def create_app():
         app.config["DEBUG"] = os.getenv("DEBUG", "False")
         app.config["TESTING"] = os.getenv("TESTING", "True")
         app.secret_key = os.getenv('SECRET_KEY')
+        admin_name = os.getenv('admin_name')
+        admin_pw = os.getenv('admin_pw')
+
     '''
 
     app.config['FLASK_APP'] = 'views.py'
@@ -39,38 +51,54 @@ def create_app():
     app.config["DEBUG"] = 'True'
     app.config["TESTING"] = 'False'
     app.secret_key = 'AlohaFriday'
+    admin_name = 'Admin'
+    admin_pw = 'Secret'
 
-    # Register views here 
+    db.init_app(app)
+    with app.app_context():
+        # from . import models
+        db.create_all() # Create tables if they don't exist
+
+        # check if the user table is empty
+        if not User.query.first():
+            # add a first user
+            first_user = User(username=admin_name, password=admin_pw)
+            # Add the user to the database
+            db.session.add(first_user)
+            # Commit the changes made
+            db.session.commit()
+
+    # ## User Create/login #################################
+    # LoginManager is needed for our application 
+    # to be able to log in and out users
+    login_manager.init_app(app)
+    login_manager.login_view = 'admin.login'
+
+    # User loader callback
+    @login_manager.user_loader
+    def loader_user(user_id):
+        # from . import models
+        return User.query.get(int(user_id))
+
+    # Blueprint register views here 
     from .views import main
     app.register_blueprint(main)
     
     from .admin import admin
     app.register_blueprint(admin, url_prefix='/admin')
 
-    db.init_app(app)
-
-    with app.app_context():
-        # from . import models
-        db.create_all() # Create tables if they don't exist
-
-    # ## User Create/login #################################
-    # LoginManager is needed for our application 
-    # to be able to log in and out users
-    login_manager.init_app(app)
-    login_manager.login_view = 'login'
-
-    # User loader callback
-    @login_manager.user_loader
-    def loader_user(user_id):
-        from . import models
-        return models.User.query.get(int(user_id))
-
     return app
 
+################################### 
+## Check Python at lease version 3.10
+if not (sys.version_info.major == 3 and sys.version_info.minor >= 10):
+	print("Python 3.10 or higher is required.")
+	print("You are using Python {}.{}. ".format(sys.version_info_major, sys.version_info.minor))
+	sys.exit(1)    # fail. 
 
-# Initialize app 
-# main = create_app()
-
+db = SQLAlchemy()
+login_manager = LoginManager()
 app = create_app()
+csrf = CSRFProtect(app)
 
 from . import views, admin 
