@@ -1,7 +1,7 @@
 ## admin.py
 # from flask import Flask, abort
 
-from flask import render_template, redirect, url_for, request, jsonify
+from flask import render_template, redirect, url_for, request, flash, jsonify
 # from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -32,19 +32,18 @@ from datetime import datetime
 def login():
     
     loginForm = LoginForm()
-    error = None
     if loginForm.validate_on_submit():
-        username = loginForm.username.data.strip()
+        name = loginForm.username.data.strip()
         password = loginForm.password.data.strip()
         # Here you would check the username and password against your database 
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=name).first()
         if (user and user.password == password): # Example check 
             # 'Login successful!', 'success'
             login_user(user)
             return redirect(url_for("main.member"))  #, name=f"{user.username}"))
         else: 
-            error = 'Invalid credentials, please try again.'
-    return render_template("login.html", form=loginForm, error = error)
+            flash( 'Invalid credentials, please try again.', 'error')
+    return render_template("login.html", form=loginForm)
 
 
 @admin.route("/logout")

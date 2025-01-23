@@ -3,30 +3,13 @@
 Member page
 {% endblock %}
 {% block content %}
-<h1>Login to your account</h1>
-    {% if error %}
-    <p>
-        <strong>Error:</strong> {{ error }}
-    </p>
-    (% else % )
-    <div class="container">
-        <form method="POST" action="{{ url_for('main.home') }}">
-            {{ form.hidden_tag() }}
-            <p>
-                {{ form.userName.label }}<br />
-                {{ form.userName(size=32) }}<br />
-                {% for error in form.username.errors %}
-                <span style="color: red;">[{{ error }}]</span><br>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.password.label }}<br>
-                {{ form.password(size=32) }}<br>
-                {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span><br>
-                {% endfor %}
-            </p>
-            <p>{{ form.submit() }}</p>
-    </div>
-    {% endif %}
+<h1>Login to your account</h1><br />
+<form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.username.label }} {{ form.username() }}<br>
+    {{ form.password.label }} {{ form.password() }}<br>
+    {{ form.submit() }}
+</form>
+
+
 {% endblock %}
