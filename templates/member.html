@@ -8,7 +8,7 @@ User Login
     {% if current_user.is_authenticated %}
         <h1>
         <span class="message">
-            Hello there, 
+            Hello, 
             {%if name %}
                 {{ name }}!<br />
             {% endif %}
@@ -21,7 +21,7 @@ User Login
                     <li>{{ item.name }}</li>
                     {% endfor %}
                 </ul>
-                <li><a href="/register">Create account</a></li>
+                <li><a href="{{ url_for('admin.register') }}">Create account</a></li>
                 <li><a href="{{ url_for('admin.logout') }}">Logout</a></li>
             </ul>
         </nav>

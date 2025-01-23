@@ -51,22 +51,23 @@ def create_app():
     app.config["DEBUG"] = 'True'
     app.config["TESTING"] = 'False'
     app.secret_key = 'AlohaFriday'
-    admin_name = 'Admin'
-    admin_pw = 'Secret'
+    admin_name = 'admin'
+    admin_pw = 'aa'
 
     db.init_app(app)
     with app.app_context():
         # from . import models
         db.create_all() # Create tables if they don't exist
 
-        # check if the user table is empty
-        if not User.query.first():
-            # add a first user
-            first_user = User(username=admin_name, password=admin_pw)
-            # Add the user to the database
-            db.session.add(first_user)
-            # Commit the changes made
-            db.session.commit()
+        # # for testing purpose:
+        # it must runs under 'with app.app_context()'
+        # if not User.query.first():
+        #     # add a first user
+        #     first_user = User(username=admin_name, password=admin_pw)
+        #     # add the user to the database
+        #     db.session.add(first_user)
+        #     # commit the changes made
+        #     db.session.commit()
 
     # ## User Create/login #################################
     # LoginManager is needed for our application 

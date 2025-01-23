@@ -52,6 +52,7 @@ def exchangeRate():
 def member():
     # if 'username' not in session: # user not login yet
     #     return redirect(url_for("admin.login"))
+    print ("** member route **")
     return render_template(
         "member.html",
         name=current_user.username,
