@@ -1,7 +1,8 @@
 ## admin.py
 # from flask import Flask, abort
 
-from flask import render_template, redirect, url_for, request, flash, jsonify
+from flask import render_template, redirect, url_for, request, flash, session
+#, jsonify
 # from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -40,6 +41,7 @@ def login():
         if (user and user.password == password): # Example check 
             # 'Login successful!', 'success'
             login_user(user)
+            # session['username'] = name
             return redirect(url_for("main.member"))  #, name=f"{user.username}"))
         else: 
             flash( 'Invalid credentials, please try again.', 'error')
@@ -50,7 +52,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    # return redirect(url_for("admin.login"))
+    # session.pop['username', None]
     return render_template('logout.html')
 
 '''

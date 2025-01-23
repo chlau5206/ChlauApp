@@ -1,7 +1,8 @@
 ''' Flask web page -- views.py
 '''
 # from . import main
-from flask import render_template #, redirect, url_for, request, jsonify, abort
+from flask import render_template, session, redirect, url_for
+#, request, jsonify, abort
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -49,10 +50,12 @@ def exchangeRate():
 @main.route("/member")
 @login_required
 def member():
-    # current_user
+    # if 'username' not in session: # user not login yet
+    #     return redirect(url_for("admin.login"))
     return render_template(
         "member.html",
         name=current_user.username,
+        # name=session['username'],
         date=datetime.now()
     )
     
