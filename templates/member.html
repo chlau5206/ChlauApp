@@ -6,28 +6,32 @@ User Login
 
 <div class="body-content">
     {% if current_user.is_authenticated %}
-        <h1>
+    <h1>
         <span class="message">
-            Hello, 
+            Hello,
             {%if name %}
-                {{ name }}!<br />
+            {{ name }}!<br />
             {% endif %}
         </span>
-        </h1>
-        <nav>
+    </h1>
+    <nav>
+        <ul>
             <ul>
-                <ul>
-                    {% for item in items %}
-                    <li>{{ item.name }}</li>
-                    {% endfor %}
-                </ul>
-                <li><a href="{{ url_for('admin.register') }}">Create account</a></li>
-                <li><a href="{{ url_for('admin.logout') }}">Logout</a></li>
+                {% for item in items %}
+                <li>{{ item.name }}</li>
+                {% endfor %}
             </ul>
-        </nav>
+            <li><a href="{{ url_for('admin.register') }}">Create account</a></li>
+            <li><a href="{{ url_for('admin.show_messages') }}">Show messages</a></li>
+
+        </ul>
+    </nav>
+    <br />
+    <br />
+    <a href="{{ url_for('admin.logout') }}">Logout</a>
     {% else %}
-        Unknow member.  Login please.<br />
-        <a href="{{ url_for('admin.login') }}">Login</a>            
+    Unknow member.  Login please.<br />
+    <a href="{{ url_for('admin.login') }}">Login</a>
     {% endif %}
     <br />
     <br />

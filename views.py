@@ -1,15 +1,17 @@
 ''' Flask web page -- views.py
 '''
 # from . import main
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, flash
 #, request, jsonify, abort
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
 from datetime import datetime
 
-# from . import db                # Import the db object from __init__.py 
+
+from .models import Message
+from . import db
 from . import FormModule   # contactUsModule import contactForm
-# from . import models            # Import the model from __init__.py
-# from .models import User
 from . import admin
 
 #  create Blueprint
@@ -22,7 +24,7 @@ main = Blueprint('main', __name__)
 ##############
 
 @main.route("/")
-@main.route("/home")
+@main.route("/home/")
 def home():
     # users = models.User.query.all()
     return render_template("home.html")
@@ -35,12 +37,20 @@ def about():
 @main.route("/contact/", methods=["GET", "POST"])
 def contact():
     cform = FormModule.contactForm()
-    # if  cform.validate_on_submit(): 
-    #     print(f"Name:{cform.name.data},  
-    #           E-mail:{cform.email.data},  
-    #           message:{cform.message.data}") 
-    # else: 
-    #     print("Invalid Credentials") 
+
+    if cform.validate_on_submit():
+        new_message = Message(message=cform.message.data)
+        try:
+            db.session.add(new_message)
+            db.session.commit()
+            print ('Message and user saved!')
+            return redirect(url_for('home'))
+        except:
+            print ('There was an issue saving your message.')
+        return redirect(url_for('main.home'))
+    else:
+        print('not on submitted.')
+
     return render_template("contact.html", form=cform)
 
 @main.route("/exchangeRate/")

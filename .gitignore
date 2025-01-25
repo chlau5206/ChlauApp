@@ -198,3 +198,6 @@ FirstUser.html
 *.old
 .env
 API_ExchangeRage.py
+.vs/
+templates/Test_login.html
+.gitignore

@@ -7,7 +7,7 @@ Member Register - {{ title }}
 <h1>Register {{ title }}</h1>
 <br />
 
-<form method="post">
+<form method="post" action={{ action_url }}>
     {{ form.hidden_tag() }}
     {{ form.username.label }} {{ form.username() }}<br>
     {{ form.password.label }} {{ form.password() }}<br>

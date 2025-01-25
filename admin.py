@@ -7,13 +7,14 @@ from . import db
 from . import login_manager
 from . import views
 from .FormModule import LoginForm
-from .models import User
+from .models import User, Message
+from datetime import datetime
 
 # Create Admin Blueprint
 from flask import Blueprint
 admin = Blueprint('admin', __name__)
 
-from datetime import datetime
+
 
 @admin.route('/login', methods=['GET', 'POST'])
 def login():
@@ -35,8 +36,12 @@ def login():
             # session['username'] = name
             return redirect(url_for("main.member"))  #, name=f"{user.username}"))
         else: 
-            flash ('Error: Invalid credentials, please try again.')
-    return render_template("login.html", form=loginForm)
+            return ('Error: Invalid credentials, please try again.')
+    # return render_template("login.html", form=loginForm)
+    
+    action_URL = '/admin/login'
+    return render_template("login.html", form=loginForm, action_url=action_URL)
+
 
 @admin.route("/logout")
 @login_required
@@ -68,7 +73,9 @@ def register():
     else:
         print ("warn: submit not call.")
 
-    return render_template("signup.html", form=loginForm, title="new account")
+    action_URL = '/admin/register'
+    return render_template("signup.html", form=loginForm, action_url=action_URL)
+
 
 @admin.route('/first_user', methods=['GET', 'POST'])
 def first_user():
@@ -79,24 +86,23 @@ def first_user():
         if loginForm.validate_on_submit():
             name = loginForm.username.data.strip().lower()
             pw = loginForm.password.data.strip()
-            # Here you would check the username and password against your database 
-            # user = User.query.filter_by(username=name).first()
-            # if user == None: # user does not exist
             new_user = User(username=name, password=pw)
-            # Add the user to the database
             db.session.add(new_user)
-            # Commit the changes made
             db.session.commit()
             print (f'Info: add user {name} success.')
-            # else: 
-            #     print ( f'User {name} is already exist.', 'error')
+            
             return redirect(url_for("main.member")) 
         else:
             print ("warn: submit failed.")
-
-    return render_template("signup.html", form=loginForm, title="First User")
     
+    action_URL = '/admin/first_user'
+    return render_template("signup.html", form=loginForm, action_url=action_URL)
 
-@admin.errorhandler(404)
-def not_found(e):
-    return render_template("error404.html")
+@admin.route("/message", methods=['GET'])
+def show_messages():
+    messages = Message.query.all()
+    return render_template('messages.html', messages=messages)
+
+# @admin.errorhandler(404)
+# def not_found(e):
+#     return render_template("error404.html")

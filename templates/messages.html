@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}
+Member login page
+{% endblock %}
+{% block content %}
+
+    <h1>User Messages</h1>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message.name}}: {{ message.message }} <em>{{ message.timestamp }}</em></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+
+
