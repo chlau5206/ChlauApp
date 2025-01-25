@@ -5,22 +5,22 @@ Flask Exercise -- Contact page --
 {% block content %}
 <div class="container"> 
     <h1>Contact Us</h1> 
-    <form method="POST" action="{{ url_for('home') }}"> 
-        {{ form.csrf_token }} 
+    <form method="POST" action="{{ url_for('main.contact') }}"> 
+        {{ form.hidden_tag() }} 
         <p> 
             {{ form.name.label }}  
             <br> 
             {{ form.name }} 
         </p> 
         <p> 
-            {{ form.email.label }}  
+            {{ form.email.label }}
             <br> 
             {{ form.email(size=30) }} 
         </p> 
         <p> 
             {{ form.message.label }}  
             <br> 
-            {{ form.message(rows=10, cols=30) }} 
+            {{ form.message(rows=10, cols=50) }} 
         </p> 
         {{ form.submit }} 
     </form> 

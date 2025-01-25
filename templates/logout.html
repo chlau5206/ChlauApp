@@ -2,10 +2,11 @@
 {% block title %}
 Logout
 {% endblock %}
+
 {% block content %}
-    <h2>You are logging out, now.</h2>
-    <script src="{{ url_for('static', filename='autoFlash.js')}}"></script>
-    <script>reflash()</script>
-    <p id="pageInfo"></p> 
+
+    <h1>You have been logged out</h1>
+    <p>Thank you for using our service. See you again soon!</p> 
+    <a href="{{ url_for('admin.login') }}">Login again</a>
 
 {% endblock %}

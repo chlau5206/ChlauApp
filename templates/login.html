@@ -1,48 +1,16 @@
 {% extends "layout.html" %}
 {% block title %}
-Member page
+Member login page 
 {% endblock %}
 {% block content %}
-  <h1>Login to your account</h1>
-{% if error %}
-  <p><strong>Error:</strong> {{ error }}
-{% endif %}
+<h1>Login to your account</h1><br />
 
-  <!-- <form action="#" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" name="username" /><br />
-    <label for="password">Password:</label>
-    <input type="password" name="password" />
-    <input type="hidden" name="csrf_token" value = "{{ csrf_token()}}" /><br /><br />
-    <button type="submit">Login</button>
-</form> -->
-
-
-<div class="container">
-
-    <form method="POST" action="{{ url_for('home') }}">
-      {{ form.csrf_token }}
-      <p>
-        {{ form.userName.label }}
-        <br>
-        {{ form.userName }}
-      </p>
-      <p>
-        {{ form.password.label }}
-        <br>
-        {{ form.password }}
-      </p>
-      
-      {{ form.submit }}
-    </form>
-
-
-
-
-</div>
-{% if error %}
-<p><strong>Error:</strong> {{ error }}
-  {% endif %}
+<form method="post" action={{ action_url }}>
+    {{ form.hidden_tag() }}
+    {{ form.username.label }} {{ form.username() }}<br>
+    {{ form.password.label }} {{ form.password() }}<br>
+    {{ form.submit() }}
+</form>
 
 
 {% endblock %}

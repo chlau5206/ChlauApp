@@ -196,4 +196,8 @@ FirstUser.html
 # ignore files
 *.bak
 *.old
+.env
 API_ExchangeRage.py
+.vs/
+templates/Test_login.html
+.gitignore
