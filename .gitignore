@@ -18,7 +18,7 @@ FirstUser.html
 # Visual Studio 2022 - Python project folders/files
 env/
 obj/
-
+instance/
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)

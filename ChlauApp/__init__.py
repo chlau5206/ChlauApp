@@ -11,21 +11,6 @@ from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
 
-# from .models import User
-
-# def firstUser():
-#     # If the users database is empty, create the first user
-#     from .models import User
-#     if not User.query.all():  
-#         user = User(username="Admin", password="Secret")
-#         # Add the user to the database
-#         db.session.add(user)
-#         # Commit the changes made
-#         db.session.commit()
-#     return None
-
-
-
 
 def create_app():
     from .models import User
@@ -40,8 +25,6 @@ def create_app():
         app.config["DEBUG"] = os.getenv("DEBUG", "False")
         app.config["TESTING"] = os.getenv("TESTING", "True")
         app.secret_key = os.getenv('SECRET_KEY')
-        admin_name = os.getenv('admin_name')
-        admin_pw = os.getenv('admin_pw')
 
     '''
 
@@ -52,23 +35,11 @@ def create_app():
     app.config["DEBUG"] = 'True'
     app.config["TESTING"] = 'False'
     app.secret_key = 'AlohaFriday'
-    admin_name = 'admin'
-    admin_pw = 'aa'
 
     db.init_app(app)
     with app.app_context():
         # from . import models
         db.create_all() # Create tables if they don't exist
-
-        # # for testing purpose:
-        # it must runs under 'with app.app_context()'
-        # if not User.query.first():
-        #     # add a first user
-        #     first_user = User(username=admin_name, password=admin_pw)
-        #     # add the user to the database
-        #     db.session.add(first_user)
-        #     # commit the changes made
-        #     db.session.commit()
 
     # ## User Create/login #################################
     # LoginManager is needed for our application 

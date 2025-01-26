@@ -1,5 +1,5 @@
 """
-This script runs the ChlauApp application using a development server.
+This script is for the ChlauApp application's entry point. 
 """
 
 from os import environ

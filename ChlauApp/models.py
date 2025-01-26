@@ -24,7 +24,7 @@ class Message(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow())
 
     def __repr__(self):
-        return f'<Message {self.name[:30]}>'
+        return f"<Message {self.name[:30]} {self.message} {self.timestamp}>"
 
 
 
