@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}
+Flask Exercise -- Contact page --
+{% endblock %}
+{% block content %}
+<div class="container"> 
+    <h1>Contact Us</h1> 
+    <form method="POST" action="{{ url_for('main.contact') }}"> 
+        {{ form.hidden_tag() }} 
+        <p> 
+            {{ form.name.label }}  
+            <br> 
+            {{ form.name }} 
+        </p> 
+        <p> 
+            {{ form.email.label }}
+            <br> 
+            {{ form.email(size=30) }} 
+        </p> 
+        <p> 
+            {{ form.message.label }}  
+            <br> 
+            {{ form.message(rows=10, cols=50) }} 
+        </p> 
+        {{ form.submit }} 
+    </form> 
+</div> 
+
+
+{% endblock %}

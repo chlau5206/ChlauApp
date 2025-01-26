@@ -3,7 +3,7 @@ This script runs the ChlauApp application using a development server.
 """
 
 from os import environ
-from ChlauWebApp import app
+from ChlauApp import app
 
 if __name__ == '__main__':
     HOST = environ.get('SERVER_HOST', 'localhost')
