@@ -7,7 +7,9 @@
 .env
 *.pyproj
 *.pyproj.user
+*.sln
 FirstUser.html
+API_ExchangeRate.py
 
 *.rsuser
 *.suo

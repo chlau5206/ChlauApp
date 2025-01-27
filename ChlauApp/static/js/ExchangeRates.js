@@ -1,5 +1,5 @@
 function getExchangeRates(){
-	fetch("./CurrentExchangeRates.json")
+	fetch(".data/LatestRate.json")
 		.then((response) => response.json())
 		.then((json) => rate = json.parse(json)
 		

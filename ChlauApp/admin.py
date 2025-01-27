@@ -39,7 +39,7 @@ def login():
             return ('Error: Invalid credentials, please try again.')
     # return render_template("login.html", form=loginForm)
     
-    action_URL = '/admin/login'
+    action_URL = '/admin/login'    # It could be the root caused in Production
     return render_template("login.html", form=loginForm, action_url=action_URL)
 
 
@@ -73,8 +73,8 @@ def register():
     else:
         print ("warn: submit not call.")
 
-    action_URL = '/admin/register'
-    return render_template("signup.html", form=loginForm, action_url=action_URL)
+    action_URL = '/admin/register'   # if login needed change, here needed change too.
+    return render_template("sign_up.html", form=loginForm, action_url=action_URL)
 
 
 @admin.route('/first_user', methods=['GET', 'POST'])
@@ -96,7 +96,7 @@ def first_user():
             print ("warn: submit failed.")
     
     action_URL = '/admin/first_user'
-    return render_template("signup.html", form=loginForm, action_url=action_URL)
+    return render_template("sign_up.html", form=loginForm, action_url=action_URL)
 
 @admin.route("/message", methods=['GET'])
 def show_messages():
