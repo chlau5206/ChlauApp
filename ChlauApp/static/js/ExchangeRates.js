@@ -1,8 +1,4 @@
 // ExchangeRates.js 
-document.getElementById('fetchData').addEventListener('click', () => {
-//document.addEventListener('DOMContentloaded', () => {
-	getExchangeRates();
-});
 function getExchangeRates() {
 	fetch("/static/data/LatestRate.json")
 		.then((response) => response.json())
@@ -46,3 +42,9 @@ function symbol2country(symbol){
 	
 	return oSC[symbol];
 }
+
+// document.getElementById('fetchData').addEventListener('click', () => {
+
+document.addEventListener('DOMContentLoaded', (event) => {
+	getExchangeRates();
+});

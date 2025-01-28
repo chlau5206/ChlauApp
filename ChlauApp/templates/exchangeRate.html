@@ -15,9 +15,7 @@ Exchange Rate
 <h2>Exchange Rate (USD based)</h2>
 <br />
 
-<button id="fetchData">Fetch data</button>
 
-<script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
 <table id="dataTable">
     <tr valign="top">
         <td bgcolor="#eee" width="400" height="200">
@@ -28,9 +26,10 @@ Exchange Rate
         </tr>
     </thead>
     <tbody>
-
     </tbody>
 </table>
+<!--<button id="fetchData">Fetch data</button>-->
 
+<script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
 
 {% endblock %}
