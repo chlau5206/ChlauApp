@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exchange Rate Page</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ExchangeRates.css')}}" />
 {% block title %}
 Exchange Rate
 {% endblock %}
@@ -9,17 +12,25 @@ Exchange Rate
         https://www.geeksforgeeks.org/how-to-convert-json-data-to-a-html-table-using-javascript-jquery/
 
  -->
- <table>
+<h2>Exchange Rate (USD based)</h2>
+<br />
+
+<button id="fetchData">Fetch data</button>
+
+<script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
+<table id="dataTable">
     <tr valign="top">
         <td bgcolor="#eee" width="400" height="200">
-            <h2>Exchange Rate (USD based)</h2>
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Rate</th>
+        </tr>
+    </thead>
+    <tbody>
 
-            <script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
-            <script>printExchangeRates()</script>
-
-        </td>
-    </tr>
-
+    </tbody>
 </table>
+
 
 {% endblock %}

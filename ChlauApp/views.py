@@ -25,17 +25,17 @@ main = Blueprint('main', __name__)
 
 @main.route("/")
 @main.route("/home/")
-def home():
+def home():      # Completed
     # users = models.User.query.all()
     return render_template("home.html")
 main.add_url_rule('/', 'home', home)
 
 @main.route("/about/")
-def about():
+def about():     # completed
     return render_template("about.html")
 
 @main.route("/contact/", methods=["GET", "POST"])
-def contact():
+def contact():   # bug: message no show.
     cform = FormModule.contactForm()
 
     if cform.validate_on_submit():
@@ -54,12 +54,12 @@ def contact():
     return render_template("contact.html", form=cform)
 
 @main.route("/exchangeRate/")
-def exchangeRate():
+def exchangeRate():   # Bug: Rate not display
     return render_template("exchangeRate.html")
 
 @main.route("/member")
 @login_required
-def member():
+def member():     # completed
     # if 'username' not in session: # user not login yet
     #     return redirect(url_for("admin.login"))
     print ("** member route **")

@@ -1,52 +1,43 @@
-function getExchangeRates(){
-	fetch(".data/LatestRate.json")
+// ExchangeRates.js 
+document.getElementById('fetchData').addEventListener('click', () => {
+//document.addEventListener('DOMContentloaded', () => {
+	getExchangeRates();
+});
+function getExchangeRates() {
+	fetch("/static/data/LatestRate.json")
 		.then((response) => response.json())
-		.then((json) => rate = json.parse(json)
-		
-		// {
-
-			// // var Json = '{....}'
-			// // var obj = JSON.parse(Json)
-
-			// return JSON.parse(Json)
-		// } )
-		// .catch((e) => console.error(e))
-
-	// var Json ='{"success": true,"timestamp": 1718739664,"base": "EUR","date": "2024-06-18","rates":{"USD": 1.073797,"EUR": 1}}'
-
-	return rate
+		.then(data => {
+			//console.log('Fetched data:', data); // Log the fetched data
+			//console.log('Data type:', typeof data); // Log the type of the data
+			if (typeof data === 'object' && !Array.isArray(data.rates)) {
+				populateTable(data.rates);
+				console.log("Data populated.")
+			} else {
+				console.error('Error: Fetched data is not an object');
+			}
+		})
+		.catch(error => console.error('Error fetching data:', error));
 }
+function populateTable(rateData){
+	const tableBody = document.querySelector('#dataTable tbody');
+	tableBody.innerHTML = ''; // Clear the table body
 
-function printExchangeRates(){
-	
-	var obj = getExchangeRates();
+	Object.keys(rateData).forEach(key => {
+		//console.log("Key: ", key)
+		//console.log("value: ", rateData[key])
 
-	var breakLine = "<br />";
-	
-	document.write("<hr>");
-	
-	//document.write(json + breakLine);
-	// Printing a single value
+		const row = document.createElement('tr');
 
-	document.writeln("<table>");
-	document.writeln("<tr>");
-	document.writeln("<th>Time taken</th>");
-	document.writeln("<th>" + obj["date"] + "</th>");
-	document.writeln("</tr>");
+		const countryCell = document.createElement('td');
+		countryCell.textContent = symbol2country(key) + ' (' + key + ')';
+		row.appendChild(countryCell);
 
-	//for (country in obj["rates"]){
-	//	document.write(symbol2country(country) + ': \u0009' + obj["rates"][country] + breakLine);
-	//}
+		const rateCell = document.createElement('td');
+		rateCell.textContent = rateData[key] / rateData['USD'];
+		row.appendChild(rateCell);
 
-	for (country in obj["rates"]) {
-		document.writeln("<tr>");
-		document.writeln("<td>" + symbol2country(country) + "</td>");
-		document.writeln("<td>" + obj["rates"][country] / obj["rates"]["USD"] + "</td>" );
-		document.writeln("</tr>");
-	}
-
-	document.writeln("</table>");
-	// document.write(symbol2country('CNY') + ': \t' + obj["rates"]["CNY"] + breakLine); // single rate
+		tableBody.appendChild(row);
+	});
 }
 	
 function symbol2country(symbol){

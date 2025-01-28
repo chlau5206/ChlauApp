@@ -17,7 +17,7 @@ admin = Blueprint('admin', __name__)
 
 
 @admin.route('/login', methods=['GET', 'POST'])
-def login():
+def login():    # completed.  May need improve login session
     print ('# check empty db or new app')
     if User.query.first() == None:   
         print('User database is empty. ')
@@ -45,14 +45,14 @@ def login():
 
 @admin.route("/logout")
 @login_required
-def logout():
+def logout():     # completed
     logout_user()
     # session.pop['username', None]
     return render_template('logout.html')
 
 @admin.route('/register', methods=["GET", "POST"])
 @login_required
-def register():
+def register():  # completed
     print ('** register route **')
     loginForm = LoginForm()
     if loginForm.validate_on_submit():
@@ -78,7 +78,7 @@ def register():
 
 
 @admin.route('/first_user', methods=['GET', 'POST'])
-def first_user():
+def first_user():      # completed
     print ('** first_user **')
     if User.query.first() == None:   # check empty db or new app
         print('User database is empty. ')
@@ -99,9 +99,12 @@ def first_user():
     return render_template("sign_up.html", form=loginForm, action_url=action_URL)
 
 @admin.route("/message", methods=['GET'])
-def show_messages():
+def show_messages():    # Bug: messages no show
     messages = Message.query.all()
-    return render_template('messages.html', messages=messages)
+    if messages:
+        print ("No message.")
+    else: 
+        return render_template('messages.html', messages=messages)
 
 # @admin.errorhandler(404)
 # def not_found(e):
