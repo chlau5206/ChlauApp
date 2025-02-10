@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>{% block title %}ChlauApp 5206{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/site.css')}}" />
-    
-        <div class="navbar">
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}ChlauApp 5206{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/site.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/NotoSansFonts.css')}}" />
+
+    <div class="navbar">
+        <h2>
             <a href="{{ url_for('main.home') }}" class="navbar-brand">ChLau5206</a>
             <a href="{{ url_for('main.exchangeRate') }}" class="navbar-item">Exchange Rate</a>
             <a href="{{ url_for('main.about') }}" class="navbar-item">About</a>
             <a href="{{ url_for('main.contact') }}" class="navbar-item">Contact Us</a>
             <a href="{{ url_for('main.member') }}" class="navbar-item">Members</a>
-        </div>
-    </head>
+        </h2>
+
+    </div>
+</head>
     <body>
         <div class="body-content">
             {% block content %}
