@@ -2,7 +2,7 @@
 '''
 # from . import main
 from flask import render_template, session, redirect, url_for, flash
-#, request, jsonify, abort
+from flask import request, json, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
@@ -13,6 +13,7 @@ from .models import Message
 from . import db
 from . import FormModule   # contactUsModule import contactForm
 from . import admin
+
 
 #  create Blueprint
 from flask import Blueprint
@@ -54,8 +55,28 @@ def contact():   # bug: message no show.
     return render_template("contact.html", form=cform)
 
 @main.route("/exchangeRate/")
-def exchangeRate():   # Bug: Rate not display
+def exchangeRate():   
     return render_template("exchangeRate.html")
+
+@main.route("/loadExchangeRate")
+def load_exchange_rate():
+    FILE_PATH = r"ChlauApp/static/data/latestRate.json"
+    try:
+        with open(FILE_PATH, "r") as rate:
+            data = json.load(rate)
+            return jsonify(data)  # Use jsonify to return JSON data
+    except FileNotFoundError:
+        return jsonify({"error": "Data not found"}), 404  # Return a 404 error
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON data"}), 500  # Return a 500 error
+    except IOError as e: 
+        if not os.path.exists(os.path.dirname(FILE_PATH)): 
+            print (f"Error: The directory does not exist. {FILE_PATH}")
+    except ValueError:
+        print ("Error: Incorrect value.")
+    except Exception as e:
+        print (f"Error: An unexpected error occurred: {e}")
+            
 
 @main.route("/member")
 @login_required
