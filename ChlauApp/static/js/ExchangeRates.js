@@ -1,6 +1,5 @@
 // ExchangeRates.js 
 function getExchangeRates() {
-    // fetch("/static/data/LatestRate.json")
     fetch("/loadExchangeRate")
         .then((response) => response.json())
         .then(data => {

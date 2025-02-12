@@ -1,17 +1,41 @@
 {% extends "layout.html" %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Message Page</title>
+
 {% block title %}
-Member login page
+Exchange Rate
 {% endblock %}
 {% block content %}
 
-    <h1>User Messages</h1>
-    <ul>
-        {% for message in messages %}
-        <li>{{ message.name}}: {{ message.message }} <em>{{ message.timestamp }}</em></li>
+<h2>
+    Message board
+</h2>
+
+<table id="dataTable">
+    <tr valign="top">
+        <td bgcolor="#eee" width="400" height="200">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Name</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+        {% if not data %}
+        <tr><td colspan="3">No data found.</td></tr>
+        {% endif %}
+    </tbody>
+</table>
+<!--<button id="fetchData">Fetch data</button>-->
+
+<script src="{{ url_for('static', filename='js/message.js')}}"></script>
 
 {% endblock %}
-
-
-

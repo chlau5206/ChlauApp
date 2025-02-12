@@ -18,10 +18,14 @@ API_ExchangeRate.py
 *.sln.docstates
 
 # Visual Studio 2022 - Python project folders/files
+.git/
 env/
 obj/
 instance/
 
+# JavaScripts
+autoFlash.js
+gb.js
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

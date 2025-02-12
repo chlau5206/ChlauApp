@@ -2,18 +2,18 @@
 '''
 # from . import main
 from flask import render_template, session, redirect, url_for, flash
-from flask import request, json, jsonify, abort
+from flask import Flask,request, json, jsonify, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
 from datetime import datetime
-
 
 from .models import Message
 from . import db
 from . import FormModule   # contactUsModule import contactForm
 from . import admin
 
+import os
 
 #  create Blueprint
 from flask import Blueprint
@@ -60,7 +60,8 @@ def exchangeRate():
 
 @main.route("/loadExchangeRate")
 def load_exchange_rate():
-    FILE_PATH = r"ChlauApp/static/data/latestRate.json"
+    FILE_PATH = os.path.join(main.root_path, 'static', 'data', 'latestRate.json')
+    # r"ChlauApp/static/data/latestRate.json"
     try:
         with open(FILE_PATH, "r") as rate:
             data = json.load(rate)
