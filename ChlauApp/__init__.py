@@ -14,6 +14,11 @@ from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
 
+app = None
+db = SQLAlchemy()
+login_manager = LoginManager()
+
+
 def create_app():
     from .models import User
     app = Flask(__name__) 
@@ -35,6 +40,7 @@ def create_app():
     app.config['APP_NAME'] = 'Chlau5206 Web'
     app.config['FLASK_APP'] = 'runapp.py'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = 'AlohaFriday'
     # app.config["DEBUG"] = 'True'
     # app.config["TESTING"] = 'False'
@@ -63,6 +69,10 @@ def create_app():
     from .admin import admin
     app.register_blueprint(admin, url_prefix='/admin')
 
+    from .Students import students_bp  # Import the blueprint
+    app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
+
+
     # Set up logging
     log_file_path = os.path.join(app.root_path, 'logs', 'app.log')
     logging.basicConfig(filename=log_file_path, 
@@ -85,10 +95,14 @@ def create_app():
     return app
 
 
-db = SQLAlchemy()
-login_manager = LoginManager()
 app = create_app()
 csrf = CSRFProtect(app)
 Bootstrap(app)
+# db = SQLAlchemy()
+# login_manager = LoginManager()
+
+
+# logger = logging.getLogger(__name__)
+# __all__ = ['logger']
 
 from . import views, admin 

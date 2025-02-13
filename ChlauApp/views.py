@@ -67,7 +67,7 @@ def exchangeRate():
 
 @main.route("/loadExchangeRate")
 def load_exchange_rate():
-    FILE_PATH = os.path.join(current_app.root_path, 'static', 'data', 'latestRate.json')
+    FILE_PATH = os.path.join(current_app.root_path, 'static', 'data', 'LatestRate.json')
     try:
         ## for debug:
         # rate = '{"success":true,"timestamp":1712252526,"base":"EUR","date":"2024-09-10","rates":{"EUR":1,"USD":1.086131,"MXN":17.932246,"SGD":1.462384,"KRW":1460.499318,"THB":39.817943,"TWD":34.789331}}'
@@ -106,4 +106,3 @@ def member():     # completed
         date=datetime.now()
     )
     
-
