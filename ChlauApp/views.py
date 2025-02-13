@@ -1,7 +1,7 @@
 ''' Flask web page -- views.py
 '''
 # from . import main
-from flask import render_template, session, redirect, url_for, flash
+from flask import current_app, render_template, session, redirect, url_for, flash
 from flask import Flask,request, json, jsonify, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
@@ -27,57 +27,70 @@ main = Blueprint('main', __name__)
 @main.route("/")
 @main.route("/home/")
 def home():      # Completed
+    current_app.logger.debug("Home route accessed")
     # users = models.User.query.all()
-    return render_template("home.html")
+    return render_template("home.html", 
+                           title="Home page", 
+                           app_name = current_app.config['APP_NAME'])
 main.add_url_rule('/', 'home', home)
 
 @main.route("/about/")
 def about():     # completed
-    return render_template("about.html")
+    return render_template("about.html", title="about")
 
 @main.route("/contact/", methods=["GET", "POST"])
 def contact():   # bug: message no show.
     cform = FormModule.contactForm()
-
     if cform.validate_on_submit():
+        current_app.logger.info('User leaves message.')
         new_message = Message(message=cform.message.data)
         try:
             db.session.add(new_message)
             db.session.commit()
-            print ('Message and user saved!')
+            current_app.logger.info ('Message and user saved!')
             return redirect(url_for('home'))
         except:
-            print ('There was an issue saving your message.')
+            current_app.logger.error('There was an issue saving user message.')
         return redirect(url_for('main.home'))
     else:
-        print('not on submitted.')
+         current_app.logger.warn('user message does not submitted.')
 
-    return render_template("contact.html", form=cform)
+    return render_template("contact.html", 
+                           title="Contact Us",
+                           form=cform)
+
 
 @main.route("/exchangeRate/")
 def exchangeRate():   
-    return render_template("exchangeRate.html")
+    return render_template("exchangeRate.html",
+                           title="Exchange Rate")
 
 @main.route("/loadExchangeRate")
 def load_exchange_rate():
-    FILE_PATH = os.path.join(main.root_path, 'static', 'data', 'latestRate.json')
-    # r"ChlauApp/static/data/latestRate.json"
+    FILE_PATH = os.path.join(current_app.root_path, 'static', 'data', 'latestRate.json')
     try:
+        ## for debug:
+        # rate = '{"success":true,"timestamp":1712252526,"base":"EUR","date":"2024-09-10","rates":{"EUR":1,"USD":1.086131,"MXN":17.932246,"SGD":1.462384,"KRW":1460.499318,"THB":39.817943,"TWD":34.789331}}'
+        # data = json.loads(rate)
+        # return jsonify(data)
+
         with open(FILE_PATH, "r") as rate:
-            data = json.load(rate)
-            return jsonify(data)  # Use jsonify to return JSON data
+            data = json.load(rate)   # read this file and convert the content into a Python dictionary
+            current_app.logger.debug('Data loaded successfully')
+        return jsonify(data)  # Use jsonify to convert the Python dictionary back into JSON format
     except FileNotFoundError:
         return jsonify({"error": "Data not found"}), 404  # Return a 404 error
     except json.JSONDecodeError:
+        current_app.logger.error(f"Error in /loaddata: {e}")
         return jsonify({"error": "Invalid JSON data"}), 500  # Return a 500 error
-    except IOError as e: 
+    except IOError as e:
         if not os.path.exists(os.path.dirname(FILE_PATH)): 
-            print (f"Error: The directory does not exist. {FILE_PATH}")
+            current_app.logger.error('Error: The directory does not exist. {e}')
     except ValueError:
-        print ("Error: Incorrect value.")
-    except Exception as e:
-        print (f"Error: An unexpected error occurred: {e}")
-            
+        current_app.logger.error("Error: Incorrect value.")
+    except Exception as exception:
+        current_app.logger.error(f"Error: An unexpected error occurred: {exception}")
+
 
 @main.route("/member")
 @login_required
@@ -87,6 +100,7 @@ def member():     # completed
     print ("** member route **")
     return render_template(
         "member.html",
+        title="Member",
         name=current_user.username,
         # name=session['username'],
         date=datetime.now()

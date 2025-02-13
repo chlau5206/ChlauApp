@@ -1,6 +1,7 @@
 # contact Us Module
 ## Custom Contact Us #########################
 
+from flask import current_app
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, InputRequired
