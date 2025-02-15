@@ -2,66 +2,50 @@
 The flask application package.
 """
 
-# import os
-# from dotenv import load_dotenv
-import sys
 import os
+from dotenv import load_dotenv
+import sys
 import logging
 
-from flask import Flask
+from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf import CSRFProtect
+from flask_mail import Mail, Message
 from flask_bootstrap import Bootstrap
 
-app = None
 db = SQLAlchemy()
+csrf = CSRFProtect()
 login_manager = LoginManager()
-
+mail = Mail()
 
 def create_app():
     from .models import User
+    
+    # Load environment variables from .env file
+
+    load_dotenv(dotenv_path='.env')
+    # load_dotenv(dotenv_path='.env.development')
+
     app = Flask(__name__) 
     
-    ''' Load configurations from environment variables
-        load_dotenv()
-        app.config['FLASK_APP'] = os.getenv("FLASK_APP", ) 
-        app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "development") # [development | production]
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-        app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') 
-        app.config["DEBUG"] = os.getenv("DEBUG", "False")
-        app.config["TESTING"] = os.getenv("TESTING", "True")
-        app.secret_key = os.getenv('SECRET_KEY')
+    # Load configurations from environment variables
+    app.config['FLASK_APP'] = os.getenv("FLASK_APP", ) 
+    app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "development") # [development | production]
+    app.config['APP_NAME'] = os.getenv("APP_NAME")
+    app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
+    app.config["TESTING"] = os.getenv("TESTING", "True") == 'True'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///system.db')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
+    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.anywhere.com')
+    app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@anywhere.com')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'password')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'Secret') 
+    app.secret_key = os.getenv('SECRET_KEY', 'Secret')
 
-    '''
-    #  Flask environment [ development | production ]
-    app.config['FLASK_ENV'] = 'development'  # means debug=True
-
-    app.config['APP_NAME'] = 'Chlau5206 Web'
-    app.config['FLASK_APP'] = 'runapp.py'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'AlohaFriday'
-    # app.config["DEBUG"] = 'True'
-    # app.config["TESTING"] = 'False'
-    app.secret_key = 'AlohaFriday'
-
-    db.init_app(app)
-    with app.app_context():
-        # from . import models
-        db.create_all() # Create tables if they don't exist
-
-    # ## User Create/login #################################
-    # LoginManager is needed for our application 
-    # to be able to log in and out users
-    login_manager.init_app(app)
-    login_manager.login_view = 'admin.login'
-
-    # User loader callback
-    @login_manager.user_loader
-    def loader_user(user_id):
-        return User.query.get(int(user_id))
-
+    ########################################
     # Blueprint register views here 
     from .views import main
     app.register_blueprint(main)
@@ -69,10 +53,10 @@ def create_app():
     from .admin import admin
     app.register_blueprint(admin, url_prefix='/admin')
 
-    from .Students import students_bp  # Import the blueprint
+    from .Students import students_bp  # Import students the blueprint
     app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
 
-
+        #################
     # Set up logging
     log_file_path = os.path.join(app.root_path, 'logs', 'app.log')
     logging.basicConfig(filename=log_file_path, 
@@ -84,25 +68,52 @@ def create_app():
     app.logger.addHandler(handler)
     app.logger.setLevel(logging.DEBUG)
 
+    ########################################
+    # init database
+    db.init_app(app)
+    with app.app_context():
+        db.create_all() # Create tables if they don't exist
 
-    # # Example log messages
-    # logging.debug('This is a debug message')
-    # logging.info('This is an info message')
-    # logging.warning('This is a warning message')
-    # logging.error('This is an error message')
-    # logging.critical('This is a critical message')
+    ########################################
+    # ## User Create/login 
+    # LoginManager is needed for our application 
+    # to be able to log in and out users
+    login_manager.init_app(app)
+    login_manager.login_view = 'admin.login'
 
+    ########################################
+    # User loader callback
+    @login_manager.user_loader
+    def loader_user(user_id):
+        return User.query.get(int(user_id))
+
+    ########################################
+    # init csrf
+    csrf.init_app(app)
+
+    # ########################################
+    # # init mail 
+    mail.init_app(app)
+    
     return app
 
 
+def initialize_database():
+    from sqlalchemy import MetaData
+    meta = MetaData()
+    meta.reflect(bind=db.engine)
+    if 'student' not in meta.tables:
+        print("Table 'student' does not exist. Creating table.")
+        db.create_all()
+    else:
+        print("Table 'student' exists.")
+
+
+################
+# Main process #
+################
 app = create_app()
-csrf = CSRFProtect(app)
 Bootstrap(app)
-# db = SQLAlchemy()
-# login_manager = LoginManager()
 
-
-# logger = logging.getLogger(__name__)
-# __all__ = ['logger']
 
 from . import views, admin 

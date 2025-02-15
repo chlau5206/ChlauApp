@@ -6,10 +6,7 @@ from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, InputRequired
 
-# from . import app
 # import email_validator 
-# ## using CSRF for Contact Us web form #########################
-# csrf = CSRFProtect(app)
 
 class contactForm(FlaskForm): 
     name = StringField(label='Name', render_kw={'maxlength': 50, 'size': 30, 'style': 'width:300px;'},

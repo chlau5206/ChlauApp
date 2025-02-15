@@ -4,6 +4,7 @@
 from flask import current_app, render_template, session, redirect, url_for, flash
 from flask import Flask,request, json, jsonify, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import inspect
 from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
 from datetime import datetime
@@ -18,7 +19,6 @@ import os
 #  create Blueprint
 from flask import Blueprint
 main = Blueprint('main', __name__)
-
 
 ##############
 # Main Route #
@@ -39,29 +39,16 @@ def about():     # completed
     return render_template("about.html", title="about")
 
 @main.route("/contact/", methods=["GET", "POST"])
-def contact():   # bug: message no show.
+def contact():
+    current_app.logger.info ("Contact us route accessed")
     cform = FormModule.contactForm()
-    if cform.validate_on_submit():
-        current_app.logger.info('User leaves message.')
-        new_message = Message(message=cform.message.data)
-        try:
-            db.session.add(new_message)
-            db.session.commit()
-            current_app.logger.info ('Message and user saved!')
-            return redirect(url_for('home'))
-        except:
-            current_app.logger.error('There was an issue saving user message.')
-        return redirect(url_for('main.home'))
-    else:
-         current_app.logger.warn('user message does not submitted.')
-
     return render_template("contact.html", 
                            title="Contact Us",
                            form=cform)
 
-
 @main.route("/exchangeRate/")
 def exchangeRate():   
+    current_app.logger.debug ("Exchange Rate route accessed")
     return render_template("exchangeRate.html",
                            title="Exchange Rate")
 
@@ -97,7 +84,7 @@ def load_exchange_rate():
 def member():     # completed
     # if 'username' not in session: # user not login yet
     #     return redirect(url_for("admin.login"))
-    print ("** member route **")
+    current_app.logger.debug ("Member route accessed")
     return render_template(
         "member.html",
         title="Member",
@@ -105,4 +92,3 @@ def member():     # completed
         # name=session['username'],
         date=datetime.now()
     )
-    

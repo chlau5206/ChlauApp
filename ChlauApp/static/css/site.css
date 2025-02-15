@@ -64,13 +64,13 @@ footer {
     text-align: center;
     padding-top: 30pt;
 }
-@media (min-width:500px) {
+@media (min-width:910px) {
     body {
         background-color: rgb(78, 209, 148);
     }
 }
 
-@media (max-width:499px) {
+@media (max-width:909px) {
     body {
         background-color: rgb(210, 210, 134);
     }

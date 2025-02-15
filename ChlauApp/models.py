@@ -1,9 +1,9 @@
 # # models.py
 
-from flask import current_app
+#from flask import current_app
 from flask_login import UserMixin
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 from ChlauApp import db
 
 class User(UserMixin, db.Model):
@@ -27,11 +27,14 @@ class Message(db.Model):
     def __repr__(self):
         return f"<Message {self.name[:30]} {self.message} {self.timestamp}>"
 
-class Student(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    course = db.Column(db.String(80), nullable=False)
-    grade = db.Column(db.String(10), nullable=False)
+# class Student(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(80), nullable=False)
+#     course = db.Column(db.String(80), nullable=False)
+#     grade = db.Column(db.String(10), nullable=False)
+
+#     def __repr__(self):
+#         return f"<Student {self.name[:30]} {self.course} {self.grade}>"
 
 
 
