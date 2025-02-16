@@ -2,13 +2,25 @@
 # message module: all CRUD(Create, Read, Update, Delete) operations in one file. 
 
 
-from flask import render_template, request, redirect, url_for, 
-from flask import current_app
-from ChlauApp import db, models
-from models import Message
+from flask import render_template, request, redirect, url_for
+from flask import current_app, flash
+from sqlalchemy import inspect
+from datetime import datetime
 
-from flask import Blueprint
-message = Blueprint('message', __name__)
+from .. import db, csrf
+from . import message_bp
+
+
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(250), unique=False, nullable=True)
+    message = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
+
+    def __repr__(self):
+        return f"<Message {self.name[:30]} {self.email} {self.message} {self.timestamp}>"
 
 @message.route('/')
 def show_message():

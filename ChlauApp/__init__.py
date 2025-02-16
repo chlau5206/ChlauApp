@@ -24,8 +24,8 @@ def create_app():
     
     # Load environment variables from .env file
 
-    load_dotenv(dotenv_path='.env')
-    # load_dotenv(dotenv_path='.env.development')
+    # load_dotenv(dotenv_path='.env')
+    load_dotenv(dotenv_path='.env.development')
 
     app = Flask(__name__) 
     
@@ -35,6 +35,7 @@ def create_app():
     app.config['APP_NAME'] = os.getenv("APP_NAME")
     app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
     app.config["TESTING"] = os.getenv("TESTING", "True") == 'True'
+    
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///system.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
     app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.anywhere.com')
@@ -52,6 +53,9 @@ def create_app():
     
     from .admin import admin
     app.register_blueprint(admin, url_prefix='/admin')
+
+    from .message import message_bp
+    app.register_blueprint(message_bp, url_prefix='/message')
 
     from .Students import students_bp  # Import students the blueprint
     app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
@@ -98,15 +102,15 @@ def create_app():
     return app
 
 
-def initialize_database():
-    from sqlalchemy import MetaData
-    meta = MetaData()
-    meta.reflect(bind=db.engine)
-    if 'student' not in meta.tables:
-        print("Table 'student' does not exist. Creating table.")
-        db.create_all()
-    else:
-        print("Table 'student' exists.")
+# def initialize_database():
+#     from sqlalchemy import MetaData
+#     meta = MetaData()
+#     meta.reflect(bind=db.engine)
+#     if 'student' not in meta.tables:
+#         print("Table 'student' does not exist. Creating table.")
+#         db.create_all()
+#     else:
+#         print("Table 'student' exists.")
 
 
 ################

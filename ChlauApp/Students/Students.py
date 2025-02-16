@@ -2,18 +2,20 @@
 
 from flask import render_template, request, redirect, url_for, current_app, flash
 # from flask_wtf import csrf
-from ChlauApp import db # Import the db instance
-# from .. import db
-# from ChlauApp.models import Student  # Import the Student model
+from sqlalchemy import inspect
+from datetime import datetime
+
+from .. import db, csrf
 from . import students_bp  # student blueprint
 from .Students_forms import StudentForm  # Import the StudentForm
-from sqlalchemy import inspect
+
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     course = db.Column(db.String(80), nullable=False)
     grade = db.Column(db.String(10), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
 
     def __repr__(self):
          return f"<Student(name='{self.name}', course='{self.course}', grade='{self.grade}')>"
@@ -35,22 +37,26 @@ def table_exists(table_name):
 
 @students_bp.route('/')     # D = Display
 def show_students():
+    current_app.logger.debug('Students route accessed.')
+    assert table_exists('student'), "Table 'student' does not exist."
     students = Student.query.all()
-    return render_template('students/Students.html', students=students)
+    return render_template('Students/Students.html', students=students)
 
 @students_bp.route('/add', methods=['GET', 'POST'])
 def add_student():           # C = Create
-    form = StudentForm()
-    if form.validate_on_submit():
-        new_student = Student(name=form.name.data, course=form.course.data, grade=form.grade.data)
+    current_app.logger.debug('Students-add route accessed')
+    sform = StudentForm()
+    if sform.validate_on_submit():
+        new_student = Student(name=sform.name.data, course=sform.course.data, grade=sform.grade.data)
         db.session.add(new_student)
         db.session.commit()
         flash('Student added successfully!', 'success')
         return redirect(url_for('students_bp.show_students'))
-    return render_template('students/Students_add.html', form=form)
+    return render_template('Students/Students_add.html', form=sform)
 
 @students_bp.route('/update/<int:id>', methods=['GET', 'POST'])
 def update_student(id):       # U = Update
+    current_app.logger.debug ('Students-update route accessed.')
     student = Student.query.get_or_404(id)
     form = StudentForm(obj=student)
     if form.validate_on_submit():
@@ -60,10 +66,11 @@ def update_student(id):       # U = Update
         db.session.commit()
         flash('Student updated successfully!', 'success')
         return redirect(url_for('students_bp.show_students'))
-    return render_template('students/Students_update.html', form=form, student=student)
+    return render_template('Students/Students_update.html', form=form, student=student)
 
 @students_bp.route('/delete/<int:id>', methods=['POST'])
 def delete_student(id):      # R = Remove
+    current_app.logger.debug('Students.delete route accessed.')
     student = Student.query.get_or_404(id)
     db.session.delete(student)
     db.session.commit()
@@ -71,6 +78,7 @@ def delete_student(id):      # R = Remove
     return redirect(url_for('students_bp.show_students'))
 
 # def send_email(student):
+#     current_app.logger.debug('Students-mail route access.')
 #     msg = Message('New Student Added',
 #                   sender='your_email@gmail.com',
 #                   recipients=['recipient@example.com'])

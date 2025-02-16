@@ -10,7 +10,9 @@
 *.pyproj.user
 *.sln
 FirstUser.html
+instance/
 API_ExchangeRate.py
+message/
 
 *.rsuser
 *.suo
@@ -18,11 +20,14 @@ API_ExchangeRate.py
 *.userosscache
 *.sln.docstates
 
+
+
 # Visual Studio 2022 - Python project folders/files
 .git/
 env/
 obj/
-instance/
+
+
 
 # JavaScripts
 autoFlash.js
