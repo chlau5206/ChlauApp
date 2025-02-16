@@ -9,7 +9,7 @@ from flask_wtf import FlaskForm
 from flask_login import current_user, login_required
 from datetime import datetime
 
-from .models import Message
+
 from . import db
 from . import FormModule   # contactUsModule import contactForm
 from . import admin

@@ -1,11 +1,11 @@
 # Students/Student.py -- Contains the routes and CRUD operations
 
 from flask import render_template, request, redirect, url_for, current_app, flash
-# from flask_wtf import csrf
 from sqlalchemy import inspect
 from datetime import datetime
 
-from .. import db, csrf
+from .. import db
+from .. import csrf
 from . import students_bp  # student blueprint
 from .Students_forms import StudentForm  # Import the StudentForm
 
@@ -39,8 +39,9 @@ def table_exists(table_name):
 def show_students():
     current_app.logger.debug('Students route accessed.')
     assert table_exists('student'), "Table 'student' does not exist."
+    form = StudentForm()
     students = Student.query.all()
-    return render_template('Students/Students.html', students=students)
+    return render_template('Students/Students.html', students=students, form=form)
 
 @students_bp.route('/add', methods=['GET', 'POST'])
 def add_student():           # C = Create
@@ -50,7 +51,7 @@ def add_student():           # C = Create
         new_student = Student(name=sform.name.data, course=sform.course.data, grade=sform.grade.data)
         db.session.add(new_student)
         db.session.commit()
-        flash('Student added successfully!', 'success')
+        flash(f'Student, {student.name}, added successfully!', 'success')
         return redirect(url_for('students_bp.show_students'))
     return render_template('Students/Students_add.html', form=sform)
 
@@ -64,7 +65,7 @@ def update_student(id):       # U = Update
         student.course = form.course.data
         student.grade = form.grade.data
         db.session.commit()
-        flash('Student updated successfully!', 'success')
+        flash(f'Student, {student.name}, updated successfully!', 'success')
         return redirect(url_for('students_bp.show_students'))
     return render_template('Students/Students_update.html', form=form, student=student)
 

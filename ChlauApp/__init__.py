@@ -46,6 +46,8 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'Secret') 
     app.secret_key = os.getenv('SECRET_KEY', 'Secret')
 
+    print (f"FLASK_ENV = {app.config['FLASK_ENV']}")
+    
     ########################################
     # Blueprint register views here 
     from .views import main
@@ -54,8 +56,8 @@ def create_app():
     from .admin import admin
     app.register_blueprint(admin, url_prefix='/admin')
 
-    from .message import message_bp
-    app.register_blueprint(message_bp, url_prefix='/message')
+    # from .message import message_bp
+    # app.register_blueprint(message_bp, url_prefix='/message')
 
     from .Students import students_bp  # Import students the blueprint
     app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix

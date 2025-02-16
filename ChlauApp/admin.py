@@ -8,7 +8,7 @@ from . import db
 from . import login_manager
 from . import views
 from .FormModule import LoginForm
-from .models import User, Message
+from .models import User
 from datetime import datetime
 
 # Create Admin Blueprint
