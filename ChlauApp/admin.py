@@ -65,7 +65,7 @@ def register():  # completed
         # Here you would check the username and password against your database 
         user = User.query.filter_by(username=name).first()
         if user == None: # user does not exist
-            new_user = User(username=name, password=pw)
+            new_user = User(username=name, password=pw, role='member')
             # Add the user to the database
             db.session.add(new_user)
             # Commit the changes made
@@ -90,7 +90,7 @@ def first():      # completed
         if loginForm.validate_on_submit():
             name = loginForm.username.data.strip().lower()
             pw = loginForm.password.data.strip()
-            new_user = User(username=name, password=pw)
+            new_user = User(username=name, password=pw, role='sa')
             db.session.add(new_user)
             db.session.commit()
             print (f'Info: add user {name} success.')

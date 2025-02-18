@@ -29,10 +29,8 @@ main = Blueprint('main', __name__)
 def home():      # Completed
     current_app.logger.debug("Home route accessed")
     # users = models.User.query.all()
-    return render_template("home.html", 
-                           title="Home page", 
-                           app_name = current_app.config['APP_NAME'])
-main.add_url_rule('/', 'home', home)
+    return render_template("home.html", title="Home page", app_name = current_app.config['APP_NAME'])
+# main.add_url_rule('/', 'home', home)
 
 @main.route("/about/")
 def about():     # completed

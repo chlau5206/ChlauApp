@@ -89,7 +89,7 @@ def create_app():
     # LoginManager is needed for our application 
     # to be able to log in and out users
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = 'auth.login'  #  'admin.login'
 
     ########################################
     # User loader callback
@@ -104,6 +104,10 @@ def create_app():
     # ########################################
     # # init mail 
     mail.init_app(app)
+
+    Bootstrap(app)
+    print ("Bootstrap() completed.")
+
     
     return app
 
@@ -114,7 +118,5 @@ def create_app():
 app = create_app()
 print("setup completed.")
 
-Bootstrap(app)
-print ("Bootstrap() completed.")
 
 from . import views, admin 

@@ -32,7 +32,7 @@ Member page
         <br />
         <br />
         <h3>
-            <a href="{{ url_for('auth.logout') }}">Logout</a>
+            <a href="{{ url_for('auth_bp.logout') }}">Logout</a>
             {% else %}
             <!-- Flash Messages -->
             {% with messages = get_flashed_messages(with_categories=True) %}
@@ -44,7 +44,7 @@ Member page
             {% endwith %}
 
             Unknow member.  Login please.<br />
-            <a href="{{ url_for('auth.login') }}">Login</a>
+            <a href="{{ url_for('auth_bp.login') }}">Login</a>
             {% endif %}
         </h3>
             <br />
