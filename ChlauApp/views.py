@@ -79,16 +79,31 @@ def load_exchange_rate():
         current_app.logger.error(f"Error: An unexpected error occurred: {exception}")
 
 
-@main.route("/member")
-@login_required
-def member():     # completed
-    # if 'username' not in session: # user not login yet
-    #     return redirect(url_for("admin.login"))
-    current_app.logger.debug ("Member route accessed")
-    return render_template(
-        "member.html",
-        title="Member",
-        name=current_user.username,
-        # name=session['username'],
-        date=datetime.now()
-    )
+# @main.route("/member")
+# @login_required
+# def member():     # completed
+#     # if 'username' not in session: # user not login yet
+#     #     return redirect(url_for("admin.login"))
+#     current_app.logger.debug ("Member route accessed")
+#     return render_template(
+#         "member.html",
+#         title="Member",
+#         name=current_user.username,
+#         # name=session['username'],
+#         date=datetime.now()
+#     )
+
+
+# @main.route("/memberNew")
+# @login_required
+# def member_new():     # completed
+#     # if 'username' not in session: # user not login yet
+#     #     return redirect(url_for("admin.login"))
+#     current_app.logger.debug ("Member route accessed")
+#     return render_template(
+#         "auth/member_new.html",
+#         title="Member",
+#         name=current_user.username,
+#         # name=session['username'],
+#         date=datetime.now()
+#     )

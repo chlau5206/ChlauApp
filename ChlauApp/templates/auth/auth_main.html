@@ -15,23 +15,21 @@ Student-Admin
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Course</th>
-                <th>Grade</th>
+                <th>Role</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for student in students %}
+            {% for user in users %}
             <tr>
-                <td>{{ student.name }}</td>
-                <td>{{ student.course }}</td>
-                <td>{{ student.grade }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role }}</td>
                 <td>
                     <!-- Link to Update Student -->
-                    <a href="{{ url_for('students_bp.update_student', id=student.id) }}" class="btn btn-warning">Update</a>
+                    <a href="{{ url_for('auth_bp.update_user', id=User.id) }}" class="btn btn-warning">Update</a>
 
                     <!-- Form to Delete a Student -->
-                    <form method="POST" action="{{ url_for('students_bp.delete_student', id=student.id) }}" style="display:inline;">
+                    <form method="POST" action="{{ url_for('auth_bp.remove_user', id=User.id) }}" style="display:inline;">
                         {{ form.hidden_tag() }}  <!-- Add CSRF token -->
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -42,7 +40,7 @@ Student-Admin
     </table>
 
     <!-- Link to Add Student -->
-    <a href="{{ url_for('students_bp.add_student') }}" class="btn btn-primary">Add Student</a>
+    <a href="{{ url_for('auth_bp.create_user') }}" class="btn btn-primary">Add new member</a>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

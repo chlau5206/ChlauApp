@@ -9,6 +9,7 @@
 *.pyproj
 *.pyproj.user
 *.sln
+test*.html
 FirstUser.html
 instance/
 API_ExchangeRate.py

@@ -1,0 +1,57 @@
+<!-- member.html -- new version --> 
+{% extends "layout.html" %}
+{% block title %}
+Member page
+{% endblock %}
+{% block content %}
+
+<div class="body-content">
+    {% if current_user.is_authenticated %}
+        <h1>
+            <span class="message">
+                <h2>New membership page</h2><br />
+                Hello, 
+                {%if name %}
+                    {{ name }}!<br />
+                {% endif %}
+            </span>
+        </h1>
+        <nav>
+            <ul>
+                <ul>
+                    {% for item in items %}
+                    <li>{{ item.name }}</li>
+                    {% endfor %}
+                </ul>
+                <li><a href="{{ url_for('auth.display_user') }}">Membership</a></li>
+                <li><a href="{{ url_for('admin.show_messages') }}">Contact us messages</a></li>
+                <li><a href="{{ url_for('students_bp.show_students') }}">Test page</a></li>
+
+            </ul>
+        </nav>
+        <br />
+        <br />
+        <h3>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% else %}
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            Unknow member.  Login please.<br />
+            <a href="{{ url_for('auth.login') }}">Login</a>
+            {% endif %}
+        </h3>
+            <br />
+            <br />
+            <br />
+        <h3>{{ date }}</h3>
+        
+</div>
+
+{% endblock %}

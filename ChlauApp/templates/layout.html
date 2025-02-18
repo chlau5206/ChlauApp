@@ -5,7 +5,7 @@
     <title>{{ title }}{% block title %}{% endblock %} - ChlauApp 5206</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/site.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/NotoSansFonts.css')}}" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {% block head %}{% endblock %}
     
     <div class="navbar">
         <h2>
@@ -13,8 +13,8 @@
             <a href="{{ url_for('main.exchangeRate') }}" class="navbar-item">Exchange Rate</a>
             <a href="{{ url_for('main.about') }}" class="navbar-item">About</a>
             <a href="{{ url_for('main.contact') }}" class="navbar-item">Contact Us</a>
-            <a href="{{ url_for('main.member') }}" class="navbar-item">Members</a>
-            <a href="{{ url_for('students_bp.show_students') }}" class="navbar-item">Students</a>
+            <!--<a href="{{ url_for('main.member') }}" class="navbar-item">Members</a>-->
+            <a href="{{ url_for('auth_bp.member') }}" class="navbar-item">Test Page</a>
         </h2>
 
     </div>

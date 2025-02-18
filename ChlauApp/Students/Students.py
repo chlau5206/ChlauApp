@@ -9,13 +9,49 @@ from .. import csrf
 from . import students_bp  # student blueprint
 from .Students_forms import StudentForm  # Import the StudentForm
 
+'''
+from flask_login import login_required, current_user
+from functools import wraps
+
+def roles_required(*roles):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if current_user.role not in roles:
+                flash('You do not have permission to access this page.', 'danger')
+                return redirect(url_for('students_bp.show_students'))
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+@students_bp.route('/add', methods=['GET', 'POST'])
+@login_required
+@roles_required('teacher', 'TA')  # Allow both teachers and TAs to add students
+def add_student():
+    form = StudentForm()
+
+    return render_template('students/add_student.html', form=form)
+
+'''
+ENTRY_LIMIT = 200
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     course = db.Column(db.String(80), nullable=False)
     grade = db.Column(db.String(10), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
+    # timestamp = db.Column(db.DateTime, default=datetime.utcnow())
+
+    # course_name = lambda x : course_code[x]
+    # course_code = {
+    #     'eng': 'English', 
+    #     'art': 'Art',
+    #     'mus': 'Music', 
+    #     'bus': 'Business',
+    #     'phy': 'Physic',
+    #     'his': 'History'
+    #                }
+
 
     def __repr__(self):
          return f"<Student(name='{self.name}', course='{self.course}', grade='{self.grade}')>"
@@ -46,14 +82,40 @@ def show_students():
 @students_bp.route('/add', methods=['GET', 'POST'])
 def add_student():           # C = Create
     current_app.logger.debug('Students-add route accessed')
+    # ENTRY_LIMIT = 500  # Set the entry limit
+    current_entries = Student.query.count()  # Get the current number of entries
+    
+    if current_entries >= ENTRY_LIMIT:
+        flash('The database has reached its limit of entries. Cannot add more students.', 'danger')
+        return redirect(url_for('students_bp.show_students'))
+
     sform = StudentForm()
     if sform.validate_on_submit():
         new_student = Student(name=sform.name.data, course=sform.course.data, grade=sform.grade.data)
         db.session.add(new_student)
         db.session.commit()
-        flash(f'Student, {student.name}, added successfully!', 'success')
+        flash('Student added successfully!', 'success')
         return redirect(url_for('students_bp.show_students'))
     return render_template('Students/Students_add.html', form=sform)
+
+@students_bp.route('/general_add', methods=['GET', 'POST'])
+def general_add_student():
+    current_app.logger.debug('Students-general add route accessed')
+    # ENTRY_LIMIT = 500  # Set the entry limit
+    current_entries = Student.query.count()  # Get the current number of entries
+
+    if current_entries >= ENTRY_LIMIT:
+        flash('The database has reached its limit of entries. Cannot add more students.', 'danger')
+        return redirect(url_for('students_bp.general_add_student'))
+
+    form = StudentForm()
+    if form.validate_on_submit():
+        new_student = Student(name=form.name.data, course=form.course.data, grade=form.grade.data)
+        db.session.add(new_student)
+        db.session.commit()
+        flash('Student added successfully!', 'success')
+        return redirect(url_for('students_bp.general_add_student'))
+    return render_template('Students/Students_general_add.html', form=form)
 
 @students_bp.route('/update/<int:id>', methods=['GET', 'POST'])
 def update_student(id):       # U = Update
@@ -65,7 +127,7 @@ def update_student(id):       # U = Update
         student.course = form.course.data
         student.grade = form.grade.data
         db.session.commit()
-        flash(f'Student, {student.name}, updated successfully!', 'success')
+        flash('Student updated successfully!', 'success')
         return redirect(url_for('students_bp.show_students'))
     return render_template('Students/Students_update.html', form=form, student=student)
 

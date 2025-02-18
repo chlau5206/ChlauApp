@@ -44,8 +44,9 @@ def create_app():
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@anywhere.com')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'password')
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'Secret') 
+    
     app.secret_key = os.getenv('SECRET_KEY', 'Secret')
-
+    
     print (f"FLASK_ENV = {app.config['FLASK_ENV']}")
     
     ########################################
@@ -53,17 +54,20 @@ def create_app():
     from .views import main
     app.register_blueprint(main)
     
-    from .admin import admin
-    app.register_blueprint(admin, url_prefix='/admin')
+    # from .admin import admin
+    # app.register_blueprint(admin, url_prefix='/admin')
+
+    from .auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
     # from .message import message_bp
     # app.register_blueprint(message_bp, url_prefix='/message')
 
-    from .Students import students_bp  # Import students the blueprint
-    app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
+    # from .Students import students_bp  # Import students the blueprint
+    # app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
 
-        #################
-    # Set up logging
+    #################
+    # Setup logging
     log_file_path = os.path.join(app.root_path, 'logs', 'app.log')
     logging.basicConfig(filename=log_file_path, 
                         filemode='a',  # w = overwritten each time ; a = appending to the file 
@@ -85,7 +89,7 @@ def create_app():
     # LoginManager is needed for our application 
     # to be able to log in and out users
     login_manager.init_app(app)
-    login_manager.login_view = 'admin.login'
+    login_manager.login_view = 'auth.login'
 
     ########################################
     # User loader callback
@@ -104,22 +108,13 @@ def create_app():
     return app
 
 
-# def initialize_database():
-#     from sqlalchemy import MetaData
-#     meta = MetaData()
-#     meta.reflect(bind=db.engine)
-#     if 'student' not in meta.tables:
-#         print("Table 'student' does not exist. Creating table.")
-#         db.create_all()
-#     else:
-#         print("Table 'student' exists.")
-
-
-################
-# Main process #
-################
+################################################################
+#    Main process                                              #
+################################################################
 app = create_app()
-Bootstrap(app)
+print("setup completed.")
 
+Bootstrap(app)
+print ("Bootstrap() completed.")
 
 from . import views, admin 

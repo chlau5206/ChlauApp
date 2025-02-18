@@ -82,7 +82,7 @@ def register():  # completed
 
 
 @admin.route('/first_user', methods=['GET', 'POST'])
-def first_user():      # completed
+def first():      # completed
     print ('** first_user **')
     if User.query.first() == None:   # check empty db or new app
         print('User database is empty. ')
@@ -108,7 +108,7 @@ def show_messages():    # Bug: messages no show
     if messages:
         print ("No message.")
     else: 
-        return render_template('messages.html', messages=messages)
+        return render_template('messages_new.html', messages=messages)
 
 # @admin.errorhandler(404)
 # def not_found(e):

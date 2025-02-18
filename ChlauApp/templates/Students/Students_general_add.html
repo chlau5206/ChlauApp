@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
+
 {% block title %}
-Student-Update
+Test Page
 {% endblock %}
 
 {% block head %}
@@ -8,14 +9,12 @@ Student-Update
 {% endblock %}
 
 {% block content %}
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <div class="container mt-5">
-    <h1 class="text-center">Update Student</h1>
-    <form method="POST" action="{{ url_for('students_bp.update_student', id=student.id) }}">
+    <h1 class="text-center">Add Student</h1>
+    <form method="POST" action="{{ url_for('students_bp.general_add_student') }}">
         {{ form.hidden_tag() }}  <!-- CSRF Token -->
         <div class="form-group">
             {{ form.name.label(class="form-label") }}
-            <a href="Students_update.html">Students_update.html</a>
             {{ form.name(class="form-control") }}
         </div>
         <div class="form-group">
@@ -33,6 +32,4 @@ Student-Update
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 {% endblock %}
-
