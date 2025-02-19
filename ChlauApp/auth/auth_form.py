@@ -7,11 +7,11 @@ from wtforms.validators import DataRequired, InputRequired
 class AuthForm(FlaskForm):
     username = StringField(label='Username: ', validators=[InputRequired()]) 
     password = PasswordField(label='Password: ', validators=[InputRequired()]) 
-    options = SelectField('Role',
+    role = SelectField('Role',
                          choices=[
-                             ('sa', 'SA'),
                              ('member', 'Member'), 
-                             ('guest', 'Guest')],
+                             ('guest', 'Guest'),
+                             ('sa', 'SA')],
                          validators=[DataRequired()]
                          )
     submit = SubmitField(label="Submit") 

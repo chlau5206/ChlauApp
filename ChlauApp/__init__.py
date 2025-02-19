@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 import sys
 import logging
+from logging.handlers import RotatingFileHandler
 
 from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
@@ -54,8 +55,8 @@ def create_app():
     from .views import main
     app.register_blueprint(main)
     
-    # from .admin import admin
-    # app.register_blueprint(admin, url_prefix='/admin')
+    from .admin import admin
+    app.register_blueprint(admin, url_prefix='/admin')
 
     from .auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -66,17 +67,54 @@ def create_app():
     # from .Students import students_bp  # Import students the blueprint
     # app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
 
-    #################
-    # Setup logging
-    log_file_path = os.path.join(app.root_path, 'logs', 'app.log')
-    logging.basicConfig(filename=log_file_path, 
-                        filemode='a',  # w = overwritten each time ; a = appending to the file 
-                        level=logging.DEBUG, # means all levels (DEBUG, INFO, WARNING, ERROR, CRITICAL) will be logged.
-                        format='%(asctime)s - %(levelname)s - %(message)s')
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.DEBUG)
-    app.logger.addHandler(handler)
+    ########################################
+    # Logging
+
+    # Ensure the logs directory exists
+    log_directory = os.path.join(app.root_path, 'logs')
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+
+    # Create a formatter
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    # Create a rotating file handler
+    file_handler = RotatingFileHandler(
+        os.path.join(log_directory, 'app.log'), maxBytes=10*1024*1024, backupCount=5)
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
+
+    # Create a stream handler for console output
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.DEBUG)
+    stream_handler.setFormatter(formatter)
+
+    # Add handlers to the app logger
+    app.logger.addHandler(file_handler)
+    app.logger.addHandler(stream_handler)
     app.logger.setLevel(logging.DEBUG)
+
+    # Get the named logger
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+
+    # Clear existing handlers to avoid duplicates
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+
+    ''' logger usage:
+        # Log messages at different levels
+        logger.debug('This is a debug message')
+        logger.info('This is an info message')
+        logger.warning('This is a warning message')
+        logger.error('This is an error message')
+        logger.critical('This is a critical message')
+    '''
 
     ########################################
     # init database
@@ -89,7 +127,7 @@ def create_app():
     # LoginManager is needed for our application 
     # to be able to log in and out users
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'  #  'admin.login'
+    login_manager.login_view = 'auth_bp.login'  # old settings 'admin.login'
 
     ########################################
     # User loader callback
@@ -119,4 +157,4 @@ app = create_app()
 print("setup completed.")
 
 
-from . import views, admin 
+from . import views # , admin 

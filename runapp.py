@@ -8,7 +8,7 @@ import sys
 import os
 from dotenv import load_dotenv
 from os import environ
-from ChlauApp import app
+from ChlauApp import app, views, models
 
 if __name__ == '__main__':
     ##################################### 

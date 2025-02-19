@@ -10,7 +10,7 @@ Student-Admin
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center">Students Data</h1>
+    <h1 class="text-center">Membership</h1>
     <table class="table table-striped mt-5">
         <thead>
             <tr>
@@ -26,10 +26,10 @@ Student-Admin
                 <td>{{ user.role }}</td>
                 <td>
                     <!-- Link to Update Student -->
-                    <a href="{{ url_for('auth_bp.update_user', id=User.id) }}" class="btn btn-warning">Update</a>
+                    <a href="{{ url_for('auth_bp.update_user', id=user.id) }}" class="btn btn-warning">Update</a>
 
                     <!-- Form to Delete a Student -->
-                    <form method="POST" action="{{ url_for('auth_bp.remove_user', id=User.id) }}" style="display:inline;">
+                    <form method="POST" action="{{ url_for('auth_bp.remove_user', id=user.id) }}" style="display:inline;">
                         {{ form.hidden_tag() }}  <!-- Add CSRF token -->
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>

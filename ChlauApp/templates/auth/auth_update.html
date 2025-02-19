@@ -20,7 +20,7 @@ Student-Update
     {% endwith %}
 
     <h1 class="text-center">Update Student</h1>
-        <form method="POST" action="{{ url_for('auth_bp.update_user', id=User.id) }}">
+        <form method="POST" action="{{ url_for('auth_bp.update_user', id=user.id) }}">
             {{ form.hidden_tag() }}  <!-- CSRF Token -->
             <div class="form-group">
                 {{ form.username.label(class="form-label") }}

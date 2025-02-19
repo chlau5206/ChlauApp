@@ -23,9 +23,8 @@ Member page
                     <li>{{ item.name }}</li>
                     {% endfor %}
                 </ul>
-                <li><a href="{{ url_for('auth.display_user') }}">Membership</a></li>
+                <li><a href="{{ url_for('auth_bp.display_user') }}">Membership</a></li>
                 <li><a href="{{ url_for('admin.show_messages') }}">Contact us messages</a></li>
-                <li><a href="{{ url_for('students_bp.show_students') }}">Test page</a></li>
 
             </ul>
         </nav>
@@ -33,19 +32,19 @@ Member page
         <br />
         <h3>
             <a href="{{ url_for('auth_bp.logout') }}">Logout</a>
-            {% else %}
-            <!-- Flash Messages -->
-            {% with messages = get_flashed_messages(with_categories=True) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
+    {% else %}
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-            Unknow member.  Login please.<br />
-            <a href="{{ url_for('auth_bp.login') }}">Login</a>
-            {% endif %}
+        Unknow member.  Login please.<br />
+        <a href="{{ url_for('auth_bp.login') }}">Login</a>
+    {% endif %}
         </h3>
             <br />
             <br />
