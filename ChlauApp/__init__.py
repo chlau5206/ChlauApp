@@ -14,10 +14,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 from flask_mail import Mail, Message
-from flask_bootstrap import Bootstrap
+
+# from flask_bootstrap import Bootstrap
+
+# from .models import SQL_exception
 # from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
-
-
 
 db = SQLAlchemy()
 csrf = CSRFProtect()
@@ -32,14 +33,17 @@ def create_app():
     # Load environment variables from .env file
 
     # load_dotenv(dotenv_path='.env')
-    load_dotenv(dotenv_path='.env.development')
-
+    if  os.path.exists('.env.development'):
+        load_dotenv(dotenv_path='.env.development')
+    else: 
+        load_dotenv()
+    
     app = Flask(__name__) 
     
     # Load configurations from environment variables
-    app.config['FLASK_APP'] = os.getenv("FLASK_APP", ) 
     app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "production") # [development | production]
-    app.config['APP_NAME'] = os.getenv("APP_NAME")
+    app.config['FLASK_APP'] = os.getenv("FLASK_APP", 'runapp.py') 
+    app.config['APP_NAME'] = os.getenv("APP_NAME", 'ChlauApp')
     app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
     app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
@@ -51,11 +55,12 @@ def create_app():
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@mail_provider.com')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'password')
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'Secret') 
+    app.secret_key = app.config['SECRET_KEY']
     
-    app.secret_key = os.getenv('SECRET_KEY', 'Secret')
+    print (f"App Name = {os.getenv('APP_NAME')}")
     FLASK_ENV = {app.config['FLASK_ENV']}
-
     print (f"{FLASK_ENV}")
+
     
     ########################################
     # Blueprint register views here 
@@ -130,9 +135,9 @@ def create_app():
         db.init_app(app)
         with app.app_context():
             db.create_all() # Create tables if they don't exist
-    except (IntegrityError, OperationalError, SQLAlchemyError) as e:
-        error_message = SQL_exception(e)
-        print (f"SQL error: {e}")
+    except Exception as exception:
+        print (f'An unexpected SQL error occurred: {e}')
+
 
 
     ########################################
@@ -156,8 +161,9 @@ def create_app():
     # # init mail 
     mail.init_app(app)
 
-    Bootstrap(app)
-    print ("Bootstrap() init completed.")
+    # # for bootstrap --- obs
+    # Bootstrap(app)
+    # print ("Bootstrap() init completed.")
 
     
     return app
