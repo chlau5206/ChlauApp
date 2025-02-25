@@ -1,65 +1,28 @@
 '''  auth.py
 '''
-from email.policy import default
+
 from os import error
 from venv import logger
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session, current_app
 from flask_login import login_user, logout_user, login_required, current_user
-from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
+from email.policy import default
+from mailbox import Message
+# from smtplib import SMTPException
 
 from .. import db
 from .. import login_manager
-from .. import current_app
-# from .. import logging
-from ..models import User
+from .. import mail
+from ..models import User, roles_required, get_local_time, SQL_exception
+# from ..views import main
 from . import auth_bp
 from .auth_form import AuthForm
 
-#import logging
 
-ENTRY_LIMIT = 50
-ROLES = ('sa', 'member', 'guest')
-
-def roles_required(*roles):
-    def decorator(f):
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if  current_user.role not in roles:
-                flash('You do not have permission to access this page.', 'danger')
-                return redirect(url_for('auth_bp.login'))
-            return f(*args, **kwargs)
-        return decorated_function
-    return decorator
-
-def SQL_exception(e):
-    if isinstance(e, IntegrityError):
-        logger.error(f'IntegrityError: {e.orig}')
-        return 'Integrity error occurred.'
-    elif isinstance(e, OperationalError):
-        logger.error(f'OperationalError: {e.orig}')
-        return 'Operational error occurred.'
-    elif isinstance(e, SQLAlchemyError):
-        logger.error(f'SQLAlchemyError: {e.orig}')
-        return 'A database error occurred.'
-    else:
-        logger.error(f'UnexpectedError: {e}')
-        return 'An unexpected error occurred.'
-
-
-@auth_bp.route('/')
-@auth_bp.route('/member')
-@login_required
-def member():
-    current_app.logger.debug('membership route accessed.')
-    return render_template(
-        "auth/member.html",
-        title="Member",
-        name=current_user.username,
-        date=datetime.now()
-    )
+USER_ENTRY_LIMIT = 50
+ROLES = ('member', 'guest', 'sa')
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -75,19 +38,19 @@ def login():                                                      # Done
     aform = AuthForm()
     
     if  request.method == 'POST':
-        logger.debug('Request POST.')
+        # logger.debug('Login Request POST.')
         username = request.form.get('username').lower().strip()
         password = request.form.get('password').strip()
         user = User.query.filter_by(username=username).first()
         
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('auth_bp.member'))
+            return redirect(url_for('members_bp.member'))
         
         flash('Invalid username or password', 'danger')
-        logger.warning(f'Invalid username or password entered. {username}')
+        logger.warning(f'Invalid username or password entered. [{username}]')
     else:
-        logger.debug('request not POST')
+        logger.debug('Login request not POST')
     
     return render_template('auth/auth_login.html', form=aform)
 
@@ -96,7 +59,26 @@ def login():                                                      # Done
 def logout():                                                   # Done
     logger.debug ('logout route accessed.')
     logout_user()
+    session.clear()  # Clear the session data
     return redirect(url_for('auth_bp.login'))
+
+# Set session timeout for each blueprint
+@auth_bp.before_request
+def make_session_permanent():
+    session.permanent = True
+    session.permanent_session_lifetime = timedelta(minutes=15) # Set session lifetime to 15 min (15 * 60 seconds)
+
+#  Handle session expiration and logout for each blueprint
+@auth_bp.before_request
+def check_session_timeout():
+    if 'user_id' in session and session.permanent:
+        # Check if the session has expired
+        if (datetime.now() - session['last_activity']) > session.permanent_session_lifetime:
+            session.pop('user_id', None)
+            logout_user()
+            return redirect(url_for('auth_bp.login'))
+    session['last_activity'] = datetime.now()
+
 
 @auth_bp.route('/delete/<int:id>', methods=['POST'])
 @login_required
@@ -120,15 +102,21 @@ def update_user(id):
     
     user = User.query.get_or_404(id)
     aform = AuthForm(obj=user)
-    if  aform.validate_on_submit():
-        user.username = aform.username.data
-        hashed_password = generate_password_hash(aform.password.data, method='pbkdf2:sha256')
-        user.password = hashed_password
-        user.role =     aform.role.data
-        db.session.commit()
-        flash('User updated successfully!', 'success')
-        logger.info('User updated successfully!')
-        return redirect(url_for('auth_bp.display_user'))
+    try: 
+        if  aform.validate_on_submit():
+            user.username = aform.username.data.lower().strip()
+            hashed_password = generate_password_hash(aform.password.data.strip(), method='pbkdf2:sha256')
+            user.password = hashed_password
+            user.role =     aform.role.data
+            db.session.commit()
+            flash('User updated successfully!', 'success')
+            logger.info('User updated successfully!')
+            return redirect(url_for('auth_bp.display_user'))
+    except Exception as exception:
+        error_message = SQL_exception(exception)
+        logger.error(f'{error_message}')
+        flash (f'{error_message}', 'error')
+    
 
     return render_template('auth/auth_update.html', form=aform, user=user)
 
@@ -145,12 +133,12 @@ def display_user():
 @login_required
 @roles_required('sa')  # Only admins can register new users
 def create_user():
-    current_app.logger.debug('register(add) route accessed')
+    logger.debug('register(add) route accessed')
 
     try: 
         current_entries = User.query.count()  # Get the current number of entries
     
-        if  current_entries >= ENTRY_LIMIT:
+        if  current_entries >= USER_ENTRY_LIMIT:
             flash('The database has reached its limit of entries. Cannot add more members.', 'danger')
             return redirect(url_for('auth_bp.member'))
 
@@ -159,7 +147,7 @@ def create_user():
         if  request.method == 'POST':
             # add_user_sub()
             username = request.form.get('username').lower().strip()
-            password = request.form.get('password')
+            password = request.form.get('password').strip()
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
             role = request.form.get('role')
             new_user = User(username=username, 
@@ -167,11 +155,29 @@ def create_user():
                             role=role)
             db.session.add(new_user)
             db.session.commit()
+            msg = Message(
+                    f'New user, {username} created',
+                    recipients = ['charles.hin.lau@gmail.com'])
+            msg.body = f'New user, {username}, is created successful. \n\n', + get_local_time()
+            mail.send(msg)
             return redirect(url_for('auth_bp.member'))
-    except Exception as exception:
+    
+
+    except (SQLAlchemyError, IntegrityError, OperationalError) as e:
         db.session.rollback()
-        error_message = SQL_exception(exception)
-        flash (f'{error_message}', 'error')
+        error_message = SQL_exception(e)
+        flash (f'SQL commit error: {error_message}', 'error')
+        logger.error (f'SQL commit error: {error_message}')
+    
+    except SMTPException as e:
+        flash (f"Failed to send email: {e}", "error")
+        logger.error(f"Failed to send email: {e}")
+    
+    except Exception as exception:
+        flash (f'An unexpected error occurred: {e}', 'error')
+        logger.error(f'An unexpected error occurred: {e}')
+
+
     # else:
     #     logger.info('New user added successfully.')
     #     flash('New user registered successfully!', 'success')
@@ -202,37 +208,13 @@ def create_first_user():
             print (new_user)
             db.session.add(new_user)
             db.session.commit()
-        else:
-            logger.info("not POST")
+            return redirect(url_for('auth_bp.member'))
 
     except Exception as exception:
-        db.session.rollback()
         error_message = SQL_exception(exception)
         logger.error(f'{error_message}')
         flash (f'{error_message}', 'error')
         return redirect(url_for('main.home'))
-    # else:
-    #     logger.info('first user added successfully.')
-    #     flash('First user registered successfully!', 'success')
-    #     return redirect(url_for('auth_bp.login'))
-    # finally:
-    #     logger.debug('Add first user operation finished. ')
-    #     # return redirect(url_for('auth_bp.login'))
-        
 
     return render_template('auth/auth_first_user.html', form=aform)
 
-
-# @auth_bp.route("/memberNew")
-# @login_required
-# def member_new():     # completed
-#     # if 'username' not in session: # user not login yet
-#     #     return redirect(url_for("admin.login"))
-#     current_app.logger.debug ("Member route accessed")
-#     return render_template(
-#         "member_new.html",
-#         title="Member",
-#         name=current_user.username,
-#         # name=session['username'],
-#         date=datetime.now()
-#     )

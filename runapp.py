@@ -8,10 +8,15 @@ import sys
 import os
 from dotenv import load_dotenv
 from os import environ
-from ChlauApp import app, views, models
+# from ChlauApp import app, views, models
+from ChlauApp import create_app
 
 if __name__ == '__main__':
-    ##################################### 
+    app = create_app()
+    
+    #####################################
+    #  Development settings
+    # 
     ## Check Python at lease version 3.10
     if not (sys.version_info.major == 3 and sys.version_info.minor >= 10):
         print("Python 3.10 or higher is required.")
@@ -30,8 +35,12 @@ if __name__ == '__main__':
     load_dotenv()
     DEBUG = os.getenv('DEBUG', 'False') == 'True'
     print (f'host={HOST}; port={PORT}; debug={DEBUG}')    
+    
     app.run(host=HOST, port=PORT, debug=DEBUG)
 
+    ################################
+    #  Production settings
+    #
     # app.run()
     
     

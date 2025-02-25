@@ -11,6 +11,9 @@
 *.sln
 test*.html
 FirstUser.html
+selections.js
+
+
 instance/
 API_ExchangeRate.py
 message/

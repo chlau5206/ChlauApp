@@ -3,6 +3,7 @@ The flask application package.
 """
 
 import os
+from sqlite3 import IntegrityError
 from dotenv import load_dotenv
 import sys
 import logging
@@ -14,14 +15,19 @@ from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 from flask_mail import Mail, Message
 from flask_bootstrap import Bootstrap
+# from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
+
+
 
 db = SQLAlchemy()
 csrf = CSRFProtect()
 login_manager = LoginManager()
 mail = Mail()
+FLASK_ENV = ''
 
 def create_app():
-    from .models import User
+    from .models import User, SQL_exception, get_local_time
+    # from .models import User
     
     # Load environment variables from .env file
 
@@ -32,39 +38,41 @@ def create_app():
     
     # Load configurations from environment variables
     app.config['FLASK_APP'] = os.getenv("FLASK_APP", ) 
-    app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "development") # [development | production]
+    app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "production") # [development | production]
     app.config['APP_NAME'] = os.getenv("APP_NAME")
     app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
-    app.config["TESTING"] = os.getenv("TESTING", "True") == 'True'
-    
+    app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
+    app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///system.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
-    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.anywhere.com')
+    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.mail_provider.com')
     app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
     app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@anywhere.com')
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@mail_provider.com')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'password')
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'Secret') 
     
     app.secret_key = os.getenv('SECRET_KEY', 'Secret')
-    
-    print (f"FLASK_ENV = {app.config['FLASK_ENV']}")
+    FLASK_ENV = {app.config['FLASK_ENV']}
+
+    print (f"{FLASK_ENV}")
     
     ########################################
     # Blueprint register views here 
     from .views import main
     app.register_blueprint(main)
     
-    from .admin import admin
-    app.register_blueprint(admin, url_prefix='/admin')
+    from .members import members_bp
+    app.register_blueprint(members_bp, url_prefix='/members')
 
     from .auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    # from .message import message_bp
-    # app.register_blueprint(message_bp, url_prefix='/message')
+    from .Board import board_bp
+    # from .ContactUs import ContactUs_bp
+    app.register_blueprint(board_bp, url_prefix='/board')
 
-    # from .Students import students_bp  # Import students the blueprint
+    # from .students import students_bp  # Import students the blueprint
     # app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
 
     ########################################
@@ -118,9 +126,14 @@ def create_app():
 
     ########################################
     # init database
-    db.init_app(app)
-    with app.app_context():
-        db.create_all() # Create tables if they don't exist
+    try: 
+        db.init_app(app)
+        with app.app_context():
+            db.create_all() # Create tables if they don't exist
+    except (IntegrityError, OperationalError, SQLAlchemyError) as e:
+        error_message = SQL_exception(e)
+        print (f"SQL error: {e}")
+
 
     ########################################
     # ## User Create/login 
@@ -144,7 +157,7 @@ def create_app():
     mail.init_app(app)
 
     Bootstrap(app)
-    print ("Bootstrap() completed.")
+    print ("Bootstrap() init completed.")
 
     
     return app
@@ -153,8 +166,8 @@ def create_app():
 ################################################################
 #    Main process                                              #
 ################################################################
-app = create_app()
-print("setup completed.")
+# app = create_app()
+# print("setup completed.")
 
 
-from . import views # , admin 
+# from . import views # , admin 

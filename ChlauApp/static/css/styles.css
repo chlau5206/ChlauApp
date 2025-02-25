@@ -1,0 +1,35 @@
+/* styles.css */
+
+body {
+    margin: 5%; /* Set the margin to 5% */
+}
+
+.logo {
+    height: 50px; /* Adjust the height as needed */
+    width: auto;
+}
+
+.navbar-item img {
+    max-height: 3rem; /* Adjust the height as needed */
+}
+
+@media screen and (max-width: 499px) {
+    .navbar-menu {
+        display: none;
+    }
+
+    .navbar-burger {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .navbar-menu {
+        display: block;
+    }
+
+    .navbar-burger {
+        display: none;
+    }
+}
+

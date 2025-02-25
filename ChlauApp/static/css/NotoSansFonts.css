@@ -3,7 +3,7 @@
 /* Define Noto Sans for normal text */
 @font-face {
     font-family: 'Noto Sans';
-    src: url('./NotoSans-VariableFont_wdth,wght.ttf') format('truetype');
+    src: url('../Fonts/NotoSans-VariableFont_wdth,wght.ttf') format('truetype');
     font-style: normal;
 }
 .noto-sans-<uniquifier > {
@@ -25,7 +25,7 @@ body {
 /* Define Noto Sans Display for headings */
 @font-face {
     font-family: 'Noto Sans Display';
-    src: url('./NotoSansDisplay-VariableFont_wdth,wght.ttf') format('truetype');
+    src: url('../Fonts/NotoSansDisplay-VariableFont_wdth,wght.ttf') format('truetype');
     font-style: normal;
 }
 .noto-sans-display-<uniquifier > {

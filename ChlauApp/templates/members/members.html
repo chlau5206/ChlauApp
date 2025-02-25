@@ -9,7 +9,7 @@ Member page
     {% if current_user.is_authenticated %}
         <h1>
             <span class="message">
-                <h2>New membership page</h2><br />
+                <h2>Welcome to the members dashboard!</h2><br />
                 Hello, 
                 {%if name %}
                     {{ name }}!<br />
@@ -19,13 +19,9 @@ Member page
         <nav>
             <ul>
                 <ul>
-                    {% for item in items %}
-                    <li>{{ item.name }}</li>
-                    {% endfor %}
+                    Items <br />
                 </ul>
                 <li><a href="{{ url_for('auth_bp.display_user') }}">Membership</a></li>
-                <li><a href="{{ url_for('admin.show_messages') }}">Contact us messages</a></li>
-
             </ul>
         </nav>
         <br />

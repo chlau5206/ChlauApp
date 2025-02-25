@@ -1,11 +1,38 @@
 {% extends "layout.html" %}
-{% block title %}
-Login page
+
+{% block header %}
+<title>{{ title }}-Chlau 5206</title>
 {% endblock %}
 
 {% block content %}
 <p>
-    <h1>Welcome to {{ app_name }} </h1>
+    <h1>
+        <span class="message">
+            <h2>Welcome to {{ app_name }}</h2><br />
+            Hello
+            {%if name %}
+            {{ name }}!<br />
+            {% endif %}
+
+
+        </span>
+    </h1>
+    <br />
+    <br />
+    <br />
+    <nav>
+        <ul>
+            <ul>
+                {{ today }}
+
+            </ul>
+
+
+        </ul>
+    </nav>
+    <br />
+    <br />
+    <h3>
 
 </p>
 {% endblock %}

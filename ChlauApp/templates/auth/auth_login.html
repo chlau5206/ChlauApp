@@ -1,41 +1,32 @@
 {% extends "layout.html" %}
 
-{% block title %}
-Register new user
+{% block header %}
+<title>{{ title }}-Chlau 5206</title>
 {% endblock %}
 
-{% block head %}
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h1 class="text-center">Member login</h1>
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=True) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+<div class="container mt-5">
+    <h2 class="text-center">Member login</h2>
+    <form method="POST" action="{{ url_for('auth_bp.login') }}">
+        {{ form.hidden_tag() }}  <!-- CSRF Token -->
+        <div class="form-group">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
 
-        <form method="POST" action="{{ url_for('auth_bp.login') }}">
-            {{ form.hidden_tag() }}  <!-- CSRF Token -->
-            <div class="form-group">
-                {{ form.username.label(class="form-label") }}
-                {{ form.username(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.password.label(class="form-label") }}
-                {{ form.password(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-primary") }}
-            </div>
-        </form>
-    </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
 
+<!-- For bootstrap css
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+-->
 {% endblock %}

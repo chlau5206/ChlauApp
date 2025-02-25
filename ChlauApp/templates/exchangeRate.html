@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block title %}{% endblock %}
-{% block content %}
+{% block header %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ExchangeRates.css')}}" />
+<title>{{ title }}-Chlau 5206</title>
+{% endblock %}
+
+{% block content %}
 <!--
         How to convert JSON data to a html table using JavaScript/jQuery?
         https://www.geeksforgeeks.org/how-to-convert-json-data-to-a-html-table-using-javascript-jquery/
@@ -27,8 +29,11 @@
     <tbody>
     </tbody>
 </table>
-<!--<button id="fetchData">Fetch data</button>-->
-
-<script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
 
 {% endblock %}
+
+{% block footer %}
+    <!--<button id="fetchData">Fetch data</button>-->
+    <script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
+{% endblock %}
+
