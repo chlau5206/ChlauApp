@@ -112,12 +112,15 @@ def update_user(id):
             flash('User updated successfully!', 'success')
             logger.info('User updated successfully!')
             return redirect(url_for('auth_bp.display_user'))
+    except (SQLAlchemyError, IntegrityError, OperationalError) as e:
+        db.session.rollback()
+        error_message = SQL_exception(e)
+        flash (f'SQL commit error: {error_message}', 'error')
+        logger.error (f'SQL commit error: {error_message}') 
     except Exception as exception:
-        error_message = SQL_exception(exception)
-        logger.error(f'{error_message}')
-        flash (f'{error_message}', 'error')
+        flash (f'An unexpected error occurred: {e}', 'error')
+        logger.error(f'An unexpected error occurred: {e}')
     
-
     return render_template('auth/auth_update.html', form=aform, user=user)
 
 @auth_bp.route('/main')

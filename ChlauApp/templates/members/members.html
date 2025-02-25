@@ -18,10 +18,9 @@ Member page
         </h1>
         <nav>
             <ul>
-                <ul>
-                    Items <br />
-                </ul>
+
                 <li><a href="{{ url_for('auth_bp.display_user') }}">Membership</a></li>
+                <li><a href="{{ url_for('board_bp.show_message') }}">Contact us messages</a></li>
             </ul>
         </nav>
         <br />
@@ -29,15 +28,6 @@ Member page
         <h3>
             <a href="{{ url_for('auth_bp.logout') }}">Logout</a>
     {% else %}
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-
         Unknow member.  Login please.<br />
         <a href="{{ url_for('auth_bp.login') }}">Login</a>
     {% endif %}
