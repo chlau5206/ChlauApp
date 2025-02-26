@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 
-{% block title %}
-Member-Admin
+{% block header %}
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
 
 
@@ -35,7 +40,7 @@ Member-Admin
             {% endfor %}
         </tbody>
     </table>
-    
+
     <!-- Link to Add Student -->
     <a href="{{ url_for('auth_bp.create_user') }}" class="btn btn-primary">Add new member</a>
 </div>

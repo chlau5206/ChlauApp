@@ -1,8 +1,12 @@
 {% extends "layout.html" %}
-{% block title %}
-Board-Update
+{% block header %}
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
-
 
 {% block content %}
 

@@ -2,7 +2,13 @@
 
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ExchangeRates.css')}}" />
-<title>{{ title }}-Chlau 5206</title>
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
+
 {% endblock %}
 
 {% block content %}
@@ -33,7 +39,7 @@
 {% endblock %}
 
 {% block footer %}
-    <!--<button id="fetchData">Fetch data</button>-->
-    <script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
+<!--<button id="fetchData">Fetch data</button>-->
+<script src="{{ url_for('static', filename='js/ExchangeRates.js')}}"></script>
 {% endblock %}
 

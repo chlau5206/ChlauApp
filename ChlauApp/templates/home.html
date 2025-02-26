@@ -1,22 +1,28 @@
 {% extends "layout.html" %}
 
 {% block header %}
-<title>{{ title }}-Chlau 5206</title>
+<title>
+{%if title %}
+{{ title }}
+{% endif %}
+ChLau App
+</title>
+
 {% endblock %}
 
 {% block content %}
 <p>
-    <h1>
-        <span class="message">
-            <h2>Welcome to {{ app_name }}</h2><br />
-            Hello
-            {%if name %}
-            {{ name }}!<br />
-            {% endif %}
-
-
-        </span>
-    </h1>
+    <center>
+        <strong class="has-text-success">
+            <span class="message">
+                <h2>Welcome to {{ app_name }}</h2><br />
+                Hello
+                {%if name %}
+                {{ name }}!<br />
+                {% endif %}
+            </span>
+        </strong>
+    </center>
     <br />
     <br />
     <br />
@@ -24,7 +30,6 @@
         <ul>
             <ul>
                 {{ today }}
-
             </ul>
 
 

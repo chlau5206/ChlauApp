@@ -1,8 +1,14 @@
 {% extends "layout.html" %}
 
-{% block title %}
-Register new user
+{% block header %}
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
+
 
 {% block content %}
 <div class="container mt-5">

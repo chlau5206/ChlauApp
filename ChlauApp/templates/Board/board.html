@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 
-{% block title %}
-Board-Main
-{% endblock %}
-
-{% block head %}
+{% block header %}
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
 
 {% block content %}

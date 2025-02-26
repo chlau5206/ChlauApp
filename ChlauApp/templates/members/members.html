@@ -1,42 +1,47 @@
-<!-- member.html -- new version --> 
+<!-- member.html -- new version -->
 {% extends "layout.html" %}
-{% block title %}
-Member page
+{% block header %}
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
 {% block content %}
 
 <div class="body-content">
     {% if current_user.is_authenticated %}
-        <h1>
-            <span class="message">
-                <h2>Welcome to the members dashboard!</h2><br />
-                Hello, 
-                {%if name %}
-                    {{ name }}!<br />
-                {% endif %}
-            </span>
-        </h1>
-        <nav>
-            <ul>
+    <h1>
+        <span class="message">
+            <h2>Welcome to the members dashboard!</h2><br />
+            Hello,
+            {%if name %}
+            {{ name }}!<br />
+            {% endif %}
+        </span>
+    </h1>
+    <nav>
+        <ul>
 
-                <li><a href="{{ url_for('auth_bp.display_user') }}">Membership</a></li>
-                <li><a href="{{ url_for('board_bp.show_message') }}">Contact us messages</a></li>
-            </ul>
-        </nav>
-        <br />
-        <br />
-        <h3>
-            <a href="{{ url_for('auth_bp.logout') }}">Logout</a>
-    {% else %}
+            <li><a href="{{ url_for('auth_bp.display_user') }}">Membership</a></li>
+            <li><a href="{{ url_for('board_bp.show_message') }}">Contact us messages</a></li>
+        </ul>
+    </nav>
+    <br />
+    <br />
+    <h3>
+        <a href="{{ url_for('auth_bp.logout') }}">Logout</a>
+        {% else %}
         Unknow member.  Login please.<br />
         <a href="{{ url_for('auth_bp.login') }}">Login</a>
-    {% endif %}
-        </h3>
-            <br />
-            <br />
-            <br />
-        <h3>{{ date }}</h3>
-        
+        {% endif %}
+    </h3>
+    <br />
+    <br />
+    <br />
+    <h3>{{ date }}</h3>
+
 </div>
 
 {% endblock %}

@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 
-{% block title %}
-Memeber Login
+{% block header %}
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
 
 

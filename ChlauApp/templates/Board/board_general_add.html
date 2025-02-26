@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 
-{% block title %}
-Test Page
+{% block header %}
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
 
 {% block content %}

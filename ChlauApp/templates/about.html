@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 
 {% block header %}
-    <title>{{ title }}-Chlau 5206</title>
+<title>
+    {%if title %}
+    {{ title }}
+    {% endif %}
+    ChLau App
+</title>
 {% endblock %}
 
 {% block content %}
