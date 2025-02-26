@@ -1,5 +1,6 @@
 # # models.py
 
+from flask import current_app, render_template, session, redirect, url_for, flash
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Nullable, Text
@@ -21,7 +22,6 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     role = db.Column(db.String(10), nullable=False)    # Add role field
-    # email = db.Column(db.String(250), unique=True, nullable=False)
 
     def __repr__(self):
         return f"<User(username='{self.username}', role='{self.role}', password='{self.password}')>"

@@ -1,19 +1,22 @@
 ''' Flask web page -- views.py
 '''
-# from . import main
-from flask import current_app, render_template, session, redirect, url_for, flash
-from flask import Flask,request, json, jsonify, abort, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
+from os import error
+from venv import logger
+from flask import render_template, request, redirect, url_for, flash, session, current_app
+from flask_login import login_user, logout_user, login_required, current_user
+
+from flask import request, json, jsonify, abort, send_from_directory
+# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import inspect
 from flask_wtf import FlaskForm
-from flask_login import current_user, login_required
+# from flask_login import current_user, login_required
 from datetime import datetime
-
+import os
 
 from . import db
 from . import FormModule   # contactUsModule import contactForm
 from .models import get_local_time
-import os
+
 
 #  create Blueprint
 from flask import Blueprint
@@ -22,8 +25,6 @@ main = Blueprint('main', __name__)
 ##############
 # Main Route #
 ##############
-
-
 
 @main.route("/")
 @main.route("/home/")
@@ -68,7 +69,7 @@ def load_exchange_rate():
         return jsonify(data)  # Use jsonify to convert the Python dictionary back into JSON format
     except FileNotFoundError:
         return jsonify({"error": "Data not found"}), 404  # Return a 404 error
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as e:
         current_app.logger.error(f"Error in /loaddata: {e}")
         return jsonify({"error": "Invalid JSON data"}), 500  # Return a 500 error
     except IOError as e:
