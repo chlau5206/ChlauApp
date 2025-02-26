@@ -1,14 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}
-Student-Update
+Member-Update
 {% endblock %}
 
-{% block head %}
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-{% endblock %}
 
 {% block content %}
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="container mt-5">
     <h1 class="text-center">Update Student</h1>
     <form method="POST" action="{{ url_for('auth_bp.update_user', id=user.id) }}">
@@ -29,19 +26,8 @@ Student-Update
             {{ form.submit(class="btn btn-primary") }}
         </div>
     </form>
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=True) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{ category }}">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-    <!-- Flash Messages (ended) -->
 
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 {% endblock %}
 
