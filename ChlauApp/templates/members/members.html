@@ -14,12 +14,11 @@
     {% if current_user.is_authenticated %}
     <h1>
         <span class="message">
-            <h2>Welcome to the members dashboard!</h2><br />
-            Hello,
+            <h2>Welcome to the members dashboard!</h2>
             {%if name %}
-            {{ name }}!<br />
+            {{ name }}
             {% endif %}
-        </span>
+        </span><br /><br />
     </h1>
     <nav>
         <ul>

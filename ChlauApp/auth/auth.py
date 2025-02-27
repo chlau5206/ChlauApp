@@ -2,7 +2,6 @@
 '''
 
 from os import error
-from venv import logger
 from flask import render_template, request, redirect, url_for, flash, session, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,15 +11,16 @@ from email.policy import default
 from mailbox import Message
 # from smtplib import SMTPException
 
+import logging
+
 from .. import db
 from .. import login_manager
 from .. import mail
 from ..models import User, roles_required, get_local_time, SQL_exception
-# from ..views import main
 from . import auth_bp
 from .auth_form import AuthForm
 
-
+logger = logging.getLogger(__name__)
 USER_ENTRY_LIMIT = 50
 ROLES = ('member', 'guest', 'sa')
 
@@ -32,9 +32,7 @@ def login():                                                      # Done
     if User.query.first() == None:   
         logger.debug('Login: User table is empty. Route to create first user.')
         return redirect(url_for("auth_bp.create_first_user")) 
-    else:
-        logger.debug('User table not empty.')
-
+    
     aform = AuthForm()
     
     if  request.method == 'POST':

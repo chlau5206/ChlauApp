@@ -1,5 +1,4 @@
 {% extends "layout.html" %}
-
 {% block header %}
 <title>
     {%if title %}
@@ -12,8 +11,8 @@
 {% block content %}
 <section class="section">
     <div class="container mt-5">
-        <h1 class="text-center">Contact Us</h1><br />
-        <form method="POST" action="{{ url_for('board_bp.general_add_message') }}">
+        <h1 class="text-center">Reply message</h1><br />
+        <form method="POST" action="{{ url_for('board_bp.reply_message', id=message.id) }}">
             {{ form.hidden_tag() }}  <!-- CSRF Token -->
             <div class="field">
                 <label class="label">{{ form.name.label }}</label>
@@ -41,5 +40,6 @@
             </div>
         </form>
     </div>
-</section>
-{% endblock %}
+    </section>
+    {% endblock %}
+

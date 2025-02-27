@@ -10,42 +10,40 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
     <h1 class="text-center">Message board</h1>
-    <table class="table table-striped mt-5">
-        <thead>
-            <tr>
-                <th>Date(UTC)</th>
-                <th>Name</th>
-                <th>email</th>
-                <th>message</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for message in messages %}
-            <tr>
-                <td>{{ message.timestamp }}</td>
-                <td>{{ message.name }}</td>
-                <td>{{ message.email }}</td>
-                <td>{{ message.message }}</td>
-                <td>
-                    <!-- Link to Update message -->
-                    <a href="{{ url_for('board_bp.update_message', id=message.id) }}" class="btn btn-warning">Update</a>
-
-                    <!-- Form to Delete a message -->
-                    <form method="POST" action="{{ url_for('board_bp.delete_message', id=message.id) }}" style="display:inline;">
-                        {{ form.hidden_tag() }}  <!-- Add CSRF token -->
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <!-- Link to Add message -->
-    <a href="{{ url_for('board_bp.add_message') }}" class="btn btn-primary">Add message</a>
-</div>
+    <section class="section">
+        <div class="container mt-5">
+            <table class="table is-striped is-hoverable">
+                <thead>
+                    <tr>
+                        <th>Date(UTC)</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                    <tr>
+                        <td>{{ message.timestamp }}</td>
+                        <td>{{ message.name }}</td>
+                        <td>{{ message.message }}</td>
+                        <td>{{ message.email }}</td>
+                        <td>
+                            <a href="{{ url_for('board_bp.reply_message', id=message.id) }}" class="button is-primary">Reply</a>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('board_bp.delete_message', id=message.id) }}" style="display:inline;">
+                                {{ form.hidden_tag() }}  <!-- Add CSRF token -->
+                                <button type="submit" class="button is-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
 
 {% endblock %}

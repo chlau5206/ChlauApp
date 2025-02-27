@@ -1,7 +1,6 @@
 # Contact_Us/Contact_Us.py -- Contains the routes and CRUD operations
 
 from os import error
-from venv import logger
 from flask import render_template, request, redirect, url_for, flash, session, current_app
 from flask_login import login_required, current_user
 #from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,6 +11,8 @@ from email.policy import default
 from mailbox import Message
 from smtplib import SMTPException
 
+import logging
+
 from .. import db
 from .. import login_manager
 from .. import mail
@@ -20,6 +21,7 @@ from . import board_bp  # Contact_Us_bp blueprint
 from .BoardForm import BoardForm
 
 ENTRY_LIMIT = 200
+logger = logging.getLogger(__name__)
 
 ''' class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -154,15 +156,25 @@ def general_add_message():
 
 @board_bp.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
-def update_message(id):       # U = Update
+def reply_message(id):       # U = Update
     current_app.logger.debug ('message-update route accessed.')
     stored_message = Board.query.get_or_404(id)
-    form = BoardForm(obj=stored_message)
+    sform = BoardForm(obj=stored_message)
+
     try: 
-        if form.validate_on_submit():
-            stored_message.name = form.name.data
-            stored_message.email = form.email.data
-            stored_message.message = form.message.data
+        current_entries = Board.query.count()  # Get the current number of entries
+    
+        if current_entries >= ENTRY_LIMIT:
+            flash('The database has reached its limit of entries. Cannot add more message.', 'danger')
+            return redirect(url_for('board_bp.show_message'))
+
+
+        if sform.validate_on_submit():
+           
+            replied_message = Board(name=sform.name.data, 
+                                    email=sform.email.data,
+                                    message=sform.message.data)
+            db.session.add(replied_message)
             db.session.commit()
             flash('Message updated successfully!', 'success')
             return redirect(url_for('board_bp.show_message'))
@@ -176,7 +188,8 @@ def update_message(id):       # U = Update
         flash (f'An unexpected error occurred: {e}', 'error')
         logger.error(f'An unexpected error occurred: {e}')
 
-    return render_template('Board/board_update.html', form=form, message=stored_message)
+    
+    return render_template('Board/board_reply.html', form=sform, message=stored_message)
 
 @board_bp.route('/delete/<int:id>', methods=['POST'])
 @login_required

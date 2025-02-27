@@ -1,15 +1,17 @@
 ## admin.py
 
 from os import error
-from venv import logger
 from flask import render_template, redirect, url_for, request, flash, session, current_app
 from flask_login import login_required, login_user, logout_user, current_user
 from datetime import datetime, timedelta
+import logging
 
 from .. import db
 from .. import login_manager
 
 from . import members_bp
+
+logger = logging.getLogger(__name__)
 
 def get_local_time():
     import pytz
@@ -41,12 +43,13 @@ def check_session_timeout():
 @members_bp.route('/member')
 @login_required
 def member():
-    logger.debug('membership route accessed.')
+    user_name = current_user.username
+    logger.debug(f'{user_name}, enter member route accessed.')
     
     return render_template(
         "members/members.html",
         title="Member",
-        name=current_user.username.capitalize() ,
+        name=user_name.capitalize(),
         date=get_local_time()
     )
 

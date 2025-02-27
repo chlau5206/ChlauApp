@@ -11,12 +11,16 @@ from sqlalchemy import inspect
 from flask_wtf import FlaskForm
 # from flask_login import current_user, login_required
 from datetime import datetime
+
 import os
+
 
 from . import db
 from . import FormModule   # contactUsModule import contactForm
 from .models import get_local_time
 
+import logging
+logger = logging.getLogger(__name__)
 
 #  create Blueprint
 from flask import Blueprint
@@ -29,7 +33,7 @@ main = Blueprint('main', __name__)
 @main.route("/")
 @main.route("/home/")
 def home():      # Completed
-    current_app.logger.debug("Home route accessed")
+    logger.debug("Home route accessed")
     return render_template("home.html", 
                            title="Home page", 
                            app_name = current_app.config['APP_NAME'], 
@@ -41,7 +45,7 @@ def about():     # completed
 
 @main.route("/contact/", methods=["GET", "POST"])
 def contact():
-    current_app.logger.info ("Contact us route accessed")
+    logger.info ("Contact us route accessed")
     cform = FormModule.contactForm()
     return render_template("contact.html", 
                            title="Contact Us",
@@ -49,7 +53,7 @@ def contact():
 
 @main.route("/exchangeRate/")
 def exchangeRate():   
-    current_app.logger.debug ("Exchange Rate route accessed")
+    logger.debug ("Exchange Rate route accessed")
     return render_template("exchangeRate.html",
                            title="Exchange Rate")
 
@@ -65,18 +69,18 @@ def load_exchange_rate():
 
         with open(FILE_PATH, "r") as rate:
             data = json.load(rate)   # read this file and convert the content into a Python dictionary
-            current_app.logger.debug('Data loaded successfully')
+            logger.debug('Data loaded successfully')
         return jsonify(data)  # Use jsonify to convert the Python dictionary back into JSON format
     except FileNotFoundError:
         return jsonify({"error": "Data not found"}), 404  # Return a 404 error
     except json.JSONDecodeError as e:
-        current_app.logger.error(f"Error in /loaddata: {e}")
+        logger.error(f"Error in /loaddata: {e}")
         return jsonify({"error": "Invalid JSON data"}), 500  # Return a 500 error
     except IOError as e:
         if not os.path.exists(os.path.dirname(FILE_PATH)): 
-            current_app.logger.error('Error: The directory does not exist. {e}')
+            logger.error('Error: The directory does not exist. {e}')
     except ValueError:
-        current_app.logger.error("Error: Incorrect value.")
+        logger.error("Error: Incorrect value.")
     except Exception as exception:
-        current_app.logger.error(f"Error: An unexpected error occurred: {exception}")
+        logger.error(f"Error: An unexpected error occurred: {exception}")
 

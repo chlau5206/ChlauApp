@@ -11,6 +11,7 @@ from logging.handlers import RotatingFileHandler
 
 from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 from flask_mail import Mail, Message
@@ -21,6 +22,7 @@ from flask_mail import Mail, Message
 # from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 
 db = SQLAlchemy()
+migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
 mail = Mail()
@@ -77,10 +79,14 @@ def create_app():
     # from .ContactUs import ContactUs_bp
     app.register_blueprint(board_bp, url_prefix='/board')
 
-    # from .students import students_bp  # Import students the blueprint
-    # app.register_blueprint(students_bp, url_prefix='/students')  # Register the blueprint with a URL prefix
+    # Initialize extensions
+    db.init_app(app)  # Initialize SQLAlchemy with the Flask app
+    
+    # Set up Flask-Migrate
+    migrate.init_app(app, db)
 
-    ########################################
+    
+    #######################################
     # Logging
 
     # Ensure the logs directory exists
@@ -120,6 +126,8 @@ def create_app():
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
+    
+
     ''' logger usage:
         # Log messages at different levels
         logger.debug('This is a debug message')
@@ -132,13 +140,12 @@ def create_app():
     ########################################
     # init database
     try: 
-        db.init_app(app)
+        
         with app.app_context():
             db.create_all() # Create tables if they don't exist
-    except Exception as exception:
-        print (f'An unexpected SQL error occurred: {e}')
-
-
+            logger.info('Database tables created successfully')
+    except Exception as e:
+        logger.exception (f'An unexpected SQL error occurred: {e}')
 
     ########################################
     # ## User Create/login 
@@ -160,20 +167,16 @@ def create_app():
     # ########################################
     # # init mail 
     mail.init_app(app)
-
-    # # for bootstrap --- obs
-    # Bootstrap(app)
-    # print ("Bootstrap() init completed.")
-
     
+    app.logger.info('Flask application has started')
+
     return app
 
 
 ################################################################
-#    Main process                                              #
+#    Main process  ---- old codes                              #
 ################################################################
 # app = create_app()
 # print("setup completed.")
-
 
 # from . import views # , admin 

@@ -12,7 +12,7 @@
 {% block content %}
 <div class="container mt-5">
     <h1 class="text-center">Member add message</h1>
-    <form method="POST" action="{{ url_for('board_bp.add_message') }}">
+    <form method="POST" action="{{ url_for('board_bp.reply_message', id=message.id) }}">
         {{ form.hidden_tag() }}  <!-- CSRF Token -->
         <div class="form-group">
             {{ form.name.label(class="form-label") }}
