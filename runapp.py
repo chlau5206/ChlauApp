@@ -8,6 +8,16 @@ import sys
 from ChlauApp import create_app
 
 if __name__ == '__main__':
+    #####################################
+    ## Visual Studio settings
+    # HOST = environ.get('SERVER_HOST', 'localhost')
+    # try:
+    #     PORT = int(environ.get('SERVER_PORT', '5000'))
+    # except ValueError:
+    #     PORT = 5555
+    
+    # print (f'host={HOST};port={PORT}')
+    # app.run(HOST, PORT)
 
     #####################################
     ## Check Python at lease version 3.10
@@ -15,6 +25,7 @@ if __name__ == '__main__':
     if not (sys.version_info.major == 3 and sys.version_info.minor >= 10):
         print("*** Python 3.10 or higher is required ***")
         sys.exit(1)    # fail. 
+
         
     app = create_app()
     app.run()

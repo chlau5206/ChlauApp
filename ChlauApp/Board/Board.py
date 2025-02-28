@@ -6,6 +6,8 @@ from flask_login import login_required, current_user
 #from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 # from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 from email.policy import default
 from mailbox import Message
@@ -13,12 +15,14 @@ from smtplib import SMTPException
 
 import logging
 
+import sqlalchemy.exc
+
 from .. import db
 from .. import login_manager
 from .. import mail
-from ..models import Board, roles_required, get_local_time, SQL_exception
+from ..models import  roles_required, get_local_time, handle_exception
 from . import board_bp  # Contact_Us_bp blueprint
-from .BoardForm import BoardForm
+from .BoardModels import Board, BoardForm
 
 ENTRY_LIMIT = 200
 logger = logging.getLogger(__name__)
@@ -90,37 +94,6 @@ def show_message():
     messages = Board.query.all()
     return render_template('Board/board.html', messages=messages, form=form)
 
-@board_bp.route('/add', methods=['GET', 'POST'])
-@login_required
-def add_message():           # C = Create
-    current_app.logger.debug('Board-add route accessed')
-    
-    try: 
-        current_entries = Board.query.count()  # Get the current number of entries
-    
-        if current_entries >= ENTRY_LIMIT:
-            flash('The database has reached its limit of entries. Cannot add more message.', 'danger')
-            return redirect(url_for('board_bp.show_message'))
-
-        sform = BoardForm()
-        if sform.validate_on_submit():
-            new_message = Board(name=sform.name.data, 
-                                    email=sform.email.data,
-                                    message=sform.message.data)
-            db.session.add(new_message)
-            db.session.commit()
-            flash('Message added successfully!', 'success')
-            return redirect(url_for('board_bp.show_message'))
-    except (SQLAlchemyError, IntegrityError, OperationalError) as e:
-        db.session.rollback()
-        error_message = SQL_exception(e)
-        flash (f'SQL commit error: {error_message}', 'error')
-        logger.error (f'SQL commit error: {error_message}') 
-    except Exception as exception:
-        flash (f'An unexpected error occurred: {e}', 'error')
-        logger.error(f'An unexpected error occurred: {e}')
-
-    return render_template('Board/board_add.html', form=sform)
 
 @board_bp.route('/general_add', methods=['GET', 'POST'])
 def general_add_message():
@@ -147,7 +120,7 @@ def general_add_message():
         error_message = SQL_exception(e)
         flash (f'SQL commit error: {error_message}', 'error')
         logger.error (f'SQL commit error: {error_message}') 
-    except Exception as exception:
+    except Exception as e:
         flash (f'An unexpected error occurred: {e}', 'error')
         logger.error(f'An unexpected error occurred: {e}')
 
@@ -156,6 +129,7 @@ def general_add_message():
 
 @board_bp.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
+@roles_required('sa', 'member')  # Only admins can register new users
 def reply_message(id):       # U = Update
     current_app.logger.debug ('message-update route accessed.')
     stored_message = Board.query.get_or_404(id)
@@ -176,17 +150,24 @@ def reply_message(id):       # U = Update
                                     message=sform.message.data)
             db.session.add(replied_message)
             db.session.commit()
-            flash('Message updated successfully!', 'success')
+            flash(f'client={name} message replied!', 'success')
             return redirect(url_for('board_bp.show_message'))
 
-    except (SQLAlchemyError, IntegrityError, OperationalError) as e:
-        db.session.rollback()
-        error_message = SQL_exception(e)
-        flash (f'SQL commit error: {error_message}', 'error')
-        logger.error (f'SQL commit error: {error_message}') 
-    except Exception as exception:
-        flash (f'An unexpected error occurred: {e}', 'error')
-        logger.error(f'An unexpected error occurred: {e}')
+    # except (SQLAlchemyError, IntegrityError, OperationalError) as e:
+    # # except sqlalchemy.exc as e:
+    #     db.session.rollback()
+    #     error_message = SQL_exception(e)
+    #     flash (f'SQL commit error: {error_message}', 'error')
+    #     logger.error (f'SQL commit error: {error_message}') 
+    # except Exception as e:
+    #     flash (f'An unexpected error occurred: {e}', 'error')
+    #     logger.error(f'An unexpected error occurred: {e}')
+
+    except Exception as e:
+            error_message = handle_exception(e) 
+            flash (f'{error_message}', 'error')
+            logger.error(f'{error_message}')
+
 
     
     return render_template('Board/board_reply.html', form=sform, message=stored_message)
@@ -201,28 +182,55 @@ def delete_message(id):      # R = Remove
         db.session.delete(stored_message)
         db.session.commit()
 
-    except (SQLAlchemyError, IntegrityError, OperationalError) as e:
-        db.session.rollback()
-        error_message = SQL_exception(e)
-        flash (f'SQL commit error: {error_message}', 'error')
-        logger.error (f'SQL commit error: {error_message}') 
-    except Exception as exception:
-        flash (f'An unexpected error occurred: {e}', 'error')
-        logger.error(f'An unexpected error occurred: {e}')
+    except Exception as e:
+        error_message = handle_exception(e) 
+        flash (f'{error_message}', 'error')
+        logger.error(f'{error_message}')
 
     flash('Message deleted successfully!', 'success')
     return redirect(url_for('board_bp.show_message'))
 
+""" no add message needed. 
+@board_bp.route('/add', methods=['GET', 'POST'])
+@login_required
+@roles_required('sa', 'member')
+def add_message():           # C = Create
+    current_app.logger.debug('Board-add route accessed')
+    
+    try: 
+        current_entries = Board.query.count()  # Get the current number of entries
+    
+        if current_entries >= ENTRY_LIMIT:
+            flash('The database has reached its limit of entries. Cannot add more message.', 'danger')
+            return redirect(url_for('board_bp.show_message'))
 
+        sform = BoardForm()
+        if sform.validate_on_submit():
+            new_message = Board(name=sform.name.data, 
+                                    email=sform.email.data,
+                                    message=sform.message.data)
+            db.session.add(new_message)
+            db.session.commit()
+            flash('Message added successfully!', 'success')
+            return redirect(url_for('board_bp.show_message'))
+    # except (SQLAlchemyError, IntegrityError, OperationalError) as e:
+    #     db.session.rollback()
+    #     error_message = SQL_exception(e)
+    #     flash (f'SQL commit error: {error_message}', 'error')
+    #     logger.error (f'SQL commit error: {error_message}') 
+    except Exception as e:
+            error_message = handle_exception(e) 
+            flash (f'{error_message}', 'error')
+            logger.error(f'{error_message}')
 
-
-
-
-
-# def send_email(Message):
-#     current_app.logger.debug('message-mail route access.')
-#     msg = Message('New Message Added',
-#                   sender='your_email@gmail.com',
-#                   recipients=['recipient@example.com'])
-#     msg.body = f'Name: {Message.name}\nCourse: {Message.course}\nGrade: {Message.grade}'
-#     mail.send(msg)
+    return render_template('Board/board_add.html', form=sform)
+""" 
+""" send email feature not implemented
+def send_email(Message):
+    current_app.logger.debug('message-mail route access.')
+    msg = Message('New Message Added',
+                  sender='your_email@gmail.com',
+                  recipients=['recipient@example.com'])
+    msg.body = f'Name: {Message.name}\nCourse: {Message.course}\nGrade: {Message.grade}'
+    mail.send(msg)
+"""

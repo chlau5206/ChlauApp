@@ -1,7 +1,6 @@
 ''' Flask web page -- views.py
 '''
 from os import error
-from venv import logger
 from flask import render_template, request, redirect, url_for, flash, session, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -17,7 +16,7 @@ import os
 
 from . import db
 from . import FormModule   # contactUsModule import contactForm
-from .models import get_local_time
+from .models import get_local_time, handle_exception
 
 import logging
 logger = logging.getLogger(__name__)
@@ -76,11 +75,14 @@ def load_exchange_rate():
     except json.JSONDecodeError as e:
         logger.error(f"Error in /loaddata: {e}")
         return jsonify({"error": "Invalid JSON data"}), 500  # Return a 500 error
-    except IOError as e:
-        if not os.path.exists(os.path.dirname(FILE_PATH)): 
-            logger.error('Error: The directory does not exist. {e}')
+    # except IOError as e:
+    #     if not os.path.exists(os.path.dirname(FILE_PATH)): 
+    #         logger.error(f'Error: The directory does not exist. {e}')
+    #     else:
+    #         logger.error(f'IO Error: {e}')
     except ValueError:
         logger.error("Error: Incorrect value.")
-    except Exception as exception:
-        logger.error(f"Error: An unexpected error occurred: {exception}")
+    except Exception as e:
+        error_message = handle_exception(e) 
+        logger.error(error_message)
 

@@ -11,7 +11,10 @@ class AuthForm(FlaskForm):
                          choices=[
                              ('member', 'Member'), 
                              ('guest', 'Guest'),
-                             ('sa', 'SA')],
+                             ('dev','Dev'),
+                             ('sa', 'SA')
+                             ],
+                                
                          validators=[DataRequired()]
                          )
     submit = SubmitField(label="Submit") 

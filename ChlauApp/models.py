@@ -1,18 +1,20 @@
 # # models.py
+import os, sqlalchemy, smtplib
+import pytz
+import logging
 
 from flask import current_app, render_template, session, redirect, url_for, flash
 from flask_login import UserMixin, current_user
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Nullable, Text
+from sqlalchemy import CheckConstraint
 from sqlalchemy.sql import func
-from sqlalchemy.exc import *
-# SQLAlchemyError, IntegrityError, OperationalError
+from sqlalchemy.exc import  SQLAlchemyError, IntegrityError, OperationalError,ProgrammingError,DataError, InternalError
 from email.policy import default
 from mailbox import Message
 from smtplib import SMTPException
 from datetime import datetime
 
-import logging
+
 logger = logging.getLogger(__name__)
 
 # from datetime import datetime
@@ -20,54 +22,19 @@ from . import db
 
 class User(UserMixin, db.Model):
     # from flask_login import UserMixin
-    
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(250), unique=True, nullable=False)
-    password = db.Column(db.String(250), nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
     role = db.Column(db.String(10), nullable=False)    # Add role field
+    __table_args__ = (
+        CheckConstraint("username = LOWER(username)", name='check_username_lowercase'),
+    )
 
     def __repr__(self):
         return f"<User(username='{self.username}', role='{self.role}', password='{self.password}')>"
 
-class Board(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    message = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime,
-                          default=func.current_timestamp(),
-                          onupdate=func.current_timestamp())  # Add onupdate parameter) # Add the timestamp column
-
-    def __repr__(self):
-        return f"<message {self.name[:30]} {self.email[:30]} {self.message} {self.timestamp}>"
-        
-
-def SQL_exception(e):
-    if isinstance(e, IntegrityError):
-        logger.error(f'IntegrityError: {e.orig}\n{traceback.format_exc()}')
-        return 'Integrity error occurred.'
-    elif isinstance(e, OperationalError):
-        logger.error(f'OperationalError: {e.orig}\n{traceback.format_exc()}')
-        return 'Operational error occurred.'
-    elif isinstance(e, ProgrammingError):
-        logger.error(f'ProgrammingError: {e.orig}\n{traceback.format_exc()}')
-        return 'Programming error occurred.'
-    elif isinstance(e, DataError):
-        logger.error(f'DataError: {e.orig}\n{traceback.format_exc()}')
-        return 'Data-related error occurred.'
-    elif isinstance(e, InternalError):
-        logger.error(f'InternalError: {e.orig}\n{traceback.format_exc()}')
-        return 'Internal database error occurred.'
-    elif isinstance(e, SQLAlchemyError):
-        logger.error(f'SQLAlchemyError: {e.orig}\n{traceback.format_exc()}')
-        return 'A database error occurred.'
-    else:
-        logger.error(f'UnexpectedError: {e}\n{traceback.format_exc()}')
-        return 'An unexpected error occurred.'
 
 def get_local_time():
-    from datetime import datetime
-    import pytz
 
     local_timezone = pytz.timezone('America/Los_Angeles') 
     utc_time = datetime.utcnow()
@@ -75,19 +42,69 @@ def get_local_time():
 
     return local_time
 
+from functools import wraps
 def roles_required(*roles):
-    from functools import wraps
-
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if  current_user.role not in roles:
-                logger.warning ('Invalid user attemped to login' )
+                logger.warning ('User access the page is not permissed.' )
                 flash('You do not have permission to access this page.', 'danger')
-                return redirect(url_for('auth_bp.login'))
+                return redirect(url_for('members_bp.member'))
             return f(*args, **kwargs)
         return decorated_function
     return decorator
+
+def handle_exception(e):  # first version
+    SQLE = (SQLAlchemyError, IntegrityError, OperationalError, 
+            ProgrammingError, DataError,InternalError)
+
+    if isinstance(e, IOError):
+        return "I/O exception: {}".format(e)
+    elif isinstance(e, smtplib.SMTPException):
+        return "SMTP exception: {}".format(e.strerror)
+    elif isinstance(e, SQLE):
+        db.session.rollback()
+        logger.warning('database session rollback.')
+        return "SQL exception: {}".format(e)
+
+    # elif isinstance(e, IntegrityError):
+    #     db.session.rollback()
+    #     logger.error(f'SQL IntegrityError: {e.orig}')
+    #     return 'SQL Integrity exception: {}'.format(e)
+    # elif isinstance(e, OperationalError):
+    #     db.session.rollback()
+    #     logger.error(f'SQL OperationalError: {e.orig}')
+    #     return 'SQL Operational exception: {}'.format(e)
+    # elif isinstance(e, ProgrammingError):
+    #     db.session.rollback()
+    #     logger.error(f'SQL ProgrammingError: {e.orig}')
+    #     return 'SQL Programming exception: {}'.format(e)
+    # elif isinstance(e, DataError):
+    #     db.session.rollback()
+    #     logger.error(f'SQL DataError: {e.orig}')
+    #     return 'SQL Data-related exception: {}'.format(e)
+    # elif isinstance(e, InternalError):
+    #     db.session.rollback()
+    #     logger.error(f'sQL InternalError: {e.orig}')
+    #     return 'SQL Internal database exception: {}'.format(e)
+    # elif isinstance(e, SQLAlchemyError):
+    #     db.session.rollback()
+    #     logger.error(f'SQLAlchemyError: {e.orig}')
+    #     return 'SQL database exception: {}'.format(e)
+    else:
+        logger.error(f'UnexpectedError: {e}')
+        return "An unexpected exception: {}".format(e)
+
+
+# Example usage
+# try:
+#     # Some code that might raise an exception
+#     raise IOError("File not found")
+# except Exception as e:
+#     error_message = handle_exception(e)
+#     print(error_message)
+
 
 ##############################################
 # made dropdown list dynamic by populating them with data fetched from database

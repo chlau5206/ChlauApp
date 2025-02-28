@@ -29,7 +29,7 @@ mail = Mail()
 FLASK_ENV = ''
 
 def create_app():
-    from .models import User, SQL_exception, get_local_time
+    from .models import User, handle_exception, get_local_time
     # from .models import User
     
     # Load environment variables from .env file
@@ -126,8 +126,6 @@ def create_app():
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
-    
-
     ''' logger usage:
         # Log messages at different levels
         logger.debug('This is a debug message')
@@ -136,16 +134,16 @@ def create_app():
         logger.error('This is an error message')
         logger.critical('This is a critical message')
     '''
-
     ########################################
     # init database
     try: 
         
         with app.app_context():
             db.create_all() # Create tables if they don't exist
-            logger.info('Database tables created successfully')
+            logger.info('init: Database tables created successfully')
     except Exception as e:
-        logger.exception (f'An unexpected SQL error occurred: {e}')
+        error_message = handle_exception(e) 
+        logger.error (f'An unexpected SQL error occurred: {error_message}')
 
     ########################################
     # ## User Create/login 
