@@ -5,7 +5,7 @@ This script is for the ChlauApp application's entry point.
 ''' runapp.py
 '''
 import sys
-from ChlauApp import create_app
+from ChlauApp import app
 
 if __name__ == '__main__':
     #####################################
@@ -27,7 +27,7 @@ if __name__ == '__main__':
         sys.exit(1)    # fail. 
 
         
-    app = create_app()
+    
     app.run()
     
     

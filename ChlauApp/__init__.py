@@ -14,7 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
-from flask_mail import Mail, Message
+from flask_mail import Mail #, Message
 
 # from flask_bootstrap import Bootstrap
 
@@ -174,7 +174,4 @@ def create_app():
 ################################################################
 #    Main process  ---- old codes                              #
 ################################################################
-# app = create_app()
-# print("setup completed.")
-
-# from . import views # , admin 
+app = create_app()
