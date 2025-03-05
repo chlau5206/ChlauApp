@@ -12,9 +12,8 @@
 
 </head>
 <body>
-
     <!-- Nav Bar -->
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="{{ url_for('main.home') }}">
                 <img src="{{ url_for('static', filename='img/AlohaFriday.jpg') }}" alt="Logo" class="logo">
@@ -36,15 +35,13 @@
             </div>
         </div>
     </nav>
-
+    <br />
     <!-- Your content goes here -->
     {% block content %}
+
     {% endblock %}
     <br />
     <br />
-    <br />
-
-
     <footer>
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=True) %}

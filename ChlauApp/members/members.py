@@ -47,7 +47,7 @@ def member():
     logger.debug(f'{user_name}, enter member route accessed.')
     
     return render_template(
-        "members/members.html",
+        "members.html",
         title="Member",
         name=user_name.capitalize(),
         date=get_local_time()

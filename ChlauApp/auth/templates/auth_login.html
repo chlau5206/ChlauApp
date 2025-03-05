@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+
 {% block header %}
 <title>
     {%if title %}
@@ -8,11 +9,11 @@
 </title>
 {% endblock %}
 
-{% block content %}
 
+{% block content %}
 <div class="container mt-5">
-    <h1 class="text-center">Update Student</h1>
-    <form method="POST" action="{{ url_for('auth_bp.update_user', id=user.id) }}">
+    <h2 class="text-center">Member login</h2>
+    <form method="POST" action="{{ url_for('auth_bp.login') }}">
         {{ form.hidden_tag() }}  <!-- CSRF Token -->
         <div class="form-group">
             {{ form.username.label(class="form-label") }}
@@ -23,15 +24,10 @@
             {{ form.password(class="form-control") }}
         </div>
         <div class="form-group">
-            {{ form.role.label(class="form-label") }}
-            {{ form.role(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-primary") }}
+            {{ form.submit(class="button is-primary") }}
         </div>
     </form>
 
 </div>
 
 {% endblock %}
-

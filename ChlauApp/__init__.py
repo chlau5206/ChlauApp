@@ -3,12 +3,12 @@ The flask application package.
 """
 
 import os
-from sqlite3 import IntegrityError
-from dotenv import load_dotenv
 import sys
 import logging
 from logging.handlers import RotatingFileHandler
+#from sqlite3 import IntegrityError
 
+from dotenv import load_dotenv
 from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -17,7 +17,6 @@ from flask_wtf import CSRFProtect
 from flask_mail import Mail #, Message
 
 # from flask_bootstrap import Bootstrap
-
 # from .models import SQL_exception
 # from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 
@@ -27,6 +26,58 @@ csrf = CSRFProtect()
 login_manager = LoginManager()
 mail = Mail()
 FLASK_ENV = ''
+
+#######################################
+#  create Logging
+def create_logger(app):
+    
+    # Ensure the logs directory exists
+    log_directory = os.path.join(app.root_path, 'logs')
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+
+    # Create a formatter
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+    # Create a rotating file handler
+    file_handler = RotatingFileHandler(       # 10MB 
+        os.path.join(log_directory, 'app.log'), maxBytes=10*1024*1024, backupCount=5)
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
+
+    # Create a stream handler for console output
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.DEBUG)
+    stream_handler.setFormatter(formatter)
+
+    # Add handlers to the app logger
+    app.logger.addHandler(file_handler)
+    app.logger.addHandler(stream_handler)
+    app.logger.setLevel(logging.DEBUG)
+
+    # Get the named logger
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+
+    # Clear existing handlers to avoid duplicates
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+
+    ''' logger usage:
+        # Log messages at different levels
+        logger.debug('This is a debug message')
+        logger.info('This is an info message')
+        logger.warning('This is a warning message')
+        logger.error('This is an error message')
+        logger.critical('This is a critical message')
+    '''
+
+    return logger
 
 def create_app():
     from .models import User, handle_exception, get_local_time
@@ -43,21 +94,24 @@ def create_app():
     app = Flask(__name__) 
     
     # Load configurations from environment variables
-    app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "production") # [development | production]
     app.config['FLASK_APP'] = os.getenv("FLASK_APP", 'runapp.py') 
-    app.config['APP_NAME'] = os.getenv("APP_NAME", 'ChlauApp')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
+    app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
+    
+    
+    app.config['APP_NAME'] = os.getenv("APP_NAME", 'ChlauApp')    
+    app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "production") # [development | production]
     app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
     app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///system.db')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')
     app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.mail_provider.com')
-    app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
-    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@mail_provider.com')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'password')
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'Secret') 
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
+
     
     print (f"App Name = {os.getenv('APP_NAME')}")
     FLASK_ENV = {app.config['FLASK_ENV']}
@@ -89,6 +143,9 @@ def create_app():
     #######################################
     # Logging
 
+    logger = create_logger(app)
+
+    """
     # Ensure the logs directory exists
     log_directory = os.path.join(app.root_path, 'logs')
     if not os.path.exists(log_directory):
@@ -126,14 +183,15 @@ def create_app():
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
-    ''' logger usage:
+     logger usage:
         # Log messages at different levels
         logger.debug('This is a debug message')
         logger.info('This is an info message')
         logger.warning('This is a warning message')
         logger.error('This is an error message')
         logger.critical('This is a critical message')
-    '''
+    """
+
     ########################################
     # init database
     try: 

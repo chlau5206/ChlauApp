@@ -12,6 +12,7 @@ from sqlalchemy.exc import  SQLAlchemyError, IntegrityError, OperationalError,Pr
 from email.policy import default
 from mailbox import Message
 from smtplib import SMTPException
+from werkzeug.exceptions import HTTPException
 from datetime import datetime
 
 
@@ -56,42 +57,20 @@ def roles_required(*roles):
     return decorator
 
 def handle_exception(e):  # first version
-    SQLE = (SQLAlchemyError, IntegrityError, OperationalError, 
+    SQLERROR = (SQLAlchemyError, IntegrityError, OperationalError, 
             ProgrammingError, DataError,InternalError)
 
     if isinstance(e, IOError):
         return "I/O exception: {}".format(e)
     elif isinstance(e, smtplib.SMTPException):
         return "SMTP exception: {}".format(e.strerror)
-    elif isinstance(e, SQLE):
+    elif isinstance(e, SQLERROR):
         db.session.rollback()
         logger.warning('database session rollback.')
         return "SQL exception: {}".format(e)
-
-    # elif isinstance(e, IntegrityError):
-    #     db.session.rollback()
-    #     logger.error(f'SQL IntegrityError: {e.orig}')
-    #     return 'SQL Integrity exception: {}'.format(e)
-    # elif isinstance(e, OperationalError):
-    #     db.session.rollback()
-    #     logger.error(f'SQL OperationalError: {e.orig}')
-    #     return 'SQL Operational exception: {}'.format(e)
-    # elif isinstance(e, ProgrammingError):
-    #     db.session.rollback()
-    #     logger.error(f'SQL ProgrammingError: {e.orig}')
-    #     return 'SQL Programming exception: {}'.format(e)
-    # elif isinstance(e, DataError):
-    #     db.session.rollback()
-    #     logger.error(f'SQL DataError: {e.orig}')
-    #     return 'SQL Data-related exception: {}'.format(e)
-    # elif isinstance(e, InternalError):
-    #     db.session.rollback()
-    #     logger.error(f'sQL InternalError: {e.orig}')
-    #     return 'SQL Internal database exception: {}'.format(e)
-    # elif isinstance(e, SQLAlchemyError):
-    #     db.session.rollback()
-    #     logger.error(f'SQLAlchemyError: {e.orig}')
-    #     return 'SQL database exception: {}'.format(e)
+    elif isinstance(e,HTTPException ):
+        error_message = f'HTTP Exception:{e.code}:{e.name}:{e.description}'
+        return error_message
     else:
         logger.error(f'UnexpectedError: {e}')
         return "An unexpected exception: {}".format(e)

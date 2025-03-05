@@ -1,7 +1,12 @@
 /* styles.css */
 
 body {
+    font-family: 'Noto Sans';
     margin: 5%; /* Set the margin to 5% */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Sans Display', sans-serif;
 }
 
 .logo {
@@ -11,6 +16,27 @@ body {
 
 .navbar-item img {
     max-height: 3rem; /* Adjust the height as needed */
+}
+
+.custom-navbar {
+    background-color: #3498db; /* Example: custom blue */
+    color: white; /* Text color */
+}
+
+.custom-cell {
+    background-color: #eee;
+    width: 400px;
+    height: 200px;
+    vertical-align: top;
+}
+
+footer {
+    font-size: 9pt;
+    font-style: italic;
+    line-height: 12pt;
+    color: Blue;
+    text-align: center;
+    padding-top: 30pt;
 }
 
 @media screen and (max-width: 499px) {

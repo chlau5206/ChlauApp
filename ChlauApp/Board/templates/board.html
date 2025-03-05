@@ -10,9 +10,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Message board</h1>
-    <section class="section">
-        <div class="container mt-5">
+<h1 class="text-center">Message board</h1>
+<section class="section">
+    <div class="container mt-5">
+        {%if messages %}
             <table class="table is-striped is-hoverable">
                 <thead>
                     <tr>
@@ -31,7 +32,7 @@
                         <td>{{ message.message }}</td>
                         <td>{{ message.email }}</td>
                         <td>
-                            <a href="{{ url_for('board_bp.reply_message', id=message.id) }}" class="button is-primary">Reply</a>
+                            <a href="{{ url_for('board_bp.reply_message', id=message.id) }}" class="button is-warning">Reply</a>
                         </td>
                         <td>
                             <form method="POST" action="{{ url_for('board_bp.delete_message', id=message.id) }}" style="display:inline;">
@@ -43,7 +44,11 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </section>
+        {% else %}
+            No message in board
+        {% endif %}
+
+    </div>
+</section>
 
 {% endblock %}

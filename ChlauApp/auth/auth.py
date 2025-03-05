@@ -6,9 +6,9 @@ from flask import render_template, request, redirect, url_for, flash, session, c
 from flask_login import login_user, logout_user, login_required, current_user
 #import sqlalchemy
 #import sqlalchemy.exc
+# from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
-# from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 from email.policy import default
 #from mailbox import Message
 # from smtplib import SMTPException
@@ -30,7 +30,7 @@ ROLES = ('member', 'guest', 'sa', 'dev')
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():                                                      # Done
     logger.info ('Login route accessed.')
-    
+
     if User.query.first() == None:   
         logger.debug('Login: User table is empty. Route to create first user.')
         return redirect(url_for("auth_bp.create_first_user")) 
@@ -53,7 +53,7 @@ def login():                                                      # Done
     else:
         logger.debug('Login request not POST')
     
-    return render_template('auth/auth_login.html', form=aform)
+    return render_template('auth_login.html', form=aform)
 
 @auth_bp.route('/logout')
 @login_required
@@ -88,8 +88,11 @@ def remove_user(id):
     logger.debug('remove user route accessed.')
     try: 
         user = User.query.get_or_404(id)
-        db.session.delete(user)
-        db.session.commit()
+        if user.username == 'admin' and current_user.username != 'admin':  # only admin can delete admin
+            raise ValueError('You cannot delete Admin.')
+        else: 
+            db.session.delete(user)
+            db.session.commit()
 
     except Exception as e:
         error_message = handle_exception(e) 
@@ -107,20 +110,23 @@ def remove_user(id):
 def update_user(id):
     current_app.logger.debug('update user route accessed.')
     
-    user = User.query.get_or_404(id)
-    aform = AuthForm(obj=user)
     try: 
+        user = User.query.get_or_404(id)
+        aform = AuthForm(obj=user)
         if  aform.validate_on_submit():
             username = aform.username.data.lower().strip()
-            if not (username.isalnum() and 2<= len(username) <= 80):
-                flash('Invalid user name', 'error')
+            if username == 'admin' and not current_user.username : 
+                raise ValueError("Only Admin can change Admin.")
                 return render_template('auth/auth_update.html', form=aform, user=user)
+            elif not (username.isalnum() and 2<= len(username) <= 80):
+                flash('Invalid user name', 'error')
+                return render_template('auth_update.html', form=aform, user=user)
             else: 
                 user.username = username
             password = aform.password.data.strip()
             if not (username.isprintable() and 2 <= len(password) <= 80):
                 flash('Invalid password', 'error')
-                return render_template('auth/auth_update.html', form=aform, user=user)
+                return render_template('auth_update.html', form=aform, user=user)
             else: 
                 user.password = generate_password_hash(password, method='pbkdf2:sha256')
             # user.password = hashed_password
@@ -137,17 +143,17 @@ def update_user(id):
         logger.error(f'{error_message}')
 
     
-    return render_template('auth/auth_update.html', form=aform, user=user)
+    return render_template('auth_update.html', form=aform, user=user)
 
 @auth_bp.route('/main')
 @login_required
 @roles_required('sa')  # Only admins can register new users
 def display_user():
-    current_app.logger.debug('Manage membership route accessed.')
+    logger.debug('Manage membership route accessed.')
 
     aform = AuthForm()
     users = User.query.all()
-    return render_template('auth/auth_main.html', users=users, form=aform)
+    return render_template('auth_main.html', users=users, form=aform)
 
 @auth_bp.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -169,11 +175,11 @@ def register_user():
             username = request.form.get('username').lower().strip()
             if not (username.isalnum() and 2<= len(username) <= 80):
                 flash('Invalid user name', 'error')
-                return render_template('auth/auth_register.html', form=aform )
+                return render_template('auth_register.html', form=aform )
             password = request.form.get('password').strip()
             if not username.isprintable() and 2 <= len(password) <= 80:
                 flash('Invalid password', 'error')
-                return render_template('auth/auth_register.html', form=aform )
+                return render_template('auth_register.html', form=aform )
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
             role = request.form.get('role')
             new_user = User(username=username, 
@@ -191,7 +197,7 @@ def register_user():
         logger.error(f'{error_message}')
 
     
-    return render_template('auth/auth_register.html', form=aform )
+    return render_template('auth_register.html', form=aform )
 
 
 @auth_bp.route('/first', methods=['GET', 'POST'])
@@ -223,7 +229,7 @@ def create_first_user():
         flash (f'An unexpected error occurred: {error_message}', 'error')
         logger.error(f'An unexpected error occurred: {error_message}')
 
-    return render_template('auth/auth_first_user.html', form=aform)
+    return render_template('auth_first_user.html', form=aform)
 
 """ check if a vaild password:
 import re
