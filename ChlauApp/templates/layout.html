@@ -13,27 +13,27 @@
 </head>
 <body>
     <!-- Nav Bar -->
-    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="{{ url_for('main.home') }}">
-                <img src="{{ url_for('static', filename='img/AlohaFriday.jpg') }}" alt="Logo" class="logo">
-            </a>
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="target">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
 
-        <div id="target" class="navbar-menu">
-            <div class="navbar-start">
-                <!--<a class="navbar-item" href="{{ url_for('main.home') }}">ChLau App</a>-->
-                <a class="navbar-item" href="{{ url_for('main.exchangeRate') }}">Exchange Rate</a>
-                <a class="navbar-item" href="{{ url_for('board_bp.general_add_message') }}">Contact Us</a>
-                <a class="navbar-item" href="{{ url_for('main.about') }}">About</a>
-                <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member</a>
+    <nav class="navbar is-primary custom-navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ url_for('main.home') }}">
+                    <img src="{{ url_for('static', filename='img/AlohaFriday.jpg') }}" alt="Logo" class="logo">
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="target">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
             </div>
-        </div>
+
+            <div id="target" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{{ url_for('main.exchangeRate') }}">Exchange Rate</a>
+                    <a class="navbar-item" href="{{ url_for('board_bp.general_add_message') }}">Contact Us</a>
+                    <a class="navbar-item" href="{{ url_for('main.about') }}">About</a>
+                    <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member</a>
+                </div>
+            </div>
     </nav>
     <br />
     <!-- Your content goes here -->

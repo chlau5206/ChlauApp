@@ -14,4 +14,37 @@ https://chlau5206.pythonanywhere.com
 
 ## Note: Update codes
 1. SQLite databse needs rebuild.  Delete instance folder, it will recreate.
-1. 
+
+
+=====================================
+Automate this entire process—running Python code, copying files, and committing/pushing to 
+a Git repository—using a combination of Python scripting and Git hooks(e.g., pre-push hook).
+
+
+1. Write the Python Script to Generate the Supplement file
+import shutil
+
+def generate_file():
+    # Generate the supplementary file (example content)
+    with open("supplement.txt", "w") as f:
+        f.write("This is the generated supplement file.\n")
+    print("Supplement file generated.")
+
+def copy_file():
+    source = "supplement.txt"
+    destination = "/path/to/specific/folder/supplement.txt"  # Change to your folder
+    shutil.copy(source, destination)
+    print(f"File copied to {destination}.")
+
+if __name__ == "__main__":
+    generate_file()
+    copy_file()
+
+2. Set Up a Git Hook (e.g. pre-push)
+
+
+3. Push Your Changes to the Repository
+
+
+4. Optional Improvenments
+
