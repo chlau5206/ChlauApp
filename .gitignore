@@ -12,6 +12,7 @@
 test*.html
 FirstUser.html
 selections.js
+app.log
 
 
 instance/
