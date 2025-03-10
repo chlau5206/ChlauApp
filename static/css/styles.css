@@ -1,0 +1,80 @@
+/* styles.css */
+
+body {
+    font-family: 'Noto Sans';
+    margin: 5%; /* Set the margin to 5% */
+    background-color: #f0f0f0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Sans Display', sans-serif;
+}
+
+.logo {
+    height: 50px; /* Adjust the height as needed */
+    width: auto;
+}
+
+.navbar-item img {
+    max-height: 3rem; /* Adjust the height as needed */
+}
+
+.custom-navbar {
+    background-color: #3498db; /* Bright Sky Blue (Cool Medium Blue) */
+    color: midnightblue; /* Text color = white */
+    max-width: 500px; /* Set your custom width */
+    margin: 50px 0 0 0; /* Top 50px, 0 for other sides */
+    /* margin: 20px auto; /* 20px vertical margin, auto to center horizontally */
+    /* margin: 20px 10px; /* 20px vertical margin, 10px horizontal margin */
+    /* border: 2px solid red; ** debugging **/
+    padding: 1rem; /* Add some padding for spacing */
+}
+
+/* Ensure links inside the navbar inherit the color */
+.custom-navbar a {
+    color: inherit; /* Use the parent's color (#eee in this case) */
+    text-decoration: none; /* Optional: remove underline for links */
+}
+
+/* Change link color on hover (optional) */
+.custom-navbar a:hover {
+    color: #ffffff; /* Bright white for hover */
+}
+
+.custom-cell {
+    background-color: #eee;
+    width: 400px;
+    height: 200px;
+    vertical-align: top;
+}
+
+footer {
+    font-size: 9pt;
+    font-style: italic;
+    line-height: 12pt;
+    color: Blue;
+    background-color: #00ffff;
+    text-align: center;
+    padding-top: 30pt;
+}
+
+@media screen and (max-width: 499px) {
+    .navbar-menu {
+        display: none;
+    }
+
+    .navbar-burger {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .navbar-menu {
+        display: block;
+    }
+
+    .navbar-burger {
+        display: none;
+    }
+}
+

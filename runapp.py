@@ -14,7 +14,7 @@ if __name__ == '__main__':
     print(f"Python {sys.version_info.major}.{sys.version_info.minor} is running")
     if not (sys.version_info.major == 3 and sys.version_info.minor >= 10):
         print("*** Python 3.10 or higher is required ***")
-        sys.exit(1)    # fail. 
+        sys.exit(1)    # if fail. 
 
     # print(f"Template folder:  {app.jinja_env.loader.searchpath}")
     # print(f"Static folder:    {app.static_folder}")

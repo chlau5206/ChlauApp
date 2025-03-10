@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block header %}
+<title>
+{%if title %}
+{{ title }}
+{% endif %}
+-ChLau App
+</title>
+
+{% endblock %}
+
+{% block content %}
+<p>
+        <strong class="has-text-success">
+            <span class="message">
+                <h2>Welcome to {{ app_name }}</h2><br />
+                Hello
+                {%if name %}
+                {{ name }}!<br />
+                {% endif %}
+            </span>
+        </strong>
+    <br />
+    <br />
+    <br />
+    <nav>
+        <ul>
+            <ul>
+                {{ today }}
+            </ul>
+
+
+        </ul>
+    </nav>
+    <br />
+    <br />
+    <h3>
+
+</p>
+{% endblock %}

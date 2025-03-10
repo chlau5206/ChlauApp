@@ -28,7 +28,7 @@ python-dotenv==1.0.1
 pytz==2025.1
 referencing==0.36.2
 rpds-py==0.23.1
-setuptools==75.8.2
+setuptools==76.0.0
 SQLAlchemy==2.0.38
 typing_extensions==4.12.2
 urllib3==2.3.0

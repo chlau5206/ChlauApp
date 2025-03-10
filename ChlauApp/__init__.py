@@ -145,45 +145,8 @@ def create_app():
 
     logger = create_logger(app)
 
-    """
-    # Ensure the logs directory exists
-    log_directory = os.path.join(app.root_path, 'logs')
-    if not os.path.exists(log_directory):
-        os.makedirs(log_directory)
-
-    # Create a formatter
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-
-    # Create a rotating file handler
-    file_handler = RotatingFileHandler(
-        os.path.join(log_directory, 'app.log'), maxBytes=10*1024*1024, backupCount=5)
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
-    # Create a stream handler for console output
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.DEBUG)
-    stream_handler.setFormatter(formatter)
-
-    # Add handlers to the app logger
-    app.logger.addHandler(file_handler)
-    app.logger.addHandler(stream_handler)
-    app.logger.setLevel(logging.DEBUG)
-
-    # Get the named logger
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(file_handler)
-    logger.addHandler(stream_handler)
-
-    # Clear existing handlers to avoid duplicates
-    if logger.hasHandlers():
-        logger.handlers.clear()
-
-    logger.addHandler(file_handler)
-    logger.addHandler(stream_handler)
-
-     logger usage:
+    
+    """ logger usage:
         # Log messages at different levels
         logger.debug('This is a debug message')
         logger.info('This is an info message')
