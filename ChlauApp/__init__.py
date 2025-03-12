@@ -1,4 +1,4 @@
-"""  app/__init__.py
+"""  ChlauApp/__init__.py
 The flask application package.
 """
 

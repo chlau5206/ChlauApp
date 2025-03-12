@@ -1,4 +1,4 @@
-## admin.py
+## members/members.py
 
 from os import error
 from flask import render_template, redirect, url_for, request, flash, session, current_app

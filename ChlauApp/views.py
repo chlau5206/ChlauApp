@@ -1,4 +1,4 @@
-''' Flask web page -- views.py
+''' ChlauApp/views.py
 '''
 from os import error
 from flask import render_template, request, redirect, url_for, flash, session, current_app
