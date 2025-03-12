@@ -4,6 +4,9 @@ from os import error
 from flask import render_template, redirect, url_for, request, flash, session, current_app
 from flask_login import login_required, login_user, logout_user, current_user
 from datetime import datetime, timedelta
+
+import os
+import shutil
 import logging
 
 from .. import db
@@ -54,3 +57,19 @@ def member():
     )
 
 
+@members_bp.route('/member')
+@login_required
+def backup_sqlite_db(db_file, backup_dir):
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_file = os.path.join(backup_dir, f"db_backup_{timestamp}.db")
+    shutil.copy2(db_file, backup_file)
+    print(f"Database backed up to: {backup_file}")
+
+# if __name__ == "__main__":
+#     db_file = "site.db"  # Replace with your database file
+#     backup_dir = "backups" # Replace with your backup directory
+
+#     if not os.path.exists(backup_dir):
+#         os.makedirs(backup_dir)
+
+#     backup_sqlite_db(db_file, backup_dir)

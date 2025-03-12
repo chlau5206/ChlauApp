@@ -12,9 +12,7 @@ from wtforms.validators import DataRequired, Email, InputRequired, Length
 from sqlalchemy import Text
 from sqlalchemy.sql import func
 
-
 from .. import db
-
 
 class Board(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +25,6 @@ class Board(db.Model):
 
     def __repr__(self):
         return f"<message {self.name[:30]} {self.email[:30]} {self.message} {self.timestamp}>"
-
 
 class BoardForm(FlaskForm): 
     name = StringField(label='Name', render_kw={'maxlength': 80, 'size': 30, 'style': 'width:300px;'},

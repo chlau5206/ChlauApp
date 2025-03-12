@@ -9,14 +9,14 @@ from flask_login import login_user, logout_user, login_required, current_user
 # from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
-from email.policy import default
-#from mailbox import Message
+# from email.policy import default
+# from mailbox import Message
 # from smtplib import SMTPException
 
 from .. import db
 from .. import login_manager
-from .. import mail
-from ..models import User, roles_required, get_local_time, handle_exception
+# from .. import mail
+from ..models import User, roles_required, handle_exception #, get_local_time
 from . import auth_bp
 from .auth_form import AuthForm
 
@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 USER_ENTRY_LIMIT = 10
 ROLES = ('member', 'guest', 'sa', 'dev')
-
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():                                                      # Done

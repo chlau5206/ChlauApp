@@ -1,32 +1,31 @@
-# Contact_Us/Contact_Us.py -- Contains the routes and CRUD operations
+# Board/Board.py -- Contains the routes and CRUD operations
 
-from os import error
-from flask import render_template, request, redirect, url_for, flash, session, current_app
-from flask_login import login_required, current_user
+# from os import error
+from flask import render_template, redirect, url_for, flash, current_app
+# from flask import session, request 
+from flask_login import login_required #, current_user
 #from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, timedelta
+# from datetime import datetime, timedelta
 # from flask_sqlalchemy import SQLAlchemy
-from flask_sqlalchemy import SQLAlchemy
-import sqlalchemy
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
-from email.policy import default
-from mailbox import Message
-from smtplib import SMTPException
+
+# from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
+# from email.policy import default
+# from mailbox import Message
+# from smtplib import SMTPException
 
 import logging
-import sqlalchemy.exc
+# import sqlalchemy
+# import sqlalchemy.exc
 
 from .. import db
-from .. import login_manager
-from .. import mail
-from ..models import  roles_required, get_local_time, handle_exception
+# from .. import login_manager
+# from .. import mail
+from ..models import  roles_required, handle_exception #, get_local_time
 from . import board_bp  # Contact_Us_bp blueprint
 from .BoardModels import Board, BoardForm
 
 ENTRY_LIMIT = 200
 logger = logging.getLogger(__name__)
-
-
 
 @board_bp.route('/')     # D = Display
 @login_required
@@ -35,7 +34,6 @@ def show_message():
     form = BoardForm()
     messages = Board.query.order_by(Board.timestamp.desc()).all()
     return render_template('board.html', messages=messages, form=form)
-
 
 @board_bp.route('/general_add', methods=['GET', 'POST'])
 def general_add_message():
@@ -62,7 +60,6 @@ def general_add_message():
             flash (f'{error_message}', 'error')
             logger.error(f'{error_message}')
 
-
     return render_template('board_general_add.html', form=sform)
 
 @board_bp.route('/update/<int:id>', methods=['GET', 'POST'])
@@ -81,9 +78,7 @@ def reply_message(id):       # U = Update
             logger.error('The database has reached its limit of entries. Cannot add more message.')
             return redirect(url_for('board_bp.show_message'))
 
-
         if sform.validate_on_submit():
-           
             replied_message = Board(name=sform.name.data, 
                                     email=sform.email.data,
                                     message=sform.message.data)
@@ -107,7 +102,7 @@ def delete_message(id):      # R = Remove
     
     try: 
         stored_message = Board.query.get_or_404(id)
-        if stored_message.name == 'Admin'  :
+        if stored_message.name == 'Admin' :
             raise ValueError('You cannot delete Admin message.')
         else: 
             db.session.delete(stored_message)

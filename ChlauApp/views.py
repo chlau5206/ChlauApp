@@ -63,8 +63,6 @@ def load_exchange_rate():
         ## for debug:
         # rate = '{"success":true,"timestamp":1712252526,"base":"EUR","date":"2024-09-10",
         #          "rates":{"EUR":1,"USD":1.086131,"MXN":17.932246,"SGD":1.462384,"KRW":1460.499318,"THB":39.817943,"TWD":34.789331}}'
-        # data = json.loads(rate)
-        # return jsonify(data)
 
         with open(FILE_PATH, "r") as rate:
             data = json.load(rate)   # read this file and convert the content into a Python dictionary

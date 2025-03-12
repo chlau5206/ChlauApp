@@ -1,4 +1,4 @@
-""" __init__.py
+"""  app/__init__.py
 The flask application package.
 """
 
@@ -9,12 +9,12 @@ from logging.handlers import RotatingFileHandler
 #from sqlite3 import IntegrityError
 
 from dotenv import load_dotenv
-from flask import Flask, current_app
+from flask import Flask # , current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
-from flask_mail import Mail #, Message
+# from flask_mail import Mail #, Message
 
 # from flask_bootstrap import Bootstrap
 # from .models import SQL_exception
@@ -24,7 +24,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
-mail = Mail()
+# mail = Mail()
 FLASK_ENV = ''
 
 #######################################
@@ -183,9 +183,9 @@ def create_app():
     # init csrf
     csrf.init_app(app)
 
-    # ########################################
-    # # init mail 
-    mail.init_app(app)
+    # # ########################################
+    # # # init mail 
+    # mail.init_app(app)
     
     app.logger.info('Flask application has started')
 

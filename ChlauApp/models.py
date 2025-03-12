@@ -1,24 +1,24 @@
 # # models.py
-import os, sqlalchemy, smtplib
+import os  # , smtplib
 import pytz
 import logging
 
-from flask import current_app, render_template, session, redirect, url_for, flash
+# from flask import current_app, render_template, session, 
+from flask import redirect, url_for, flash
 from flask_login import UserMixin, current_user
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint
-from sqlalchemy.sql import func
+# from sqlalchemy.sql import func
 from sqlalchemy.exc import  SQLAlchemyError, IntegrityError, OperationalError,ProgrammingError,DataError, InternalError
-from email.policy import default
-from mailbox import Message
-from smtplib import SMTPException
+# from email.policy import default
+# from mailbox import Message
+# from smtplib import SMTPException
 from werkzeug.exceptions import HTTPException
 from datetime import datetime
 
 
 logger = logging.getLogger(__name__)
 
-# from datetime import datetime
 from . import db
 
 class User(UserMixin, db.Model):
@@ -34,9 +34,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"<User(username='{self.username}', role='{self.role}', password='{self.password}')>"
 
-
 def get_local_time():
-
     local_timezone = pytz.timezone('America/Los_Angeles') 
     utc_time = datetime.utcnow()
     local_time = utc_time.astimezone(local_timezone).strftime('%Y-%m-%d %H:%M:%S')
