@@ -1,30 +1,14 @@
 # Board/Board.py -- Contains the routes and CRUD operations
 
-# from os import error
-from flask import render_template, redirect, url_for, flash, current_app
-# from flask import session, request 
-from flask_login import login_required #, current_user
-#from werkzeug.security import generate_password_hash, check_password_hash
-# from datetime import datetime, timedelta
-# from flask_sqlalchemy import SQLAlchemy
-
-# from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
-# from email.policy import default
-# from mailbox import Message
-# from smtplib import SMTPException
-
 import logging
-# import sqlalchemy
-# import sqlalchemy.exc
-
+from flask import render_template, redirect, url_for, flash, current_app
+from flask_login import login_required 
 from .. import db
-# from .. import login_manager
-# from .. import mail
-from ..models import  roles_required, handle_exception #, get_local_time
-from . import board_bp  # Contact_Us_bp blueprint
+from ..models import  roles_required, handle_exception 
+from . import board_bp  
 from .BoardModels import Board, BoardForm
 
-ENTRY_LIMIT = 200
+ENTRY_LIMIT = 200    # message limited to 200
 logger = logging.getLogger(__name__)
 
 @board_bp.route('/')     # D = Display
@@ -108,6 +92,7 @@ def delete_message(id):      # R = Remove
             db.session.delete(stored_message)
             db.session.commit()
             flash('Message deleted successfully!', 'success')
+            logger.debug('Message deleted successfully!')
     except Exception as e:
         error_message = handle_exception(e) 
         flash (f'{error_message}', 'error')
@@ -115,47 +100,21 @@ def delete_message(id):      # R = Remove
     
     return redirect(url_for('board_bp.show_message'))
 
-""" no add message route needed. 
-@board_bp.route('/add', methods=['GET', 'POST'])
-@login_required
-@roles_required('sa', 'member')
-def add_message():           # C = Create
-    current_app.logger.debug('Board-add route accessed')
-    
-    try: 
-        current_entries = Board.query.count()  # Get the current number of entries
-    
-        if current_entries >= ENTRY_LIMIT:
-            flash('The database has reached its limit of entries. Cannot add more message.', 'danger')
-            return redirect(url_for('board_bp.show_message'))
 
-        sform = BoardForm()
-        if sform.validate_on_submit():
-            new_message = Board(name=sform.name.data, 
-                                    email=sform.email.data,
-                                    message=sform.message.data)
-            db.session.add(new_message)
-            db.session.commit()
-            flash('Message added successfully!', 'success')
-            return redirect(url_for('board_bp.show_message'))
-    # except (SQLAlchemyError, IntegrityError, OperationalError) as e:
-    #     db.session.rollback()
-    #     error_message = SQL_exception(e)
-    #     flash (f'SQL commit error: {error_message}', 'error')
-    #     logger.error (f'SQL commit error: {error_message}') 
-    except Exception as e:
-            error_message = handle_exception(e) 
-            flash (f'{error_message}', 'error')
-            logger.error(f'{error_message}')
+""" send email feature not implemented.  Did not support basic auth in both MS and google.
+    Must use oAuth for auth.
 
-    return render_template('Board/board_add.html', form=sform)
-""" 
-""" send email feature not implemented
-def send_email(Message):
+def send_email(message):
     current_app.logger.debug('message-mail route access.')
-    msg = Message('New Message Added',
+    msg = Message(subject='New Message Added',
                   sender='your_email@gmail.com',
-                  recipients=['recipient@example.com'])
-    msg.body = f'Name: {Message.name}\nCourse: {Message.course}\nGrade: {Message.grade}'
-    mail.send(msg)
+                  recipients=['recipient@example.com']
+                  body=message
+                  )
+    try:
+        mail.send(msg)
+        flash('Email sent successfully!', 'success')
+    except Exception as e:
+        flash(f'Failed to send email: {e}', 'danger')
+
 """

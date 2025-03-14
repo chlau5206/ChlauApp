@@ -1,21 +1,13 @@
-'''  auth.py
+'''  auth/auth.py
 '''
 
 from os import error
 from flask import render_template, request, redirect, url_for, flash, session, current_app
 from flask_login import login_user, logout_user, login_required, current_user
-#import sqlalchemy
-#import sqlalchemy.exc
-# from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
-# from email.policy import default
-# from mailbox import Message
-# from smtplib import SMTPException
-
 from .. import db
 from .. import login_manager
-# from .. import mail
 from ..models import User, roles_required, handle_exception #, get_local_time
 from . import auth_bp
 from .auth_form import AuthForm

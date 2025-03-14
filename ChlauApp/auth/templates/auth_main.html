@@ -30,10 +30,10 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.role }}</td>
                         <td>
-                            <!-- Link to Update Student -->
+                            <!-- Link to Update user info -->
                             <a href="{{ url_for('auth_bp.update_user', id=user.id) }}" class="button is-warning">Update</a>
 
-                            <!-- Form to Delete a Student -->
+                            <!-- Form to Delete a user -->
                             <form method="POST" action="{{ url_for('auth_bp.remove_user', id=user.id) }}" style="display:inline;">
                                 {{ form.hidden_tag() }}  <!-- Add CSRF token -->
                                 <button type="submit" class="button is-danger">Delete</button>
@@ -44,11 +44,11 @@
                 </tbody>
             </table>
 
-            <!-- Link to Add Student -->
+            <!-- Link to Add user -->
             <a href="{{ url_for('auth_bp.register_user') }}" class="button is-primary">Add new member</a>
         </div>
     </section>
 </div>
 
 
-        {% endblock %}
+{% endblock %}

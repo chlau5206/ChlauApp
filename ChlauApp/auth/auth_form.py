@@ -1,4 +1,4 @@
-''' auth_forms.py 
+''' auth/auth_forms.py 
 '''
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, PasswordField, SelectField, SubmitField, validators

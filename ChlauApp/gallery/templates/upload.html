@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Upload Photo</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="field">
+                {{ form.photo.label(class="label") }}
+                <div class="control">
+                    {{ form.photo(class="file-input") }}
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form.library.label(class="label") }}
+                <div class="control">
+                    {{ form.library(class="select") }}
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form.title.label(class="label") }}
+                <div class="control">
+                    {{ form.title(class="input") }}
+                </div>
+            </div>
+
+            <div class="field">
+                {{ form.description.label(class="label") }}
+                <div class="control">
+                    {{ form.description(class="textarea") }}
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    {{ form.submit(class="button is-primary") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+        {% endblock %}

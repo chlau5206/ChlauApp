@@ -2,29 +2,24 @@
 The flask application package.
 """
 
-import os
-import sys
+
 import logging
 from logging.handlers import RotatingFileHandler
-#from sqlite3 import IntegrityError
 
+import os
 from dotenv import load_dotenv
+
 from flask import Flask # , current_app
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
-# from flask_mail import Mail #, Message
-
-# from flask_bootstrap import Bootstrap
-# from .models import SQL_exception
-# from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError
 
 db = SQLAlchemy()
 migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
-# mail = Mail()
 FLASK_ENV = ''
 
 #######################################
@@ -81,11 +76,7 @@ def create_logger(app):
 
 def create_app():
     from .models import User, handle_exception, get_local_time
-    # from .models import User
     
-    # Load environment variables from .env file
-
-    # load_dotenv(dotenv_path='.env')
     if  os.path.exists('.env.development'):
         load_dotenv(dotenv_path='.env.development')
     else: 
@@ -130,8 +121,16 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
     from .Board import board_bp
-    # from .ContactUs import ContactUs_bp
     app.register_blueprint(board_bp, url_prefix='/board')
+
+    from .gallery import gallery_bp, configure_gallery
+    app.register_blueprint(gallery_bp, url_prefix='/gallery')
+    configure_gallery(app)
+    print ("Debug: register gallery. ")
+    print (gallery_bp.template_folder)
+    print (gallery_bp.static_folder)
+    
+
 
     # Initialize extensions
     db.init_app(app)  # Initialize SQLAlchemy with the Flask app

@@ -5,10 +5,8 @@ from flask import render_template, request, redirect, url_for, flash, session, c
 from flask_login import login_user, logout_user, login_required, current_user
 
 from flask import request, json, jsonify, abort, send_from_directory
-# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import inspect
 from flask_wtf import FlaskForm
-# from flask_login import current_user, login_required
 from datetime import datetime
 
 import os

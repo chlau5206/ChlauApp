@@ -65,7 +65,7 @@ def backup_sqlite_db(db_file, backup_dir):
     shutil.copy2(db_file, backup_file)
     print(f"Database backed up to: {backup_file}")
 
-# if __name__ == "__main__":
+# # SQLite3 db backup: copy db to other drive
 #     db_file = "site.db"  # Replace with your database file
 #     backup_dir = "backups" # Replace with your backup directory
 

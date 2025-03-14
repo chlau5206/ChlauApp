@@ -1,18 +1,12 @@
 # # ChlauApp/models.py
-import os  # , smtplib
+import os  
 import pytz
 import logging
 
-# from flask import current_app, render_template, session, 
 from flask import redirect, url_for, flash
 from flask_login import UserMixin, current_user
-# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint
-# from sqlalchemy.sql import func
 from sqlalchemy.exc import  SQLAlchemyError, IntegrityError, OperationalError,ProgrammingError,DataError, InternalError
-# from email.policy import default
-# from mailbox import Message
-# from smtplib import SMTPException
 from werkzeug.exceptions import HTTPException
 from datetime import datetime
 
@@ -22,7 +16,6 @@ logger = logging.getLogger(__name__)
 from . import db
 
 class User(UserMixin, db.Model):
-    # from flask_login import UserMixin
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
@@ -76,7 +69,7 @@ def handle_exception(e):  # first version
 
 # Example usage
 # try:
-#     # Some code that might raise an exception
+#     # Some codes that might raise an exception
 #     raise IOError("File not found")
 # except Exception as e:
 #     error_message = handle_exception(e)
