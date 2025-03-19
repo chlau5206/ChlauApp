@@ -28,24 +28,18 @@
             <div class="navbar-start">
                 <!-- Projects Dropdown -->
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        Projects
-                    </a>
+                    <a class="navbar-link">Projects</a>
                     <div class="navbar-dropdown">
                         <a class="navbar-item" href="{{ url_for('main.exchangeRate') }}">Exchange Rate</a>
                         <a class="navbar-item" href="{{ url_for('gallery_bp.index') }}">Gallery</a>
                     </div>
                 </div>
                 <!-- Projects Dropdown ended -->
-                <a class="navbar-item" href="{{ url_for('main.about') }}">About</a>
+                <a class="navbar-item" href="{{ url_for('main.about') }}">About me</a>
                 <a class="navbar-item" href="{{ url_for('board_bp.general_add_message') }}">Contact me</a>
                 <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member</a>
             </div>
         </div>
-
-
-
-
     </nav>
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
