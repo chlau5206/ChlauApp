@@ -18,6 +18,8 @@
                 Hello
                 {%if name %}
                 {{ name }}!<br />
+                {% else %}
+                Guess!
                 {% endif %}
             </span>
         </strong>
@@ -26,11 +28,7 @@
     <br />
     <nav>
         <ul>
-            <ul>
                 {{ today }}
-            </ul>
-
-
         </ul>
     </nav>
     <br />

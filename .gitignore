@@ -6,6 +6,7 @@
 # User-specific files
 # .env
 .env.development
+.env.testing
 *.pyproj
 *.pyproj.user
 *.sln
@@ -18,6 +19,8 @@ app.log
 instance/
 API_ExchangeRate.py
 message/
+gallery/
+projects/
 
 *.rsuser
 *.suo

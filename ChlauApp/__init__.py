@@ -123,12 +123,12 @@ def create_app():
     from .Board import board_bp
     app.register_blueprint(board_bp, url_prefix='/board')
 
-    from .gallery import gallery_bp, configure_gallery
-    app.register_blueprint(gallery_bp, url_prefix='/gallery')
-    configure_gallery(app)
-    print ("Debug: register gallery. ")
-    print (gallery_bp.template_folder)
-    print (gallery_bp.static_folder)
+    # from .gallery import gallery_bp, configure_gallery
+    # app.register_blueprint(gallery_bp, url_prefix='/gallery')
+    # configure_gallery(app)
+    # print ("Debug: register gallery. ")
+    # print (gallery_bp.template_folder)
+    # print (gallery_bp.static_folder)
     
 
 
