@@ -10,7 +10,7 @@ import shutil
 import logging
 
 from .. import db
-from .. import login_manager
+# from .. import login_manager
 
 from . import members_bp
 
@@ -57,13 +57,13 @@ def member():
     )
 
 
-@members_bp.route('/member')
-@login_required
-def backup_sqlite_db(db_file, backup_dir):
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_file = os.path.join(backup_dir, f"db_backup_{timestamp}.db")
-    shutil.copy2(db_file, backup_file)
-    print(f"Database backed up to: {backup_file}")
+# @members_bp.route('/member')
+# @login_required
+# def backup_sqlite_db(db_file, backup_dir):
+#     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+#     backup_file = os.path.join(backup_dir, f"db_backup_{timestamp}.db")
+#     shutil.copy2(db_file, backup_file)
+#     print(f"Database backed up to: {backup_file}")
 
 # # SQLite3 db backup: copy db to other drive
 #     db_file = "site.db"  # Replace with your database file

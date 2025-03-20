@@ -14,7 +14,7 @@ from flask import Flask # , current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_wtf import CSRFProtect
+from flask_wtf import CSRFProtect  #
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -87,9 +87,8 @@ def create_app():
     # Load configurations from environment variables
     app.config['FLASK_APP'] = os.getenv("FLASK_APP", 'runapp.py') 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
-    app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
-    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-    
+    # app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+    # app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
     
     app.config['APP_NAME'] = os.getenv("APP_NAME", 'ChlauApp')    
     app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "production") # [development | production]
@@ -97,9 +96,9 @@ def create_app():
     app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')
-    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.mail_provider.com')
-    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@mail_provider.com')
-    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'password')
+    # app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.mail_provider.com')
+    # app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME', 'nobody@mail_provider.com')
+    # app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD', 'password')
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
 
@@ -119,6 +118,10 @@ def create_app():
 
     from .auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from .about import about_bp
+    app.register_blueprint(about_bp, url_prefix='/about')
+
 
     from .Board import board_bp
     app.register_blueprint(board_bp, url_prefix='/board')

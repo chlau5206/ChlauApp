@@ -1,21 +1,19 @@
 ''' ChlauApp/views.py
 '''
-from os import error
-from flask import render_template, request, redirect, url_for, flash, session, current_app
-from flask_login import login_user, logout_user, login_required, current_user
 
-from flask import request, json, jsonify, abort, send_from_directory
-from sqlalchemy import inspect
-from flask_wtf import FlaskForm
-from datetime import datetime
+from flask import render_template, json, jsonify, current_app
 
-import os
+# from flask import request, abort, send_from_directory, request, redirect, url_for, flash, session
+# from sqlalchemy import inspect
+# from flask_wtf import FlaskForm
+# from datetime import datetime
+# from os import error
+# from . import db
 
-
-from . import db
-from . import FormModule   # contactUsModule import contactForm
+from .LoginForms import LoginForm   # contactUsModule import contactForm
 from .models import get_local_time, handle_exception
 
+import os
 import logging
 logger = logging.getLogger(__name__)
 
@@ -36,14 +34,14 @@ def home():      # Completed
                            app_name = current_app.config['APP_NAME'], 
                            today=get_local_time())
 
-@main.route("/about/")
-def about():     # completed
-    return render_template("about.html", title="about")
+# @main.route("/about/")
+# def about():     # completed
+#     return render_template("about.html", title="about")
 
 @main.route("/contact/", methods=["GET", "POST"])
 def contact():
     logger.info ("Contact us route accessed")
-    cform = FormModule.contactForm()
+    cform = LoginForm.contactForm()
     return render_template("contact.html", 
                            title="Contact Us",
                            form=cform)
