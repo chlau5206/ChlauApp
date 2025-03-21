@@ -21,6 +21,7 @@ API_ExchangeRate.py
 message/
 gallery/
 projects/
+test1/
 
 *.rsuser
 *.suo

@@ -1,0 +1,90 @@
+/* styles.css */
+
+body {
+    font-family: 'Noto Sans';
+    margin: 5%; /* Set the margin to 5% */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Sans Display', sans-serif;
+}
+
+.container {
+    max-width: 1024px; /* Optional: Set a maximum width */
+    margin: 0 auto; /* Center the container */
+}
+
+.logo {
+    height: 50px; /* Adjust the height as needed */
+    width: auto;
+}
+
+.navbar-dropdown {
+    display: none;
+}
+
+.navbar-item.has-dropdown.is-active .navbar-dropdown {
+    display: block;
+}
+
+.navbar-item img {
+    max-height: 3rem; /* Adjust the height as needed */
+}
+
+.custom-navbar {
+    width: 100%;   /* full width */
+    background-color: #3498db; /* Bright Sky Blue (Cool Medium Blue) */
+    color: midnightblue; /* Text color = white */
+    margin: 0 auto;
+    padding: 1rem; /* Add some padding for spacing */
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Ensure links inside the navbar inherit the color */
+.custom-navbar a {
+    color: inherit; /* Use the parent's color (#eee in this case) */
+    text-decoration: none; /* Optional: remove underline for links */
+}
+
+/* Change link color on hover (optional) */
+.custom-navbar a:hover {
+    color: #ffffff; /* Bright white for hover */
+}
+
+.custom-cell {
+    background-color: #eee;
+    width: 400px;
+    height: 200px;
+    vertical-align: top;
+}
+
+footer {
+    font-size: 9pt;
+    font-style: italic;
+    line-height: 12pt;
+    color: Blue;
+    text-align: center;
+    padding-top: 30pt;
+}
+
+@media screen and (max-width: 1024px) {
+    .navbar-menu {
+        display: none;
+    }
+
+    .navbar-burger {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .navbar-menu {
+        display: block;
+    }
+
+    .navbar-burger {
+        display: none;
+    }
+}
+
