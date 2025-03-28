@@ -29,7 +29,7 @@ def create_logger(app):
     # Ensure the logs directory exists
     log_directory = os.path.join(app.root_path, 'logs')
     if not os.path.exists(log_directory):
-        os.makedirs(log_directory)
+        os.makedirs(log_directory, exist_ok=True)
 
     # Create a formatter
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -71,7 +71,6 @@ def create_logger(app):
         logger.error('This is an error message')
         logger.critical('This is a critical message')
     '''
-
     return logger
 
 def create_app():
@@ -125,6 +124,10 @@ def create_app():
 
     from .Board import board_bp
     app.register_blueprint(board_bp, url_prefix='/board')
+
+    from .ePubConverter import ePubConv_bp
+    app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
+
 
     # from .gallery import gallery_bp, configure_gallery
     # app.register_blueprint(gallery_bp, url_prefix='/gallery')

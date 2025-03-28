@@ -3,8 +3,6 @@ function getExchangeRates() {
     fetch("/loadExchangeRate")
         .then((response) => response.json())
         .then(data => {
-            //console.log('Fetched data:', data); // Log the fetched data
-            //console.log('Data type:', typeof data); // Log the type of the data
             if (typeof data === 'object' && !Array.isArray(data.rates)) {
                 populateTable(data.rates, data.date);
                 console.log("Data populated.")

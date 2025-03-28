@@ -6,36 +6,32 @@
 {% endblock %}
 
 {% block content %}
-    <div class="body-content">
-        {% if current_user.is_authenticated %}
-            <h1>
-                <span class="message">
-                    <h2>Welcome to the members dashboard!</h2>
-                    {%if name %}
-                    {{ name }}
-                    {% endif %}
-                </span><br /><br />
-            </h1>
-            <nav>
-                <ul>
+<div class="body-content">
+    {% if current_user.is_authenticated %}
+    <h2>
+        <span class="message">
+            Welcome to the members dashboard!<br />
+            {%if name %}
+            Hi {{ name }}
+            {% endif %}
+        </span><br /><br />
 
-                    <li><a href="{{ url_for('auth_bp.display_user') }}">Membership</a></li>
-                    <li><a href="{{ url_for('board_bp.show_message') }}">Contact us messages</a></li>
-                </ul>
-            </nav>
-            <br />
-            <br />
-            <h3>
-                <a href="{{ url_for('auth_bp.logout') }}" class="button is-primary">Logout</a>
-        {% else %}
-            Unknow member.  Login please.<br />
-            <a href="{{ url_for('auth_bp.login') }}" class="button is-warning">Login</a>
-        {% endif %}
-        </h3>
-        <br />
-        <br />
-        <br />
-        <h3>{{ date }}</h3>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('auth_bp.display_user') }}">Membership</a></li>
+                <li><a href="{{ url_for('board_bp.show_message') }}">Contact us messages</a></li>
+            </ul>
+        </nav>
+    </h2>
+    {% else %}
+    <h3>
+        Unknow member.  Login please.<br />
+        <a href="{{ url_for('auth_bp.login') }}" class="button is-warning">Login</a>
+    </h3>
+    {% endif %}
+    <br />
+    <br />
+    <h3>{{ date }}</h3>
 
-    </div>
+</div>
 {% endblock %}

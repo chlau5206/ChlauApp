@@ -1,0 +1,86 @@
+/* Center-align the table headers */
+.table th {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+/* Wrap long text in the message column */
+.table td {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+}
+
+/* Add some spacing between table rows */
+.table tr {
+    margin-bottom: 5px;
+}
+
+    /* Highlight rows on hover */
+    .table tr:hover {
+        background-color: #f5f5f5; /* Light gray */
+        cursor: pointer;
+    }
+
+.table-container {
+    overflow-x: auto; /* Enable horizontal scrolling for small screens */
+}
+
+.pagination {
+    justify-content: center; /* Center-align the pagination */
+}
+
+.pagination-previous,
+.pagination-next {
+    background-color: #3273dc; /* Primary color */
+    color: white;
+    border: none;
+}
+
+    .pagination-previous:hover,
+    .pagination-next:hover {
+        background-color: #275baf; /* Darker shade */
+    }
+
+.form {
+    margin-bottom: 20px; /* Add spacing between the form and the table */
+}
+
+.input {
+    max-width: 200px; /* Limit input field width */
+    margin-right: 10px; /* Add spacing between form elements */
+}
+
+/* Reply button */
+.button.is-warning {
+    background-color: #ffdd57; /* Bright yellow */
+    color: black;
+}
+
+/* Delete button */
+.button.is-danger {
+    background-color: #ff3860; /* Bright red */
+    color: white;
+}
+
+/* Hover effects */
+.button.is-warning:hover {
+    background-color: #d4b13f; /* Slightly darker yellow */
+}
+
+.button.is-danger:hover {
+    background-color: #e02d50; /* Slightly darker red */
+}
+
+/* Add spacing around the section */
+.section {
+    padding: 40px;
+}
+
+/* Center-align the container */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}

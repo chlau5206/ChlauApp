@@ -1,23 +1,36 @@
 # Board/Board.py -- Contains the routes and CRUD operations
 
 import logging
-from flask import render_template, redirect, url_for, flash, current_app
+from flask import render_template, redirect, url_for, flash, current_app, request
 from flask_login import login_required 
+
 from .. import db
 from ..models import  roles_required, handle_exception 
 from . import board_bp  
 from .BoardModels import Board, BoardForm
 
-ENTRY_LIMIT = 200    # message limited to 200
+ENTRY_LIMIT = 1000    # message limited to 1000
 logger = logging.getLogger(__name__)
+
+#########################################
+def get_messages(page, per_page=20):
+    return Board.query.order_by(Board.timestamp.desc()) .limit(per_page).offset((page - 1) * per_page).all()
 
 @board_bp.route('/')     # D = Display
 @login_required
 def show_message():
     logger.debug('Contact Us-Show message route accessed.')
     form = BoardForm()
-    messages = Board.query.order_by(Board.timestamp.desc()).all()
-    return render_template('board.html', messages=messages, form=form)
+    page = form.page.data if form.validate_on_submit() else request.args.get('page', 1, type=int)
+    message_list = Board.query.order_by(Board.timestamp.desc()) \
+        .limit(20).offset((page - 1) * 20).all()
+    next_page = page + 1
+    prev_page = page - 1 if page > 1 else None
+    return render_template('board.html', 
+                            form=form,
+                            messages = message_list, 
+                            next_page=next_page, 
+                            prev_page=prev_page)
 
 @board_bp.route('/general_add', methods=['GET', 'POST'])
 def general_add_message():
@@ -100,6 +113,84 @@ def delete_message(id):      # R = Remove
     
     return redirect(url_for('board_bp.show_message'))
 
+
+"""
+@board_bp.route('/addMsgs')    
+@login_required
+def populate_messages():
+    logger.debug('Populate message route accessed.')
+    msg = dict()
+    
+    msg["askd"] = {"email": "fasd@kjakj.com", "message": "234f"}
+    msg["fjfg"] = {"email": "sd@kjj.fgfgfc", "message": "5656"}
+    msg["fgfjfyt"] = {"email": "sftyfyd@kjjjjakj.klkc", "message": "688"}
+    msg["ffg"] = {"email": "sjjd@kjjjakj.jhc", "message": "89"}
+    msg["gdtydy"] = {"email": "s77d@kjakj.c", "message": "955"}
+    
+    msg["fgfjfyt"] = {"email": "sftyfyd@kjjjjakj.klkc", "message": "688"}
+    msg["ffg"] = {"email": "sjjd@kjjjakj.jhc", "message": "89"}
+    msg["askd"] = {"email": "fasd@kjakj.com", "message": "234f"}
+    msg["fjfg"] = {"email": "sd@kjj.fgfgfc", "message": "5656"}
+    msg["gdtydy"] = {"email": "s77d@kjakj.c", "message": "955"}
+
+    msg["ffg"] = {"email": "sjjd@kjjjakj.jhc", "message": "89"}
+    msg["askd"] = {"email": "fasd@kjakj.com", "message": "234f"}
+    msg["fjfg"] = {"email": "sd@kjj.fgfgfc", "message": "5656"}
+    msg["fgfjfyt"] = {"email": "sftyfyd@kjjjjakj.klkc", "message": "688"}
+    msg["fgf23342jfyt"] = {"email": "sft2yd@kjjjjakj.klkc", "message": "68228"}
+    
+    msg["ffg"] = {"email": "sjjd@kjjjakj.jhc", "message": "89"}
+    msg["gdtydy"] = {"email": "s77d@kjakj.c", "message": "955"}
+    msg["askd"] = {"email": "fasd@kjakj.com", "message": "234f"}
+    msg["fjfg"] = {"email": "sd@kjj.fgfgfc", "message": "5656"}
+    msg["fjfg"] = {"email": "sd@kjj.fgfgfc", "message": "5656"}
+    
+    msg["askd"] = {"email": "fasd@kjakj.com", "message": "234f"}
+    msg["fgfjfyt"] = {"email": "sftyfyd@kjjjjakj.klkc", "message": "688"}
+    msg["ffg"] = {"email": "sjjd@kjjjakj.jhc", "message": "89"}
+    msg["ffg"] = {"email": "sjjd@kjjjakj.jhc", "message": "89"}
+    msg["gdtydy"] = {"email": "s77d@kjakj.c", "message": "955"}
+
+
+    for key, value in msg.items():
+        # for key, value in value.items():
+            # new_message = Board(name=key,
+            #                     email=value[email],
+            #                     message=value[message])
+
+        pass
+        db.session.add(new_message)
+        db.session.commit()
+
+
+
+@board_bp.route('/feedbacks')
+def feedbacks():
+    page = request.args.get('page', 1, type=int)
+    feedback_list = get_feedbacks(page)
+    next_page = page + 1
+    prev_page = page - 1 if page > 1 else None
+    
+    return render_template('feedback_list.html', feedbacks=feedback_list, next_page=next_page, prev_page=prev_page)
+
+<div class="container">
+  <h1 class="title">User Feedback</h1>
+  <div class="feedback-list">
+    {% for feedback in feedbacks %}
+      <div class="box">
+        <p>{{ feedback.message }}</p>
+        <p><small>{{ feedback.created_at }}</small></p>
+      </div>
+    {% endfor %}
+  </div>
+  <nav class="pagination" role="navigation" aria-label="pagination">
+    {% if prev_page %}
+      <a class="pagination-previous" href="{{ url_for('feedback.feedbacks', page=prev_page) }}">Previous</a>
+    {% endif %}
+    <a class="pagination-next" href="{{ url_for('feedback.feedbacks', page=next_page) }}">Next</a>
+  </nav>
+</div>
+"""
 
 """ send email feature not implemented.  Did not support basic auth in both MS and google.
     Must use oAuth for auth.

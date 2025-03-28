@@ -1,4 +1,4 @@
-/* styles.css */
+/* global_styles.css */
 
 body {
     font-family: 'Noto Sans';
@@ -9,9 +9,46 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Noto Sans Display', sans-serif;
 }
 
-.container {
-    max-width: 1024px; /* Optional: Set a maximum width */
-    margin: 0 auto; /* Center the container */
+h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: midnightblue;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: brown;
+}
+
+h3 {
+    font-size: 1.75em;
+    font-weight: bold;
+    color: darkslateblue;
+}
+
+h4 {
+    font-size: 1.5em;
+    font-weight: normal;
+    color: saddlebrown;
+}
+
+h5 {
+    font-size: 1.25em;
+    font-weight: normal;
+    color: orangered;
+}
+
+h6 {
+    font-size: 1em;
+    font-weight: normal;
+    color: indianred;
+}
+
+
+/* General Spacing */
+.section {
+    padding: 40px;
 }
 
 .logo {
@@ -59,6 +96,29 @@ h1, h2, h3, h4, h5, h6 {
     vertical-align: top;
 }
 
+.table {
+    border: 1px solid #ccc; /* Adds a border around the entire table */
+    border-collapse: collapse; /* Ensures borders don't double up */
+}
+
+.table th, .table td {
+    border: 1px solid #ccc; /* Adds borders to table cells */
+    padding: 8px; /* Optional: Adds some padding inside the cells for spacing */
+    text-align: left; /* Aligns text to the left */
+}
+
+.table.is-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* A light gray background for odd rows */
+}
+
+.table.is-striped tbody tr:nth-child(even) {
+    background-color: #ffffff; /* Ensure even rows have a white background for contrast */
+}
+
+.table.is-striped tbody tr:hover {
+    background-color: #e0e0e0; /* Add a hover effect for better interactivity */
+}
+
 footer {
     font-size: 9pt;
     font-style: italic;
@@ -87,4 +147,34 @@ footer {
         display: none;
     }
 }
+
+/* For tablets (1024px and below) and larger screens (desktops) */
+@media (max-width: 1024px) {
+    .container {
+        max-width: 1024px;
+    }
+}
+
+/* For small laptops or narrow screens (900px) */
+@media (max-width: 900px) {
+    .container {
+        max-width: 900px;
+    }
+}
+
+/* For tablets (max-width: 768px) */
+@media (max-width: 768px) {
+    .container {
+        max-width: 90%; /* Shrink container for smaller devices */
+    }
+}
+
+/* For mobile devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .container {
+        max-width: 95%;
+        padding: 10px; /* Add more padding for a mobile-friendly look */
+    }
+}
+
 
