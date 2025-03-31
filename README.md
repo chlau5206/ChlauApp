@@ -127,6 +127,34 @@ ChlauApp/
 2. Exchange rate json (LatestRate.json) required from API service.
 
 =====================================
+
+Deploy to Web host
+
+#1. To reset your Git repository to the last commit.
+[Bash]
+git reset --hard HEAD
+
+#2. Discard local changes -- reset to last commit
+	Method 1:
+	## discard uncommitted changes
+	git checkout -- . 
+	## discard changes and remove untracked files
+	git clean -fd
+	Method 2:
+	Reset your local repository to match the remote: This will discard your local changes and overwrite everything with the files from the GitHub repository.
+	Bash
+	git reset --hard orgin/main
+
+#3. pull repo without commend
+git pull origin feature-branch --no-edit
+
+#4. Temporarily saves your local changes, and apply them later.
+1$ git stash
+2$ git pull origin <feature-branch>
+3$ git stash apply
+
+=====================================
+
 Automate this entire process—running Python code, copying files, and committing/pushing to 
 a Git repository—using a combination of Python scripting and Git hooks(e.g., pre-push hook).
 
