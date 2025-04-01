@@ -28,20 +28,66 @@
     overflow-x: auto; /* Enable horizontal scrolling for small screens */
 }
 
+
+/* Stripe styles for Light Mode */
+.table tr:nth-child(odd) {
+    background-color: #f8f8f8; /* Light gray for odd rows */
+    color: black; /* Default text color */
+}
+
+.table tr:nth-child(even) {
+    background-color: white; /* White for even rows */
+    color: black; /* Default text color */
+}
+
+/* Adjust hover effect (applies to all rows) */
+.table tr:hover {
+    background-color: #ddd; /* Slightly darker hover effect */
+}
+
+/* Styles for Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .table {
+        background-color: #2e2e2e; /* Table background */
+        color: #f5f5f5; /* Default text color */
+    }
+
+        .table th {
+            color: #f5f5f5; /* Light text for headers in Dark Mode */
+        }
+
+        /* Stripe styles for Dark Mode */
+        .table tr:nth-child(odd) {
+            background-color: #3a3a3a; /* Dark gray for odd rows */
+            color: #eaeaea; /* Light text */
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #2e2e2e; /* Slightly darker stripe for even rows */
+            color: #f5f5f5; /* Light text */
+        }
+
+        /* Hover effect in Dark Mode */
+        .table tr:hover {
+            background-color: #444; /* Highlight row on hover */
+        }
+}
+
+
 .pagination {
     justify-content: center; /* Center-align the pagination */
 }
 
 .pagination-previous,
 .pagination-next {
-    background-color: #3273dc; /* Primary color */
-    color: white;
+    background-color: #3273dc; /* Primary color: a shade of blue */
+    color: greenyellow;
     border: none;
 }
 
     .pagination-previous:hover,
     .pagination-next:hover {
-        background-color: #275baf; /* Darker shade */
+        background-color: #275baf; /* Darker shade of blue */
     }
 
 .form {

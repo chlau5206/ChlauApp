@@ -13,24 +13,35 @@ ENTRY_LIMIT = 1000    # message limited to 1000
 logger = logging.getLogger(__name__)
 
 #########################################
-def get_messages(page, per_page=20):
-    return Board.query.order_by(Board.timestamp.desc()) .limit(per_page).offset((page - 1) * per_page).all()
+# def get_messages(page, per_page=20):
+#     return Board.query.order_by(Board.timestamp.desc()) .limit(per_page).offset((page - 1) * per_page).all()
 
-@board_bp.route('/')     # D = Display
+@board_bp.route('/', methods=['GET'])     # D = Display
 @login_required
 def show_message():
     logger.debug('Contact Us-Show message route accessed.')
     form = BoardForm()
-    page = form.page.data if form.validate_on_submit() else request.args.get('page', 1, type=int)
-    message_list = Board.query.order_by(Board.timestamp.desc()) \
-        .limit(20).offset((page - 1) * 20).all()
-    next_page = page + 1
-    prev_page = page - 1 if page > 1 else None
+    
+    per_page = 20     # Number of messages per page
+    
+    page = request.args.get('page', default=1, type=int)    # Determine the current page number
+    
+    # Retrieve messages for the current page
+    pagination = Board.query.order_by(Board.timestamp.desc()).paginate(page=page, per_page=per_page)
+    message_list = pagination.items
+
+    # Check for next and previous pages
+    next_page = pagination.next_num if pagination.has_next else None
+    prev_page = pagination.prev_num if pagination.has_prev else None
+
+    # Render the template
     return render_template('board.html', 
                             form=form,
                             messages = message_list, 
                             next_page=next_page, 
                             prev_page=prev_page)
+
+
 
 @board_bp.route('/general_add', methods=['GET', 'POST'])
 def general_add_message():

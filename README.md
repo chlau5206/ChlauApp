@@ -2,15 +2,17 @@
 ##
 This project uses Flask framework based.  The project is pubished in pythonanywhere.com. 
 https://chlau5206.pythonanywhere.com
-This Flask project is using Blueprint, Bulma, SQLAlchemy, Login-Manager, Flask-WTF, Logging.
+This Flask project With Flask-WTF handling forms, Bulma for styling, 
+SQLAlchemy for database interaction, and 
+Blueprints for organizing your application, you've got a robust foundation for development.
 
 Flask project using:
-1. Blueprint , made modular portable and independant
-2. Bulma's CSS
-3. SQLAlchemy (SQLite3)
-4. Login-Manager 
+1. Blueprint for organizing the application
+2. Bulma for styling
+3. SQLAlchemy (SQLite3) for database interaction
+4. Login-Manager for Login security
 5. Flask-WTF for handling forms.
-6. Logging
+6. Logging for system and error logging
 7. Flask-Mail for email -- not implemented, due to require oAuth.
 
 =====================
