@@ -1,49 +1,51 @@
 {% extends "layout.html" %}
 
 {% block header %}
-
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('board_bp.static', filename='css/styles.css')}}" />
 {% endblock %}
 
 {% block content %}
-<h1 class="text-center">Message board</h1>
-<section class="section">
+<h2 class="text-center">Message board</h2>
     <div class="container mt-5">
-        {%if messages %}
-            <table class="table is-striped is-hoverable">
-                <thead>
-                    <tr>
-                        <th>Date(UTC)</th>
-                        <th>From</th>
-                        <th>Message</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for message in messages %}
-                    <tr>
-                        <td>{{ message.timestamp }}</td>
-                        <td>{{ message.name }}</td>
-                        <td>{{ message.message }}</td>
-                        <td>{{ message.email }}</td>
-                        <td>
-                            <a href="{{ url_for('board_bp.reply_message', id=message.id) }}" class="button is-warning">Reply</a>
-                        </td>
-                        <td>
-                            <form method="POST" action="{{ url_for('board_bp.delete_message', id=message.id) }}" style="display:inline;">
-                                {{ form.hidden_tag() }}  <!-- Add CSRF token -->
-                                <button type="submit" class="button is-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            No message in board
-        {% endif %}
+        <table class="table is-striped is-hoverable">
+            <thead>
+                <tr>
+                    <th>Date(UTC)</th>
+                    <th>From</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for message in messages %}
+                <tr style="text-align: left; vertical-align: top;">
+                    <td>{{ message.timestamp }}</td>
+                    <td>{{ message.name }}</td>
+                    <td>{{ message.email }}</td>
+                    <td>{{ message.message }}</td>
+                    <td style="text-align: center; vertical-align: top;">
+                        <form method="POST" action="{{ url_for('board_bp.delete_message', id=message.id) }}" style="display: inline-block;">
+                            {{ form.hidden_tag() }}  <!-- Add CSRF token -->
+                            <button type="submit" class="button is-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav class="pagination" role="navigation" aria-label="pagination">
 
+            {% if prev_page %}
+            <a class="pagination-previous" href="{{ url_for('board_bp.show_message', page=prev_page) }}">Previous</a>
+            {% endif %}
+            {% if next_page %}
+            <a class="pagination-next" href="{{ url_for('board_bp.show_message', page=next_page) }}">Next</a>
+            {% endif %}
+
+        </nav>
     </div>
-</section>
 
 {% endblock %}

@@ -9,21 +9,12 @@ import os
 import shutil
 import logging
 
-from .. import db
+from .. import db, get_pacific_time
 # from .. import login_manager
 
 from . import members_bp
 
 logger = logging.getLogger(__name__)
-
-def get_local_time():
-    import pytz
-
-    local_timezone = pytz.timezone('America/Los_Angeles') 
-    utc_time = datetime.utcnow()
-    local_time = utc_time.astimezone(local_timezone).strftime('%Y-%m-%d %H:%M:%S')
-
-    return local_time
 
 # Set session timeout for each blueprint
 @members_bp.before_request
@@ -53,7 +44,7 @@ def member():
         "members.html",
         title="Member",
         name=user_name.capitalize(),
-        date=get_local_time()
+        date=get_pacific_time()
     )
 
 

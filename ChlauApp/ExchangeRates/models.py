@@ -1,0 +1,3 @@
+''' ExchangeRates/models.py
+'''
+pass

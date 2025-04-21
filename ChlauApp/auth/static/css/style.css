@@ -1,0 +1,25 @@
+.button {
+    padding: 8px 12px; /* Adjust spacing inside buttons */
+}
+
+/* set fixed width and height 
+th, td {         
+    width: 50px; 
+    height: 50px; 
+}
+*/
+
+/* Dynamic width and height */
+th, td {
+    min-width:   10px;
+    max-width:  100px;
+    min-height:  10px; 
+    max-height: 100px; 
+}
+
+.table td.action-column {
+    padding: 4px; /* Smaller padding */
+    vertical-align: middle; /* Center align buttons */
+    height: auto; /* Prevent excessive height */
+}
+

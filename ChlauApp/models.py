@@ -1,19 +1,18 @@
 # # ChlauApp/models.py
-import os  
-import pytz
+# import os  
+# import pytz
 import logging
-
+from . import db
 from flask import redirect, url_for, flash
 from flask_login import UserMixin, current_user
-from sqlalchemy import CheckConstraint
+from sqlalchemy import CheckConstraint #, Text, Index, desc
+from sqlalchemy.sql import func
 from sqlalchemy.exc import  SQLAlchemyError, IntegrityError, OperationalError,ProgrammingError,DataError, InternalError
 from werkzeug.exceptions import HTTPException
 from datetime import datetime
-
+from functools import wraps
 
 logger = logging.getLogger(__name__)
-
-from . import db
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,14 +26,13 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"<User(username='{self.username}', role='{self.role}', password='{self.password}')>"
 
-def get_local_time():
-    local_timezone = pytz.timezone('America/Los_Angeles') 
-    utc_time = datetime.utcnow()
-    local_time = utc_time.astimezone(local_timezone).strftime('%Y-%m-%d %H:%M:%S')
+# def get_local_time():
+#     local_timezone = pytz.timezone('America/Los_Angeles') 
+#     utc_time = datetime.utcnow()
+#     local_time = utc_time.astimezone(local_timezone).strftime('%Y-%m-%d %H:%M:%S')
+#
+#     return local_time
 
-    return local_time
-
-from functools import wraps
 def roles_required(*roles):
     def decorator(f):
         @wraps(f)
@@ -53,11 +51,11 @@ def handle_exception(e):  # first version
 
     if isinstance(e, IOError):
         return "I/O exception: {}".format(e)
-    elif isinstance(e, smtplib.SMTPException):
-        return "SMTP exception: {}".format(e.strerror)
+    # elif isinstance(e, smtplib.SMTPException):
+    #     return "SMTP exception: {}".format(e.strerror)
     elif isinstance(e, SQLERROR):
         db.session.rollback()
-        logger.warning('database session rollback.')
+        logger.warning('database session rollbacked.')
         return "SQL exception: {}".format(e)
     elif isinstance(e,HTTPException ):
         error_message = f'HTTP Exception:{e.code}:{e.name}:{e.description}'
@@ -80,14 +78,14 @@ def handle_exception(e):  # first version
 # made dropdown list dynamic by populating them with data fetched from database
 ''' Define the models ----
 
-from flask_sqlalchemy import SQLAlchemy
+
 
 db = SQLAlchemy()
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True, nullable=False)
----'''
+'''
 
 ''' Populate the Form Field Dynamically:  Form Class ---
 from flask_wtf import FlaskForm

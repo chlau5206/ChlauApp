@@ -15,13 +15,14 @@ FirstUser.html
 selections.js
 app.log
 
-
 instance/
 API_ExchangeRate.py
 message/
 gallery/
 projects/
 test1/
+app_log/
+logs/
 
 *.rsuser
 *.suo
@@ -29,14 +30,10 @@ test1/
 *.userosscache
 *.sln.docstates
 
-
-
 # Visual Studio 2022 - Python project folders/files
 .git/
 env/
 obj/
-
-
 
 # JavaScripts
 autoFlash.js

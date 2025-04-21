@@ -21,7 +21,7 @@ ChlauApp/
 ├── ChlauApp/
 │   ├── __init__.py       # Initializes the Flask app and extensions (SQLAlchemy, Login-Manager, Configuration file for your Flask app (e.g., SECRET_KEY, database URI))
 │   ├── models.py         # Defines SQLAlchemy database models
-│   ├── FormModels.py     # Contains WTForms for the Login module
+│   ├── LoginForms.py     # Contains WTForms for the Login module
 │   ├── views.py          # Defines routes for the main application
 │   │   
 │   ├── static/           # Contains global static files like CSS, JavaScript, and images

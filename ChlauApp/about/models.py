@@ -1,4 +1,0 @@
-''' Board/BoardForm.py 
-'''
-pass
-

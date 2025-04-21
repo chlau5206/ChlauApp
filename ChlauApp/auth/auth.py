@@ -49,7 +49,7 @@ def login():                                                      # Done
 @auth_bp.route('/logout')
 @login_required
 def logout():                                                   # Done
-    logger.debug ('logout route accessed.')
+    logger.info('logout route accessed.')
     logout_user()
     session.clear()  # Clear the session data
     return redirect(url_for('auth_bp.login'))
@@ -76,7 +76,7 @@ def check_session_timeout():
 @login_required
 @roles_required('sa')  # Only admins can register new users
 def remove_user(id):
-    logger.debug('remove user route accessed.')
+    logger.info('remove user route accessed.')
     try: 
         user = User.query.get_or_404(id)
         if user.username == 'admin' and current_user.username != 'admin':  # only admin can delete admin
@@ -99,7 +99,7 @@ def remove_user(id):
 @login_required
 @roles_required('sa')  # Only admins can register new users
 def update_user(id):
-    current_app.logger.debug('update user route accessed.')
+    logger.info('update user route accessed.')
     
     try: 
         user = User.query.get_or_404(id)

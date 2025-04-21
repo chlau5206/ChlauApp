@@ -11,7 +11,8 @@ from flask import render_template, json, jsonify, current_app
 # from . import db
 
 from .LoginForms import LoginForm   # contactUsModule import contactForm
-from .models import get_local_time, handle_exception
+from .models import  handle_exception
+
 
 import os
 import logging
@@ -31,8 +32,11 @@ def home():      # Completed
     logger.debug("Home route accessed")
     return render_template("home.html", 
                            title="Home page", 
-                           app_name = current_app.config['APP_NAME'], 
-                           today=get_local_time())
+                           app_name = current_app.config['APP_NAME']
+                           )
+
+# ,
+#                            today=get_local_time())
 
 # @main.route("/about/")
 # def about():     # completed
