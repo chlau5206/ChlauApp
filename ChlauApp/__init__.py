@@ -140,9 +140,11 @@ def create_app():
     # Logging
     logger = create_logger(app)
     logger.info("Logging started.")
-    logger.debug (f"App Name = {os.getenv('APP_NAME')}")
+    # logger.info(f"DEBug = {app.config['DEBUG']}")
     FLASK_ENV = {app.config['FLASK_ENV']}
-    logger.debug(f"FLASK_ENV={FLASK_ENV}")
+    if app.config['DEBUG']:
+        logger.debug (f"App Name = {os.getenv('APP_NAME')}")
+        logger.debug(f"FLASK_ENV={FLASK_ENV}")
     
     """ logger usage:
         # Log messages at different levels
@@ -194,8 +196,9 @@ def create_app():
     ########################################
     # init csrf
     csrf.init_app(app)
-    logger.debug(f'csrf exempt={csrf._exempt_views}') 
-    logger.debug(f'csrf token= {csrf._get_csrf_token}')
+    if app.config['DEBUG']:
+        logger.debug(f'csrf exempt={csrf._exempt_views}') 
+        logger.debug(f'csrf token= {csrf._get_csrf_token}')
 
     logger.info ('CSRF init completed.')
 

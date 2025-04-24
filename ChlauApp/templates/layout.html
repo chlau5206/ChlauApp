@@ -16,9 +16,9 @@
     {% block header %}{% endblock %}
 
 </head>
-<body>
+<body class="has-navbar-fixed-top">
     <!-- Nav Bar -->
-    <nav class="navbar is-fixed-top custom-navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
             <!-- Navbar Brand (Logo and Burger) -->
             <div class="navbar-brand">
@@ -74,18 +74,18 @@
         </div>
     </nav>
 
+    
     <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="notification is-{{ category }}">
-        {{ message }}
-    </div> 
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-    <!-- Flash Messages (ended) -->
-    <br />
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="notification is-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    
     <!-- Your content goes here -->
     <section class="hero">
         <div class="hero-body">

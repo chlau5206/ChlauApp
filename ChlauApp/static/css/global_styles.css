@@ -3,6 +3,7 @@
 body {
     font-family: 'Noto Sans';
     width: auto;
+    padding-top: 70px; /* Adjust based on the navbar height */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -45,7 +46,15 @@ h6 {
     color: indianred;
 }
 
-
+/* Flash messages styling */
+.flash-message {
+    margin-top: 10px; /* Add spacing below the navbar */
+    padding: 15px;
+    background-color: #f8d7da; /* Example: red for danger flash */
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    border-radius: 5px;
+}
 
 .form {
     margin-bottom: 20px; /* Add spacing between the form and the table */
@@ -108,9 +117,24 @@ h6 {
 }
 
 .custom-hero {
-    background-image: url('/statci/BoatHDR_Expected.jpg');
     background-size: cover;
     background-position: center;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it stays above other elements */
+    background-color: #333; /* Example color */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow for clarity */
+    width: 100%; /* full width */
+    /* height: 125px; */
+    background-color: #3498db; /* Bright Sky Blue (Cool Medium Blue) */
+    color: darkblue; /* Text color = white */
+    margin: 0 auto;
+    padding: 1rem; /* Add some padding for spacing */
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 nav, article, section, footer {
@@ -123,6 +147,7 @@ nav, article, section, footer {
 * {
     box-sizing: border-box;
 }
+
 
 .navbar-brand {
     display: flex;
@@ -149,24 +174,15 @@ nav, article, section, footer {
     display: block;
 }
 
-.custom-navbar {
-    width: 100%; /* full width */
-    background-color: #3498db; /* Bright Sky Blue (Cool Medium Blue) */
-    color: darkblue; /* Text color = white */
-    margin: 0 auto;
-    padding: 1rem; /* Add some padding for spacing */
-    padding-left: 10px;
-    padding-right: 10px;
-}
 
 /* Ensure links inside the navbar inherit the color */
-.custom-navbar a {
+.navbar a {
     color: inherit; /* Use the parent's color (#eee in this case) */
     text-decoration: none; /* Optional: remove underline for links */
 }
 
 /* Change link color on hover (optional) */
-.custom-navbar a:hover {
+.navbar a:hover {
     background-color: aqua;
     color: darkslateblue; /* Bright white for hover */
 }
@@ -226,6 +242,13 @@ footer {
 
 /* For tablets (max-width: 768px) */
 @media (max-width: 768px) {
+    body {
+        padding-top: 50px;
+    }
+    .flash-message {
+        font-size:0.9rem;
+        padding: 10px;
+    }
     .hero {
         height: 200px;
     }
