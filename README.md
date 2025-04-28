@@ -109,10 +109,25 @@ ChlauApp/
 └── requirements.txt        # List of Python dependencies for the project
 
 
-
-
-
 ## Note: pythonanywhere need to renew the website every 3 month.
+# directly replace your local files in PythonAnywhere with the remote repository's files, use:
+$ git fetch origin    # Fetch remote changes
+$ git reset --hard origin/<branch-name>    # Reset your branch
+
+- This will ensure that your local branch exactly matches the remote branch, including adding or deleting files as necessary.
+
+Optional:
+# to reset your Git repository to the last commit (discard every changed, --soft for kept change in staged)
+$ git reset --head HEAD     
+
+# update files only, no new file add or delete
+$ git fetch
+
+# 9. Temporarily saves your local changes, and apply them later.
+$ git stash
+$ git pull origin <feature-branch>
+$ git stash apply
+
 
 ## install ChlauApp with VSCode
 1. Create project folder
