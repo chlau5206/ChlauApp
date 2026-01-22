@@ -1,17 +1,16 @@
-﻿##  Project 
+﻿##  Project: Web Portfolio & Lab Demo
 ##
-This project uses Flask framework based.  The project is pubished in pythonanywhere.com. 
-https://chlau5206.pythonanywhere.com
-This Flask project is using Blueprint, Bulma, SQLAlchemy, Login-Manager, Flask-WTF, Logging.
+Technologies: Python, Flask (Blueprints), Bulma CSS, SQLAlchemy (SQLite), Flask-Login, Flask-WTF, Logging
 
-Flask project using:
-1. Blueprint , made modular portable and independant
-2. Bulma's CSS
-3. SQLAlchemy (SQLite3)
-4. Login-Manager 
-5. Flask-WTF for handling forms.
-6. Logging
-7. Flask-Mail for email -- not implemented, due to require oAuth.
+Modular Architecture: Engineered a modular web application using Flask Blueprints to ensure independent, portable, and scalable component management.
+
+Security & Auth: Implemented secure user authentication and session management using Flask-Login and SQLAlchemy, including protected routes and hashed credentials.
+
+Systems Monitoring: Integrated a robust Logging framework to track application health, user activity, and system errors—essential for root-cause analysis in production environments.
+
+Responsive UI: Developed a clean, professional front-end using Bulma CSS, prioritizing mobile-friendly design and high-performance asset loading.
+
+Data Integrity: Utilized Flask-WTF for secure form handling, including CSRF protection and server-side validation to ensure data quality.
 
 =====================
 = Project structure =
