@@ -1,0 +1,38 @@
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-burger {
+    display: none; /* Default behavior: hidden on larger screens */
+}
+
+@media screen and (max-width: 1024px) {
+    .navbar-burger {
+        display: block; /* Show burger menu on smaller screens */
+    }
+
+    .navbar-menu {
+        display: none; /* Hide menu by default */
+    }
+
+    .navbar-menu.is-active {
+        display: block; /* Show menu when active */
+    }
+}
+
+
+
+
+.navbar-menu {
+    background-color: #ffffff; /* Optional: Add a background color for mobile menu */
+    padding: 1rem;
+}
+
+    .navbar-menu .navbar-item {
+        color: #000; /* Adjust text color */
+    }
+
+        .navbar-menu .navbar-item:hover {
+            background-color: #eaeaea;
+        }

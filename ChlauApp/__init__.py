@@ -104,6 +104,7 @@ def create_app():
     app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')
+    app.config["SQLALCHEMY_BINDS"] = {'memory': 'sqlite:///:memory:'}  #In-memory database
     app.config["WTF_CSRF_ENABLED"] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
@@ -130,6 +131,10 @@ def create_app():
     
     from .ePubConverter import ePubConv_bp
     app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
+
+    # from .WebTest1 import WebTest1_bp
+    # app.register_blueprint(WebTest1_bp, url_prefix='/WebTest1')
+
 
     # from .gallery import gallery_bp
     # app.register_blueprint(gallery_bp, url_prefix='/gallery')
@@ -161,6 +166,8 @@ def create_app():
     # Initialize extensions
     db.init_app(app)  # Initialize SQLAlchemy with the Flask app
 
+    #
+
     # # Set up Flask-Migrate
     # migrate.init_app(app, db)
     ########################################
@@ -171,6 +178,9 @@ def create_app():
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
         logger.info('Bind SQLAlchemy to the app')
+
+        # Create tables for the in-memory database
+        db.create_all(bind='memory')
 
     except Exception as e:
         error_message = handle_exception(e) 
