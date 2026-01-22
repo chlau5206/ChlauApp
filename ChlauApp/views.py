@@ -38,9 +38,9 @@ def home():      # Completed
 # ,
 #                            today=get_local_time())
 
-# @main.route("/about/")
-# def about():     # completed
-#     return render_template("about.html", title="about")
+@main.route("/about/")
+def about():     # completed
+    return render_template("about.html", title="about")
 
 @main.route("/contact/", methods=["GET", "POST"])
 def contact():
