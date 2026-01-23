@@ -3,7 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-# User-specific files
+## User-specific files
 # .env
 .env.development
 .env.testing
@@ -15,6 +15,7 @@ FirstUser.html
 selections.js
 app.log
 
+## Project exclude folders
 instance/
 API_ExchangeRate.py
 message/
@@ -23,12 +24,17 @@ projects/
 test1/
 app_log/
 logs/
+WebTest1/
 
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
+
+## PythonAnywhere excluded folders and Files
+# WorkDirectory/*
+# !WorkDirectory/.gitkeep
 
 # Visual Studio 2022 - Python project folders/files
 .git/
