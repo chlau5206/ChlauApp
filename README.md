@@ -109,11 +109,18 @@ ChlauApp/
 
 
 ## Note: pythonanywhere need to renew the website every 3 month.
-# directly replace your local files in PythonAnywhere with the remote repository's files, use:
-$ git fetch origin    # Fetch remote changes
-$ git reset --hard origin/<branch-name>    # Reset your branch
 
-- This will ensure that your local branch exactly matches the remote branch, including adding or deleting files as necessary.
+# Commit the "Skeleton" On your local machine (PC), commit these changes and push to GitHub:
+Bash
+git add .
+git commit -m "Admin: Added WorkDirectory skeleton and updated ignore rules"
+git push origin main
+
+# The PAW "Sync" Now, on PythonAnywhere:
+Bash
+git fetch origin main
+git reset --hard origin/main
+
 
 Optional:
 # to reset your Git repository to the last commit (discard every changed, --soft for kept change in staged)
@@ -124,8 +131,8 @@ $ git fetch
 
 # 9. Temporarily saves your local changes, and apply them later.
 $ git stash
-$ git pull origin <feature-branch>
-$ git stash apply
+$ git pull origin [main | <feature-branch>]
+$ git stash [apply | pop]
 
 
 ## install ChlauApp with VSCode
