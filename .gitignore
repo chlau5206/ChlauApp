@@ -24,7 +24,9 @@ projects/
 test1/
 app_log/
 logs/
+ChlauAdmin/
 WebTest1/
+Workdirectory/
 
 *.rsuser
 *.suo

@@ -47,7 +47,7 @@ def contact():
     logger.info ("Contact us route accessed")
     cform = LoginForm.contactForm()
     return render_template("contact.html", 
-                           title="Contact Us",
+                           title="Contact Me",
                            form=cform)
 
 @main.route("/exchangeRate/")
