@@ -14,19 +14,21 @@ test*.html
 FirstUser.html
 selections.js
 app.log
+API_ExchangeRate.py
 
 ## Project exclude folders
 instance/
-API_ExchangeRate.py
-message/
-gallery/
-projects/
-test1/
 app_log/
 logs/
 AppAdmin/
+Projects/Board/
+
+message/
+# Projects/
 WebTest1/
 Workdirectory/
+gallery/
+test1/
 
 *.rsuser
 *.suo

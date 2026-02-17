@@ -1,0 +1,40 @@
+/* Data Container */
+.data-container {
+    margin-top: 20px; /* Top spacing for the container */
+}
+
+/* Data Item */
+.data-item {
+    margin-bottom: 10px; /* Bottom spacing between items */
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* General Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Prevent double borders */
+}
+
+/* Table Headers and Data Cells */
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd; /* Adds borders to cells */
+    text-align: left; /* Default alignment */
+}
+
+/* Table Headers */
+th {
+    background-color: #f2f2f2; /* Light gray for headers */
+}
+
+tr:empty {
+    display: none;
+}
+
+/* Specific Styling for DataTable */
+#dataTable th, #dataTable td {
+    text-align: right; /* Right-align only for DataTable */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
