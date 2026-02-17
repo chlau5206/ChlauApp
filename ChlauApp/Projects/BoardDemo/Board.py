@@ -6,8 +6,8 @@ from flask_login import login_required
 
 from . import board_bp  
 from ..extensions import db, csrf
-# from ..AppAdmin.members.models import roles_required, handle_exception 
-from ..AppAdmin.adminBoard.BoardModels import Board, BoardForm
+from ..AppAdmin.members.models import roles_required, handle_exception 
+from .BoardModels import Board, BoardForm
 
 import logging
 logger = logging.getLogger(__name__)
@@ -54,4 +54,51 @@ def general_add_message():
     finally:
         return render_template('board_general_add.html', form=sform)
 
+
+
+# @board_bp.route('/', methods=['GET', 'POST'])     # D = Display
+# @login_required
+# def show_message():
+#     logger.info('Contact Us-Show message route accessed.')
+#     form = BoardForm()
+#     page = request.args.get('page', default=1, type=int)    # Determine the current page number
+    
+#     # Retrieve messages for the current page
+#     pagination = Board.query.order_by(Board.timestamp.desc()).paginate(page=page, per_page=PER_PAGE)
+#     message_list = pagination.items
+
+#     # Check for next and previous pages
+#     next_page = pagination.next_num if pagination.has_next else None
+#     prev_page = pagination.prev_num if pagination.has_prev else None
+
+#     # Render the template
+#     return render_template('board.html', 
+#                             form=form,
+#                             messages = message_list, 
+#                             next_page=next_page, 
+#                             prev_page=prev_page)
+
+
+# @board_bp.route('/delete/<int:id>', methods=['POST'])
+# @login_required
+# @roles_required('sa')  
+# def delete_message(id):      # R = Remove
+#     logger.info('message.delete route accessed.')
+    
+#     try: 
+#         logger.debug(csrf._exempt_views)
+#         stored_message = Board.query.get_or_404(id)
+#         if stored_message.name == 'admin' :
+#             raise ValueError('You cannot delete Admin message.')
+#         else: 
+#             db.session.delete(stored_message)
+#             db.session.commit()
+#             flash('Message deleted successfully!', 'success')
+#             logger.warning('Message deleted successfully!')
+#     except Exception as e:
+#         error_message = handle_exception(e) 
+#         flash (f'{error_message}', 'danger')
+#         logger.error(f'{error_message}')
+    
+#     return redirect(url_for('board_bp.show_message', page=request.args.get('page', 1)))
 

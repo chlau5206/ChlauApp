@@ -1,22 +1,17 @@
 """  ChlauApp/__init__.py
 The flask application package.
 """
+from flask import Flask # , current_app
+from .extensions import db, migrate, csrf, login_manager
+
 import logging
 from logging.handlers import RotatingFileHandler
+logger = logging.getLogger(__name__)
+from .utils.utilities import handle_SQL_exception
 
 import os
 from dotenv import load_dotenv
 
-from flask import Flask # , current_app
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_login import LoginManager
-from flask_wtf import CSRFProtect  
-
-db = SQLAlchemy()
-migrate = Migrate()
-csrf = CSRFProtect()
-login_manager = LoginManager()
 FLASK_ENV = ''
 
 #######################################
@@ -84,10 +79,11 @@ def get_pacific_time():
     return pacific_time
 
 def create_app():
-    from .models import User, handle_exception
+    
     
     app = Flask(__name__) 
-    
+
+    #################################################
     # Load configurations from environment variables
     if  os.path.exists('.env.development'):
         load_dotenv(dotenv_path='.env.development')
@@ -108,38 +104,6 @@ def create_app():
     app.config["WTF_CSRF_ENABLED"] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
-
-    ########################################
-    # Blueprint register views here 
-    from .views import main
-    app.register_blueprint(main)
-    
-    from .members import members_bp
-    app.register_blueprint(members_bp, url_prefix='/members')
-
-    from .auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-
-    from .about import about_bp
-    app.register_blueprint(about_bp, url_prefix='/about')
-
-    from .Board import board_bp
-    app.register_blueprint(board_bp, url_prefix='/Board')
-
-    from .ExchangeRates import exchange_rate_bp
-    app.register_blueprint(exchange_rate_bp, url_prefix='/ExchangeRates')
-    
-    from .ePubConverter import ePubConv_bp
-    app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
-
-    # from .WebTest1 import WebTest1_bp
-    # app.register_blueprint(WebTest1_bp, url_prefix='/WebTest1')
-
-
-    # from .gallery import gallery_bp
-    # app.register_blueprint(gallery_bp, url_prefix='/gallery')
-
-    print ('Blueprint init completed.')
 
     #######################################
     # Logging
@@ -162,37 +126,87 @@ def create_app():
     
     logger.info("App begin init.")
 
-
+    
+    ########################################
     # Initialize extensions
     db.init_app(app)  # Initialize SQLAlchemy with the Flask app
 
-    #
+    login_manager.init_app(app)
 
-    # # Set up Flask-Migrate
+    # Set up Flask-Migrate
     # migrate.init_app(app, db)
-    ########################################
-    # init database
     try: 
         # with app.app_context():
         #     db.create_all() # Create tables if they don't exist
+        
+        # Import all models here
+        from .AppAdmin.members.models import User
+        from .AppAdmin.adminBoard.BoardModels import Board
+
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
         logger.info('Bind SQLAlchemy to the app')
 
         # Create tables for the in-memory database
-        db.create_all(bind='memory')
+        # db.create_all()
+        # db.create_all(bind='memory')
 
     except Exception as e:
-        error_message = handle_exception(e) 
+        error_message = handle_SQL_exception(e) 
         logger.error (f'An unexpected SQL error occurred: {error_message}')
 
     logger.info("Database init completed.")
 
     ########################################
+    # init csrf
+    csrf.init_app(app)
+    if app.config['DEBUG']:
+        logger.debug(f'csrf exempt={csrf._exempt_views}') 
+        logger.debug(f'csrf token= {csrf._get_csrf_token}')
+
+    logger.info ('CSRF init completed.')
+    
+    from .AppAdmin.members.models import User #, handle_exception
+    
+    ########################################
+    # Blueprint register views here 
+    from .views import main
+    app.register_blueprint(main)
+    
+    from .about import about_bp
+    app.register_blueprint(about_bp, url_prefix='/about')
+
+    from .Board import board_bp
+    app.register_blueprint(board_bp, url_prefix='/Board')
+
+    
+    from .AppAdmin.members import members_bp
+    app.register_blueprint(members_bp, url_prefix='/members')
+
+    from .AppAdmin.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from .AppAdmin.adminBoard import admin_board_bp
+    app.register_blueprint(admin_board_bp, url_prefix='/adminBoard')
+    
+    
+    from .Projects.ExchangeRates import exchange_rate_bp
+    app.register_blueprint(exchange_rate_bp, url_prefix='/ExchangeRates')
+    
+    from .Projects.ePubConverter import ePubConv_bp
+    app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
+
+
+    # from .gallery import gallery_bp
+    # app.register_blueprint(gallery_bp, url_prefix='/gallery')
+
+    print ('Blueprint init completed.')
+
+    ########################################
     # ## User Create/login 
     # LoginManager is needed for our application 
     # to be able to log in and out users
-    login_manager.init_app(app)
+    
     login_manager.login_view = 'auth_bp.login'  # old settings 'admin.login'
 
     ########################################
@@ -203,14 +217,6 @@ def create_app():
 
     logger.info('Login manager init completed.')
 
-    ########################################
-    # init csrf
-    csrf.init_app(app)
-    if app.config['DEBUG']:
-        logger.debug(f'csrf exempt={csrf._exempt_views}') 
-        logger.debug(f'csrf token= {csrf._get_csrf_token}')
-
-    logger.info ('CSRF init completed.')
 
     logger.info('Flask application has started')
 

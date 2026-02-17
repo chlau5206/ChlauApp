@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Contact Us</h2><br />
+    <form method="POST" action="{{ url_for('board_bp.general_add_message') }}">
+        {{ form.hidden_tag() }}  <!-- CSRF Token -->
+        <div class="field">
+            <label class="label">{{ form.name.label }}</label>
+            <div class="control has-icons-left has-icons-right">
+                {{ form.name(class="input") }}
+            </div>
+            <div class="field">
+                <label class="label">{{ form.email.label }}</label>
+                <div class="control has-icons-left has-icons-right">
+                    {{ form.email(class="input") }}
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">{{ form.message.label }}</label>
+                <div class="control">
+                    <textarea class="textarea" placeholder="message" {{ form.message(class="input") }}
+                        </textarea>
+                </div>
+            </div>
+            <br />
+            <div class="field">
+                <div class="control">
+                    {{ form.submit(class="button is-link") }}
+                </div>
+            </div>
+    </form>
+</div>
+{% endblock %}
