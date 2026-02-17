@@ -2,7 +2,7 @@
 '''
 
 import os
-from flask import render_template, json, jsonify, current_app
+from flask import render_template,  current_app
 
 from .AppAdmin.members.LoginForms import LoginForm   # contactUsModule import contactForm
 from .utils.utilities import handle_SQL_exception
