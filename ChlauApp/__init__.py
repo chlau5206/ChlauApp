@@ -6,11 +6,11 @@ from .extensions import db, migrate, csrf, login_manager
 
 import logging
 from logging.handlers import RotatingFileHandler
+logger = logging.getLogger(__name__)
+from .utils.utilities import handle_SQL_exception
 
 import os
 from dotenv import load_dotenv
-
-
 
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
@@ -89,7 +89,7 @@ def get_pacific_time():
     return pacific_time
 
 def create_app():
-    from .models import User, handle_exception
+    
     
     app = Flask(__name__) 
 
@@ -141,7 +141,6 @@ def create_app():
     # Initialize extensions
     db.init_app(app)  # Initialize SQLAlchemy with the Flask app
 
-
     login_manager.init_app(app)
 
     # Set up Flask-Migrate
@@ -149,15 +148,21 @@ def create_app():
     try: 
         # with app.app_context():
         #     db.create_all() # Create tables if they don't exist
+        
+        # Import all models here
+        from .AppAdmin.members.models import User
+        from .AppAdmin.adminBoard.BoardModels import Board
+
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
         logger.info('Bind SQLAlchemy to the app')
 
         # Create tables for the in-memory database
-        db.create_all(bind='memory')
+        # db.create_all()
+        # db.create_all(bind='memory')
 
     except Exception as e:
-        error_message = handle_exception(e) 
+        error_message = handle_SQL_exception(e) 
         logger.error (f'An unexpected SQL error occurred: {error_message}')
 
     logger.info("Database init completed.")
@@ -171,42 +176,41 @@ def create_app():
 
     logger.info ('CSRF init completed.')
     
-
+    from .AppAdmin.members.models import User #, handle_exception
+    
     ########################################
     # Blueprint register views here 
     from .views import main
     app.register_blueprint(main)
     
-    from .ChlauAdmin/members import members_bp
-    app.register_blueprint(members_bp, url_prefix='/members')
-
-    from .ChlauAdmin/auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-
     from .about import about_bp
     app.register_blueprint(about_bp, url_prefix='/about')
 
     from .Board import board_bp
     app.register_blueprint(board_bp, url_prefix='/Board')
 
-    from .ExchangeRates import exchange_rate_bp
+    
+    from .AppAdmin.members import members_bp
+    app.register_blueprint(members_bp, url_prefix='/members')
+
+    from .AppAdmin.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from .AppAdmin.adminBoard import admin_board_bp
+    app.register_blueprint(admin_board_bp, url_prefix='/adminBoard')
+    
+    
+    from .Projects.ExchangeRates import exchange_rate_bp
     app.register_blueprint(exchange_rate_bp, url_prefix='/ExchangeRates')
     
-    from .ePubConverter import ePubConv_bp
+    from .Projects.ePubConverter import ePubConv_bp
     app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
-
-    # from .WebTest1 import WebTest1_bp
-    # app.register_blueprint(WebTest1_bp, url_prefix='/WebTest1')
 
 
     # from .gallery import gallery_bp
     # app.register_blueprint(gallery_bp, url_prefix='/gallery')
 
     print ('Blueprint init completed.')
-
-
-    #
-
 
     ########################################
     # ## User Create/login 

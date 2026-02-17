@@ -1,22 +1,25 @@
 ''' test1/models.py
 '''
 
-import logging
-from . import db
-# from . import WebTest1_bp
-from flask import redirect, url_for, flash, current_app
-from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm, CSRFProtect
-from sqlalchemy import CheckConstraint, Text, Index, desc
+from ..extensions import db
+from sqlalchemy import Index, desc
 from sqlalchemy.sql import func
-from sqlalchemy.exc import  SQLAlchemyError, IntegrityError, OperationalError,ProgrammingError,DataError, InternalError
-from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Email, InputRequired
 
-from flask_login import UserMixin, current_user
-from werkzeug.exceptions import HTTPException
-from datetime import datetime
-from functools import wraps
+#import logging
+# from . import WebTest1_bp
+# from flask import redirect, url_for, flash, current_app
+# from flask_sqlalchemy import SQLAlchemy
+# from flask_wtf import FlaskForm, CSRFProtect
+# from sqlalchemy import CheckConstraint, Text, 
+
+#from sqlalchemy.exc import  SQLAlchemyError, IntegrityError, OperationalError,ProgrammingError, DataError, InternalError
+# from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField
+# from wtforms.validators import DataRequired, Email, InputRequired
+
+# from flask_login import UserMixin, current_user
+# from werkzeug.exceptions import HTTPException
+# from datetime import datetime
+# from functools import wraps
 
 
 class TempData(db.Model):  # This model will use the in-memory database
