@@ -21,7 +21,6 @@ instance/
 app_log/
 logs/
 AppAdmin/
-Projects/Board/
 
 message/
 # Projects/
