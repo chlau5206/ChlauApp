@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center">Contact Us</h2><br />
-    <form method="POST" action="{{ url_for('board_bp.general_add_message') }}">
+    <form method="POST" action="{{ url_for('BoardDemo_bp.demo_add_message') }}">
         {{ form.hidden_tag() }}  <!-- CSRF Token -->
         <div class="field">
             <label class="label">{{ form.name.label }}</label>

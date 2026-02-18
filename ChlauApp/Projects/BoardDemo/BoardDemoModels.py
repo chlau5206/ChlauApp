@@ -1,7 +1,9 @@
-''' Board/BoardForm.py 
+''' BoardDemo/BoardDemoForm.py 
 '''
 from doctest import script_from_examples
-from .. import db
+
+# from .. import db
+from ...extensions import db, csrf
 from sqlalchemy import Text, Index, desc
 from sqlalchemy.sql import func
 
@@ -10,8 +12,8 @@ from wtforms import StringField,  TextAreaField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Email, InputRequired, Length
 
 
-class Board(db.Model):
-    __tablename__ = 'Board'
+class BoardDemo(db.Model):
+    __tablename__ = 'BoardDemo'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=True) 
@@ -30,7 +32,7 @@ class Board(db.Model):
         message = (self.message[:120] + "..." if self.message and len(self.message) > 120 else self.message or "N/A")
         return f"<message {self.name[:80]} {email} {message} {self.timestamp}>"
 
-class BoardForm(FlaskForm): 
+class BoardDemoForm(FlaskForm): 
     name = StringField(label='Name', render_kw={'maxlength': 80, 'size': 30, 'style': 'width:300px;'},
                       validators=[InputRequired()]) 
     email = StringField(label='Email', render_kw={'maxlength': 120, 'size': 30, 'style': 'width:300px;'},
