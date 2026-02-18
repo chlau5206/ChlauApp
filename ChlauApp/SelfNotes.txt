@@ -1,0 +1,21 @@
+For resume, 
+Built a full-stack portfolio platform using Flask, SQLAlchemy, and modularblueprints, deployed on PythonAnywhere. 
+
+Why Flask
+* Flask is perfect for small to medium traffic
+
+* free account in PythonAnywhere have limited space
+* Flask has many space that allow me to try
+* Django built everything already, not must to learn
+* Django is heavie, more opinionated, and optimized for larger teams and larger system
+* PythonAnywhere free tier limitations
+* Flask gives you room to learn
+* Django is great for mid-size and up
+
+Why Flask belongs on your resume
+
+* Your site has low traffic -> Flask is lightweight and perfect
+* PythonAnywhere free tier has limited space -> Flask fits
+* Flask gives you freedom to build architecture yourself
+* Django hides too much -> Flask lets you learn real engineering
+* Django is better for mid-size teams -> Flask is ideal for solo projects

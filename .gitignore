@@ -22,12 +22,11 @@ app_log/
 logs/
 AppAdmin/
 
-message/
-# Projects/
-WebTest1/
 Workdirectory/
-gallery/
-test1/
+# message/
+# WebTest1/
+# gallery/
+# test1/
 
 *.rsuser
 *.suo

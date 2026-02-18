@@ -148,7 +148,6 @@ def create_app():
         logger.info('Bind SQLAlchemy to the app')
 
         # Create tables for the in-memory database
-        # db.create_all()
         # db.create_all(bind='memory')
 
     except Exception as e:
@@ -196,10 +195,10 @@ def create_app():
     from .Projects.ePubConverter import ePubConv_bp
     app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
 
+    # from .Projects.BoardDemo import boardDemo_bp
+    # app.register_blueprint(boardDemo_bp, url_prefix='/BoardDemo')
 
-    # from .gallery import gallery_bp
-    # app.register_blueprint(gallery_bp, url_prefix='/gallery')
-
+    
     print ('Blueprint init completed.')
 
     ########################################

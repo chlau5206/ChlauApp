@@ -6,6 +6,7 @@ from flask_login import login_required
 
 from . import board_bp  
 from ..extensions import db, csrf
+from ..utils.utilities import handle_SQL_exception
 # from ..AppAdmin.members.models import roles_required, handle_exception 
 from ..AppAdmin.adminBoard.BoardModels import Board, BoardForm
 
@@ -47,7 +48,7 @@ def general_add_message():
             # return redirect(url_for('main.home'))
     
     except Exception as e:
-            error_message = handle_exception(e) 
+            error_message = handle_SQL_exception(e) 
             flash (f'{error_message}', 'danger')
             logger.error(f'{error_message}')
             # return redirect(url_for('main.home'))
