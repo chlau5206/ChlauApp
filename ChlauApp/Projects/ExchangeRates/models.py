@@ -1,3 +1,0 @@
-''' ExchangeRates/models.py
-'''
-pass

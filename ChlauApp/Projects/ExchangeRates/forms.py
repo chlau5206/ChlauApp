@@ -1,4 +1,0 @@
-''' ExchangeRates/forms.py
-
-'''
-pass

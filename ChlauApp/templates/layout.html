@@ -16,7 +16,7 @@
     {% block header %}{% endblock %}
 
 </head>
-<body class="has-navbar-fixed-top">
+<body>
     <!-- Nav Bar -->
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
@@ -41,11 +41,13 @@
                         <div class="navbar-dropdown">
                             <a class="navbar-item" href="{{ url_for('exchange_rate_bp.exchangeRate') }}">Exchange Rate</a>
                             <a class="navbar-item" href="{{ url_for('ePubConv_bp.index') }}">CHS -> CHT ePub converter</a>
+
                         </div>
                     </div>
 
                     <!-- Projects Dropdown ended -->
-                    <a class="navbar-item" href="{{ url_for('about_bp.index') }}">About</a>
+
+                    <a class="navbar-item" href="{{ url_for('about2_bp.index') }}">About Me</a>
                     <a class="navbar-item" href="{{ url_for('board_bp.general_add_message') }}">Contact Me</a>
 
                     <!-- Member Menu (for authenticated users) -->
@@ -56,6 +58,9 @@
                             <a class="navbar-item" href="{{ url_for('auth_bp.display_user') }}">Membership</a>
                             <a class="navbar-item" href="{{ url_for('admin_board_bp.show_message') }}">Messages board</a>
                             <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member page</a>
+                            ------------------------------------<br />
+                            <a class="navbar-item" href="{{ url_for('boardDemo_bp.demo_add_message') }}">Demo Message board</a>
+                            <a class="navbar-item" href="{{ url_for('about_bp.index') }}">About</a>
                         </div>
                     </div>
                     {% endif %}
@@ -74,37 +79,30 @@
         </div>
     </nav>
 
-    
+
     <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="notification is-{{ category }}">
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="notification is-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <!-- Your content goes here -->
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container">
-                <!-- Your content goes here -->
-                {% block content %}{% endblock %}
-            </div>
-        </div>
-    </section>
+    {% block content %}{% endblock %}
     <br />
     <footer class="hero-foot is-info">
         <div class="container">
-            <a href="https://www.eclipse.org/legal/epl-2.0/">Copyright &copy; 2025 CHLAU5206</a>
-            <!-- Include the layout.js file -->
-            <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
-
-            {% block footer %}
-            {% endblock %}
+            <a href="https://www.eclipse.org/legal/epl-2.0/">Copyright &copy; 2026 CHLAU5206</a>
         </div>
     </footer>
+
+    <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
+    {% block scripts %}
+
+    {% endblock %}
 </body>
 </html>
