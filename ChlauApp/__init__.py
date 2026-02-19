@@ -99,8 +99,8 @@ def create_app():
     app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
     app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')
-    app.config["SQLALCHEMY_BINDS"] = {'memory': 'sqlite:///:memory:'}  #In-memory database
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')    # READ db
+    app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///:memory:'}                                     # DEMO db :  In-memory database
     app.config["WTF_CSRF_ENABLED"] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
@@ -142,13 +142,14 @@ def create_app():
         # Import all models here
         from .AppAdmin.members.models import User
         from .AppAdmin.adminBoard.BoardModels import Board
+        from .Projects.BoardDemo.BoardDemoModels import BoardDemo
 
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
         logger.info('Bind SQLAlchemy to the app')
 
-        # Create tables for the in-memory database
-        # db.create_all(bind='memory')
+        # Creates the demo tables manually
+        db.create_all(bind='demo')
 
     except Exception as e:
         error_message = handle_SQL_exception(e) 
@@ -195,8 +196,11 @@ def create_app():
     from .Projects.ePubConverter import ePubConv_bp
     app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
 
-    # from .Projects.BoardDemo import boardDemo_bp
-    # app.register_blueprint(boardDemo_bp, url_prefix='/BoardDemo')
+    from .Projects.BoardDemo import boardDemo_bp
+    app.register_blueprint(boardDemo_bp, url_prefix='/BoardDemo')
+
+    from .About2 import about2_bp
+    app.register_blueprint(about2_bp, url_prefix='/About2')
 
     
     print ('Blueprint init completed.')

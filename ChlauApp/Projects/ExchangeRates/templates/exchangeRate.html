@@ -7,32 +7,34 @@
 {% endblock %}
 
 {% block content %}
-<article>
-    <h3>
-        Exchange Rate (USD based) Date token: <span id="toke_date"></span>
-    </h3>
+<section class="section">
+    <div class="container">
+        <h3>
+            Exchange Rate (USD based) Date token: <span id="toke_date"></span>
+        </h3>
 
-    <table class="table is-striped is-link" id="dataTable">
-        <!--<tr valign="top">
-            <td bgcolor="#eee" width="400" height="200">-->
-        <thead>
-            <tr>
-                <th>Country</th>
-                <th>USD to $</th>
-                <th>$ to USD</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="custom-cell"></td>
-            </tr>
-        </tbody>
-    </table>
-</article>
+        <table class="table is-striped is-link" id="dataTable">
+            <!--<tr valign="top">
+                <td bgcolor="#eee" width="400" height="200">-->
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>USD to $</th>
+                    <th>$ to USD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="custom-cell"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
 {% endblock %}
 
-{% block footer %}
-<!--<button id="fetchData">Fetch data</button>-->
-<script src="{{ url_for('exchange_rate_bp.static', filename='js/ExchangeRates.js')}}"></script>
+{% block scripts %}
+    <script src="{{ url_for('exchange_rate_bp.static', filename='js/ExchangeRates.js')}}"></script>
 {% endblock %}
 
