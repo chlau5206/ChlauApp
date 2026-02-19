@@ -16,7 +16,7 @@
     {% block header %}{% endblock %}
 
 </head>
-<body class="has-navbar-fixed-top">
+<body>
     <!-- Nav Bar -->
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="container">
@@ -46,7 +46,8 @@
                     </div>
 
                     <!-- Projects Dropdown ended -->
-                    <a class="navbar-item" href="{{ url_for('about_bp.index') }}">About</a>
+
+                    <a class="navbar-item" href="{{ url_for('about2_bp.index') }}">About Me</a>
                     <a class="navbar-item" href="{{ url_for('board_bp.general_add_message') }}">Contact Me</a>
 
                     <!-- Member Menu (for authenticated users) -->
@@ -58,8 +59,8 @@
                             <a class="navbar-item" href="{{ url_for('admin_board_bp.show_message') }}">Messages board</a>
                             <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member page</a>
                             ------------------------------------<br />
-                            <a class="navbar-item" href="{{ url_for('about2_bp.index') }}">About2</a>
                             <a class="navbar-item" href="{{ url_for('boardDemo_bp.demo_add_message') }}">Demo Message board</a>
+                            <a class="navbar-item" href="{{ url_for('about_bp.index') }}">About</a>
                         </div>
                     </div>
                     {% endif %}
@@ -95,7 +96,7 @@
     <br />
     <footer class="hero-foot is-info">
         <div class="container">
-            <a href="https://www.eclipse.org/legal/epl-2.0/">Copyright &copy; 2025 CHLAU5206</a>
+            <a href="https://www.eclipse.org/legal/epl-2.0/">Copyright &copy; 2026 CHLAU5206</a>
         </div>
     </footer>
 

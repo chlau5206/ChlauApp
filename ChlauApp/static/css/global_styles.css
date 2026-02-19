@@ -1,9 +1,14 @@
 /* global_styles.css */
 
+:root {
+    --navbar-height: 125px;
+}
+
 body {
     font-family: 'Noto Sans';
     width: auto;
-    padding-top: 70px; /* Adjust based on the navbar height */
+    /* padding-top: 125px;    Adjust based on the navbar height */
+    padding-top: var(--navbar-height);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -128,7 +133,7 @@ h6 {
     background-color: #333; /* Example color */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow for clarity */
     width: 100%; /* full width */
-    /* height: 125px; */
+    height: var(--navbar-height);
     background-color: #3498db; /* Bright Sky Blue (Cool Medium Blue) */
     color: darkblue; /* Text color = white */
     margin: 0 auto;
@@ -137,7 +142,7 @@ h6 {
     padding-right: 10px;
 }
 
-nav, article, section, footer {
+article, section, footer {
     width: 100%;
     max-width: 1200px; /* Adjust to your preferred page width */
     margin: 0 auto; /* Center content horizontally */

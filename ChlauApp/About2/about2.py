@@ -11,9 +11,8 @@ logger = logging.getLogger(__name__)
 from . import about2_bp
 
 @about2_bp.route('/')     
-@login_required
 def index():
     logger.debug('about route accessed.')
-    return render_template("about2.html", 
+    return render_template("about21.html", 
                            title="About me (v2)")
 

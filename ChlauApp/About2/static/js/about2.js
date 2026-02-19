@@ -1,5 +1,4 @@
 /* About2/about2.js */
-<script>
 document.addEventListener("DOMContentLoaded", () => {
     const sections = document.querySelectorAll(".collapsible-section");
 
@@ -14,5 +13,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-</script>
 
