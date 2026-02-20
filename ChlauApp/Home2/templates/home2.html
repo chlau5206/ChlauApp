@@ -1,0 +1,140 @@
+﻿{% extends "layout.html" %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('home2_bp.static', filename='css/home2.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero is-info is-medium">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Software Development Engineer in Test (SDET)
+            </h1>
+            <h2 class="subtitle">
+                Strong experience in Windows systems, SQL validation, backend troubleshooting, and building practical tools that improve testing and reliability.
+            </h2>
+
+            <div class="buttons mt-4">
+                <a href="{{ url_for('about2_bp.index') }}" class="button is-light is-medium">About Me</a>
+                <a href="#projects" class="button is-primary is-medium">View Projects</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUMMARY SECTION -->
+<section class="section">
+    <div class="container">
+        <h2 class="title is-4">Who I Am</h2>
+        <p class="content">
+            I’m an SDET with several years of experience testing backend systems, Windows OS components, and networking environments.
+            My background includes SQL validation, test environment setup, system troubleshooting, and supporting deployments in production-like environments.
+            I also build small tools in Python and C# to automate workflows and solve practical problems.
+            I’m looking for roles in SDET, QA engineering, system engineering, or technical support where I can apply my testing mindset and system knowledge.
+        </p>
+    </div>
+</section>
+
+<!-- WHAT I'M WORKING ON -->
+<section class="section">
+    <div class="container">
+        <h2 class="title is-4">What I'm Working On</h2>
+
+        <div class="content">
+            <p>
+                I’m currently focused on evolving my portfolio into a more polished, professional engineering platform.
+                This includes rewriting the site’s layout and content to better highlight my projects, engineering philosophy,
+                and technical strengths.
+            </p>
+            <p>
+                I’m also upgrading the Exchange Rate Viewer to include secure server-side API handling, rate limiting,
+                and automated base-currency conversion. The current public demo displays transformed data only, and the
+                next version will complete the full data-processing workflow.
+            </p>
+            <p>
+                In addition, I’m preparing the Message Board project for public release. The core functionality is complete,
+                and I’m finalizing the demo environment and documentation to showcase its dual-database architecture and
+                safe public interaction model.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS SECTION -->
+<section class="section" id="projects">
+    <div class="container">
+        <h2 class="title is-4">Highlighted Projects</h2>
+
+        <div class="columns is-multiline">
+
+            <!-- Project 1 -->
+            <div class="column is-4">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Exchange Rate Viewer</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            A small Flask app demonstrating API handling, backend validation, and safe server-side processing.
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{{ url_for('exchange_rate_bp.exchangeRate') }}" class="card-footer-item">Open</a>
+                    </footer>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="column is-4">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">CHS → CHT ePub Converter</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            A C# utility that converts Simplified Chinese ePub books to Traditional Chinese using character mapping and ePub file reconstruction.
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{{ url_for('ePubConv_bp.index') }}" class="card-footer-item">Open</a>
+                    </footer>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="column is-4">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Message Board Demo</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            A simple Flask demo showing form handling, SQLAlchemy models, and a safe in-memory test environment for testing.
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{{ url_for('boardDemo_bp.demo_add_message') }}" class="card-footer-item">Open</a>
+                    </footer>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="section has-text-centered">
+    <div class="container">
+        <h2 class="title is-4">Learn More</h2>
+        <div class="buttons is-centered mt-4">
+            <a href="{{ url_for('about2_bp.index') }}" class="button is-info is-medium">About Me</a>
+            <a href="#projects" class="button is-primary is-medium">Projects</a>
+            <a href="{{ url_for('board_bp.general_add_message') }}" class="button is-link is-medium">Contact Me</a>
+            <a href="{{ url_for('about2_bp.static', filename='data/Current_Resume.pdf')}}" class="button is-dark is-medium" target="_blank">Résumé</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

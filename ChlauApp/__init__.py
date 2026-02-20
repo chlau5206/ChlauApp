@@ -173,13 +173,13 @@ def create_app():
     from .views import main
     app.register_blueprint(main)
     
-    from .about import about_bp
-    app.register_blueprint(about_bp, url_prefix='/about')
-
     from .Board import board_bp
     app.register_blueprint(board_bp, url_prefix='/Board')
 
-    
+    from .About2 import about2_bp
+    app.register_blueprint(about2_bp, url_prefix='/about')
+
+
     from .AppAdmin.members import members_bp
     app.register_blueprint(members_bp, url_prefix='/members')
 
@@ -199,9 +199,13 @@ def create_app():
     from .Projects.BoardDemo import boardDemo_bp
     app.register_blueprint(boardDemo_bp, url_prefix='/BoardDemo')
 
-    from .About2 import about2_bp
-    app.register_blueprint(about2_bp, url_prefix='/About2')
+    
+    from .Home2 import home2_bp
+    app.register_blueprint(home2_bp, url_prefix='/home2')
 
+    # # Old version. replace to About2
+    # from .about import about_bp
+    # app.register_blueprint(about_bp, url_prefix='/about')
     
     print ('Blueprint init completed.')
 
@@ -209,7 +213,6 @@ def create_app():
     # ## User Create/login 
     # LoginManager is needed for our application 
     # to be able to log in and out users
-    
     login_manager.login_view = 'auth_bp.login'  # old settings 'admin.login'
 
     ########################################

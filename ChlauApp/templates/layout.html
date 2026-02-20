@@ -49,6 +49,7 @@
 
                     <a class="navbar-item" href="{{ url_for('about2_bp.index') }}">About Me</a>
                     <a class="navbar-item" href="{{ url_for('board_bp.general_add_message') }}">Contact Me</a>
+                    
 
                     <!-- Member Menu (for authenticated users) -->
                     {% if current_user.is_authenticated %}
@@ -60,7 +61,8 @@
                             <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member page</a>
                             ------------------------------------<br />
                             <a class="navbar-item" href="{{ url_for('boardDemo_bp.demo_add_message') }}">Demo Message board</a>
-                            <a class="navbar-item" href="{{ url_for('about_bp.index') }}">About</a>
+                            <a class="navbar-item" href="{{ url_for('home2_bp.index') }}">Home2</a>
+
                         </div>
                     </div>
                     {% endif %}
@@ -92,11 +94,20 @@
     {% endwith %}
 
     <!-- Your content goes here -->
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
     <br />
-    <footer class="hero-foot is-info">
+    <!--<footer class="hero-foot is-info">
         <div class="container">
             <a href="https://www.eclipse.org/legal/epl-2.0/">Copyright &copy; 2026 CHLAU5206</a>
+        </div>
+    </footer>-->
+
+    <footer class="footer custom-footer">
+        <div class="content has-text-centered">
+            <p class="footer-copy">
+                © {{ current_year }} Charles Loo. All rights reserved.
+            </p>
         </div>
     </footer>
 

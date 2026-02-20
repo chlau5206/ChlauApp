@@ -108,6 +108,41 @@ ChlauApp/
 └── requirements.txt        # List of Python dependencies for the project
 
 
+project/
+│
+├── static/
+│   ├── css/
+│   │   ├── bulma.min.css
+│   │   ├── global_styles.css
+│   │   └── layout.css (optional)
+│   ├── js/
+│   │   ├── layout.js        <-- global JS
+│   │   └── global_utils.js  <-- optional
+│   └── img/
+│       └── logo.png
+│
+├── home2/
+│   ├── templates/
+│   │   └── home2.html
+│   └── static/
+│       ├── css/
+│       └── js/
+│
+├── about2/
+│   ├── templates/
+│   │   └── about2.html
+│   └── static/
+│       ├── css/
+│       └── js/
+│
+├── exchange_rate/
+│   ├── templates/
+│   └── static/
+│
+└── boardDemo/
+    ├── templates/
+    └── static/
+
 ## Note: pythonanywhere need to renew the website every 3 month.
 
 # Commit the "Skeleton" On your local machine (PC), commit these changes and push to GitHub:
