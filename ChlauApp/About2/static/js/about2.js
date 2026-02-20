@@ -1,16 +1,20 @@
 /* About2/about2.js */
+
 document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll(".collapsible-section");
+    const collapsibles = document.querySelectorAll(".collapsible");
 
-    sections.forEach(section => {
-        const title = section.querySelector(".collapsible-title");
-        const full = section.querySelector(".collapsible-full");
-        const chevron = section.querySelector(".chevron");
+    collapsibles.forEach((section) => {
+        const header = section.querySelector(".collapsible-header");
+        const content = section.querySelector(".collapsible-content");
 
-        title.addEventListener("click", () => {
-            full.classList.toggle("is-hidden");
-            chevron.classList.toggle("rotated");
+        header.addEventListener("click", () => {
+            section.classList.toggle("is-active");
+
+            if (section.classList.contains("is-active")) {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
         });
     });
 });
-

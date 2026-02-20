@@ -8,11 +8,12 @@ from flask_login import login_required
 import logging
 logger = logging.getLogger(__name__)
 
-from . import about2_bp
+from . import home2_bp
 
-@about2_bp.route('/')     
+
+@home2_bp.route('/')     
 def index():
-    logger.debug('about route accessed.')
-    return render_template("About21.html", 
-                           title="About me (v2)")
+    logger.debug('Home route accessed.')
+    return render_template("home2.html", 
+                           title="Home (v2)")
 

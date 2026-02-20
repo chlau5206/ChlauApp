@@ -1,16 +1,104 @@
-/* About2/About2 - resume font Definitions */
+/* About2/About2.css - resume font Definitions */
+/* ============================
+   ABOUT2 — COLLAPSIBLE SECTIONS
+   ============================ */
 
-.collapsible-title {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.collapsible {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
 }
 
+    .collapsible:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+/* Header */
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    background-color: #f7f9fc;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+    .collapsible-header:hover {
+        background-color: #eef3fa;
+    }
+
+/* Chevron */
 .chevron {
+    font-size: 1.1rem;
     transition: transform 0.25s ease;
 }
 
-.chevron.rotated {
+/* Rotate when active */
+.collapsible.is-active .chevron {
     transform: rotate(180deg);
+}
+
+/* Content */
+.collapsible-content {
+    padding: 1rem 1.25rem;
+    display: none; /* JS toggles this */
+    animation: fadeIn 0.25s ease;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ============================
+   TYPOGRAPHY + SPACING
+   ============================ */
+
+.title.is-3 {
+    margin-bottom: 0.5rem;
+}
+
+.subtitle.is-5 {
+    margin-bottom: 2rem;
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+.content p {
+    margin-bottom: 1rem;
+}
+
+.content ul {
+    margin-left: 1.25rem;
+}
+
+/* ============================
+   RESUME BUTTON
+   ============================ */
+
+.has-text-centered .button {
+    min-width: 200px;
+}
+
+/* ============================
+   RESPONSIVE TWEAKS
+   ============================ */
+
+@media (max-width: 768px) {
+    .collapsible-header {
+        padding: 0.9rem 1rem;
+    }
+
+    .collapsible-content {
+        padding: 0.9rem 1rem;
+    }
 }

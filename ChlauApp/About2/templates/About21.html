@@ -1,6 +1,5 @@
 ﻿{% extends "layout.html" %}
 
-
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('about2_bp.static', filename='css/style.css') }}">
 {% endblock %}
@@ -10,174 +9,102 @@
 <section class="section">
     <div class="container">
 
-        <!-- Hero Intro (always expanded) -->
-        <div class="content">
-            <h1 class="title">About Me</h1>
-            <p class="subtitle is-4">
-                <strong>Hi, I’m Charles — a systems‑minded software engineer who builds reliable, maintainable, and well‑structured applications.</strong>
-            </p>
-            <p>
-                I specialize in designing clean architectures, optimizing workflows, and developing secure, modular systems using Python, Flask, SQL, and modern tooling.
-                My work focuses on clarity, scalability, and long‑term maintainability across both backend and full‑stack environments.
-            </p>
-        </div>
+        <!-- HERO INTRO -->
+        <h1 class="title is-3">About Me</h1>
+        <p class="subtitle is-5">
+            Software Development Engineer in Test (SDET) with strong experience in Windows systems, SQL validation, backend troubleshooting, and practical tool development.
+        </p>
 
-        <hr>
-
-        <!-- ========================= -->
-        <!-- Reusable Collapsible Block -->
-        <!-- ========================= -->
-        <!-- About Me -->
-        <div class="collapsible-section">
-            <h2 class="title is-4 collapsible-title">
-                About Me
-                <span class="chevron">&#9662;</span>
-            </h2>
-
-            <p class="collapsible-preview">
-                I’m a software engineer with a strong foundation in mathematics, computer science, and system design.
-            </p>
-
-            <div class="collapsible-full is-hidden">
+        <!-- SECTION 1: ABOUT ME -->
+        <div class="box collapsible">
+            <header class="collapsible-header">
+                <h2 class="title is-5">Who I Am</h2>
+                <span class="chevron">▼</span>
+            </header>
+            <div class="collapsible-content content">
                 <p>
-                    I studied Mathematics at the University of Hawaii at Mānoa, where I also completed extensive coursework in programming and data structures.
-                    This background shaped my analytical approach and the way I design systems today.
+                    I’m an SDET with several years of experience testing backend systems, Windows OS components, and networking environments.
+                    My work includes SQL validation, test environment setup, system troubleshooting, and supporting deployments in production-like environments.
                 </p>
                 <p>
-                    I spent several years in quality engineering roles testing complex networking and backend systems, performing SQL validation,
-                    and building test environments from scratch. This work strengthened my ability to analyze systems end‑to‑end, identify root causes,
-                    and ensure reliability under real‑world conditions. My responsibilities later expanded into DevOps, where I supported deployments,
-                    automated workflows, and improved the stability of production environments.
+                    I also build small tools in Python and C# to automate workflows, validate data, and simplify testing processes.
+                    These projects help me understand systems more deeply and improve the quality and reliability of the environments I work with.
                 </p>
             </div>
         </div>
 
-        <hr>
-
-        <!-- Engineering Philosophy -->
-        <div class="collapsible-section">
-            <h2 class="title is-4 collapsible-title">
-                Engineering Philosophy
-                <span class="chevron">&#9662;</span>
-            </h2>
-
-            <p class="collapsible-preview">
-                I believe that every system must be designed with security, privacy, and availability at its core.
-            </p>
-
-            <div class="collapsible-full is-hidden">
-                <p>
-                    These principles are foundational, not optional. My engineering approach is shaped by hands‑on experience validating complex systems,
-                    supporting production environments, and working on projects with strict privacy and security requirements.
-                </p>
-                <p>
-                    During my time at Microsoft, I completed advanced training in privacy and security and contributed to initiatives where data protection
-                    and compliance were critical. These experiences reinforced the importance of building systems that safeguard user data, minimize risk,
-                    and maintain trust.
-                </p>
-                <p>
-                    As an engineer with a DevOps background, I view high availability as a first priority. A system is only valuable if it is dependable,
-                    resilient, and able to recover gracefully from failure. I design applications with clarity, modularity, and operational stability in mind —
-                    ensuring they are easy to maintain, easy to troubleshoot, and built for long‑term reliability.
-                </p>
-            </div>
-        </div>
-
-        <hr>
-
-        <!-- Core Strengths -->
-        <div class="collapsible-section">
-            <h2 class="title is-4 collapsible-title">
-                Core Strengths
-                <span class="chevron">&#9662;</span>
-            </h2>
-
-            <p class="collapsible-preview">
-                I bring a balanced mix of system knowledge, backend experience, and practical engineering skills.
-            </p>
-
-            <div class="collapsible-full is-hidden">
+        <!-- SECTION 2: CORE STRENGTHS -->
+        <div class="box collapsible">
+            <header class="collapsible-header">
+                <h2 class="title is-5">Core Strengths</h2>
+                <span class="chevron">▼</span>
+            </header>
+            <div class="collapsible-content content">
                 <ul>
-                    <li><strong>Operating Systems:</strong> Strong experience with Windows environments, system configuration, and troubleshooting.</li>
-                    <li><strong>Networking:</strong> Practical knowledge of TCP/IP, Active Directory, domain/forest structure, and enterprise network connectivity.</li>
-                    <li><strong>SQL & Data Reliability:</strong> Solid background in SQL Server administration, T‑SQL, backup strategies, and data replication.</li>
-                    <li><strong>Programming:</strong> Experience with Python and C# for scripting, automation, backend logic, and workflow tooling.</li>
-                    <li><strong>Backend & Validation:</strong> Skilled in SQL querying, backend data validation, and end‑to‑end system testing.</li>
-                    <li><strong>Business & Accounting:</strong> Basic accounting knowledge supported by formal coursework.</li>
+                    <li>Backend testing and SQL validation</li>
+                    <li>Windows OS fundamentals and troubleshooting</li>
+                    <li>Networking basics (TCP/IP, routing, DNS, firewalls)</li>
+                    <li>Test environment setup and configuration</li>
+                    <li>Log analysis and issue reproduction</li>
+                    <li>Python and C# scripting for small tools</li>
+                    <li>Understanding of DevOps workflows and deployments</li>
+                    <li>Clear communication and structured problem solving</li>
                 </ul>
             </div>
         </div>
 
-        <hr>
-
-        <!-- Highlighted Projects -->
-        <div class="collapsible-section">
-            <h2 class="title is-4 collapsible-title">
-                Highlighted Projects
-                <span class="chevron">&#9662;</span>
-            </h2>
-
-            <p class="collapsible-preview">
-                My projects demonstrate practical experience across web development, data handling, C#, and backend architecture.
-            </p>
-
-            <div class="collapsible-full is-hidden">
-                <h3 class="title is-5">Exchange Rate Viewer — API Constraints & Data Transformation</h3>
+        <!-- SECTION 3: ENGINEERING PHILOSOPHY -->
+        <div class="box collapsible">
+            <header class="collapsible-header">
+                <h2 class="title is-5">Engineering Philosophy</h2>
+                <span class="chevron">▼</span>
+            </header>
+            <div class="collapsible-content content">
                 <p>
-                    A lightweight web application designed to demonstrate safe API integration and controlled data handling.
-                    The API used has strict limits and provides EUR‑based rates only, so I implemented server‑side logic to limit calls,
-                    cache results, and convert the base currency to USD. The public demo shows transformed data only to avoid exposing the API key.
+                    I believe good testing requires understanding how systems behave, not just how they look on the surface.
+                    My approach focuses on clarity, reproducibility, and practical problem-solving.
                 </p>
-
-                <h3 class="title is-5 mt-5">Encoding Utility - CHS-to-CHT ePub Conversion Tool(C# Globalization Project)</h3>
                 <p>
-                    A custom Windows desktop application built in C# to convert Simplified Chinese (CHS) ePub books into Traditional Chinese (CHT). Unlike simple code‑page converters, CHS→CHT requires full character mapping, contextual replacements, and transformation of the internal XHTML files inside the ePub archive. Existing online converters handle plain text but do not support ePub formats, so I built this tool to solve a real personal need: converting my CHS ePub books into CHT versions when no suitable software existed.
-                    The utility extracts the ePub structure, applies character‑mapping logic to all relevant content files, and rebuilds the ePub package. This project demonstrates practical C# skills, understanding of Unicode and encoding systems, and the ability to design tools that solve real-world globalization and text‑processing challenges.
-                </p>
-
-                <h3 class="title is-5 mt-5">Message Board / BoardDemo — Web Development & Dual‑Database Architecture</h3>
-                <p>
-                    A Flask‑based message board demonstrating clean web development, SQLAlchemy models, and a secure dual‑database design.
-                    Public users interact with an in‑memory database while production data remains isolated.
+                    I value clean structure, maintainable workflows, and tools that make testing more reliable and efficient.
+                    Whether I’m validating backend data, troubleshooting a system issue, or building a small utility, I aim for solutions that are simple, clear, and dependable.
                 </p>
             </div>
         </div>
 
-        <hr>
+        <!-- SECTION 4: PROJECT HIGHLIGHTS -->
+        <div class="box collapsible">
+            <header class="collapsible-header">
+                <h2 class="title is-5">Highlighted Projects</h2>
+                <span class="chevron">▼</span>
+            </header>
+            <div class="collapsible-content content">
+                <ul>
+                    <li><strong>Exchange Rate Viewer</strong> — API testing, backend validation, safe server-side processing.</li>
+                    <li><strong>CHS → CHT ePub Converter</strong> — C# utility solving a real-world data transformation problem.</li>
+                    <li><strong>Message Board Demo</strong> — Flask app demonstrating form handling, SQL models, and safe test environments.</li>
+                </ul>
+            </div>
+        </div>
 
-        <!-- What I'm Working On -->
-        <div class="collapsible-section">
-            <h2 class="title is-4 collapsible-title">
-                What I’m Working On
-                <span class="chevron">&#9662;</span>
-            </h2>
-
-            <p class="collapsible-preview">
-                I’m actively improving my portfolio and preparing new project updates for public release.
-            </p>
-
-            <div class="collapsible-full is-hidden">
+        <!-- SECTION 5: WHAT I'M LOOKING FOR -->
+        <div class="box collapsible">
+            <header class="collapsible-header">
+                <h2 class="title is-5">What I'm Looking For</h2>
+                <span class="chevron">▼</span>
+            </header>
+            <div class="collapsible-content content">
                 <p>
-                    I’m refining my portfolio to better highlight my engineering philosophy, project work, and technical strengths.
-                </p>
-                <p>
-                    I’m upgrading the Exchange Rate Viewer to include secure server‑side API handling, rate limiting, and automated base‑currency conversion.
-                </p>
-                <p>
-                    I’m finalizing the Message Board demo environment and documentation to showcase its dual‑database architecture.
+                    I’m seeking roles in SDET, QA engineering, system engineering, or technical support where I can apply my testing mindset, system knowledge, and practical engineering skills.
                 </p>
             </div>
         </div>
 
-        <hr>
-
-        <!-- Resume Button -->
-        <div class="has-text-centered mt-6">
-            <a class="button is-primary is-medium"
-               href="{{ url_for('about_bp.static', filename='data/Current_Resume.pdf') }}"
-               target="_blank"
-               rel="noopener noreferrer">
-                Download Résumé (PDF)
+        <!-- RESUME BUTTON -->
+        <div class="has-text-centered mt-5">
+            <a href="{{ url_for('about2_bp.static', filename='data/Current_Resume.pdf') }}"
+               class="button is-info is-medium"
+               target="_blank">
+                Download Résumé
             </a>
         </div>
 
@@ -187,7 +114,6 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{ url_for('about2_bp.static', filename='js/about2.js')}}"></script>
+<script src="{{ url_for('about2_bp.static', filename='js/about2.js')}}"></script>
 {% endblock %}
-
 

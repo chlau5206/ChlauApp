@@ -2,10 +2,11 @@
 '''
 
 import os
-from flask import render_template,  current_app
+from flask import render_template,  current_app, url_for
 
 from .AppAdmin.members.LoginForms import LoginForm   # contactUsModule import contactForm
 from .utils.utilities import handle_SQL_exception
+# from . import home2_bp
 
 import logging
 logger = logging.getLogger(__name__)
@@ -14,29 +15,25 @@ logger = logging.getLogger(__name__)
 from flask import Blueprint
 main = Blueprint('main', __name__)
 
-# from flask import request, abort, send_from_directory, request, redirect, url_for, flash, session
-# from sqlalchemy import inspect
-# from flask_wtf import FlaskForm
-# from datetime import datetime
-# from os import error
-# from . import db
 
 ##############
 # Main Route #
 ##############
 
+# @home2_bp.route('/')     
+# def index():
+#     logger.debug('Home route accessed.')
+#     return render_template("home2.html", 
+#                            title="Home (v2)")
+
 @main.route("/")
-@main.route("/home/")
-def home():      # Completed
+@main.route("/home2/")
+def home():      
     logger.debug("Home route accessed")
-    return render_template("home.html", 
-                           title="Home page", 
+    return render_template("home2.html", 
+                           title="Home (v2)",
                            app_name = current_app.config['APP_NAME']
                            )
-
-# @main.route("/about/")
-# def about():     # completed
-#     return render_template("about.html", title="about")
 
 @main.route("/contact/", methods=["GET", "POST"])
 def contact():
@@ -46,6 +43,7 @@ def contact():
                            title="Contact Me",
                            form=cform)
 
-
-
-
+@main.context_processor
+def inject_year():
+    from datetime import datetime
+    return {'current_year': datetime.now().year}

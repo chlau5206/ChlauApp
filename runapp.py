@@ -16,6 +16,7 @@ if __name__ == '__main__':
         print("*** Python 3.10 or higher is required ***")
         sys.exit(1)    # if fail. 
 
+    # Debug
     # print(f"Template folder:  {app.jinja_env.loader.searchpath}")
     # print(f"Static folder:    {app.static_folder}")
 
