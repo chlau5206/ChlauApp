@@ -1,3 +1,4 @@
+<!--BoardDemo / Project.html--> 
 {% extends "layout.html" %}
 {% block content %}
 
@@ -22,7 +23,7 @@
                 {% for img in screenshots %}
                 <div class="column is-one-third">
                     <figure class="image is-4by3">
-                        <img src="{{ url_for(project_bp + '.static', filename='img/' + img) }}">
+                        <img src="{{ url_for(boardDemo_bp.static', filename='img/' + img) }}">
                     </figure>
                 </div>
                 {% endfor %}

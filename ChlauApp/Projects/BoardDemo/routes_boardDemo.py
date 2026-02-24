@@ -1,4 +1,4 @@
-# DemoBoard/routes_DemoBoard.py
+# boardDemo/routes_boardDemo.py
 
 
 from flask import render_template
@@ -8,16 +8,16 @@ import logging
 logger = logging.getLogger(__name__)
 
 @boardDemo_bp.route('/')
-def project_page():
+def project():
     context = {
-        "project_title": "DemoBoard",
+        "project_title": "boardDemo",
         "project_subtitle": "A safe, dual-database message board demo.",
-        "project_tags": ["Python", "Flask", "SQLAlchemy", "SQLite", "Bulma"],
-        "screenshots": ["demoboard_hero.png", "demoboard_table.png"],
+        "project_tags": ["Python", "Flask", "SQLAlchemy", "SQLite", "Bulma", "csrf"],
+        "screenshots": ["boardDemo_hero.png", "boardDemo_table.png"],
 
         "project_description": """
             <p>
-                DemoBoard is a lightweight, safe, and public-friendly message board designed to
+                boardDemo is a lightweight, safe, and public-friendly message board designed to
                 demonstrate clean form handling, SQLAlchemy models, and a dual-database architecture.
                 The project includes two modes—Visitor Mode and Power-User Mode—allowing users to
                 explore the UI without risking accidental data modification.
@@ -39,7 +39,7 @@ def project_page():
 
         "architecture_notes": """
             <p>
-                DemoBoard uses two SQLite databases: a persistent one for development and a
+                boardDemo uses two SQLite databases: a persistent one for development and a
                 temporary in-memory database for the public demo. This ensures that visitors can
                 freely experiment with posting messages without affecting real data.
             </p>
@@ -49,13 +49,13 @@ def project_page():
             </p>
         """,
 
-        "demo_link": "/demoboard",
-        "source_link": "https://github.com/charles/demoboard",
+        "demo_link": "/boardDemo",
+        "source_link": "https://github.com/charles/boardDemo",
         "download_link": None,
 
         "future_work": [
             "Add admin-only filters",
-            "Add pagination",
+            "Add pagination",   # Done
             "Add search or keyword filtering",
             "Optional: add a compact mobile layout"
         ],
@@ -63,4 +63,4 @@ def project_page():
         "last_updated": "February 2026"
     }
 
-    return render_template("DemoBoard/project.html", **context)
+    return render_template("boardDemo/project.html", **context)

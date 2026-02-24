@@ -21,7 +21,7 @@ PER_PAGE = 5        # Number of messages per page
 
 # Operation: Create
 @boardDemo_bp.route('/Demo_add', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def demo_add_message():                     
     logger.info('Contact me route accessed')
     
@@ -58,8 +58,8 @@ def demo_add_message():
 
 
 # Operation: Display
-@boardDemo_bp.route('/', methods=['GET', 'POST'])     # D = Display
-@login_required
+@boardDemo_bp.route('/DemoShow', methods=['GET', 'POST'])     # D = Display
+# @login_required
 def demo_show_message():
     logger.info('Contact Us-Show message route accessed.')
     sform = BoardDemoForm()
@@ -82,7 +82,7 @@ def demo_show_message():
 
 # Operation: Delete
 @boardDemo_bp.route('/DemoDelete/<int:id>', methods=['POST'])
-@login_required
+# @login_required
 # @roles_required('sa')  
 def demo_delete_message(id):      # R = Remove
     logger.info('message.delete route accessed.')
