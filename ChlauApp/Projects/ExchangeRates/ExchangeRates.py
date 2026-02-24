@@ -6,7 +6,7 @@ from . import exchange_rate_bp
 
 logger = logging.getLogger(__name__)
 
-@exchange_rate_bp.route("/")  
+@exchange_rate_bp.route("/ExchangeRateViewer")  
 # @exchange_rate_bp.route("/exchangeRate/")
 def exchangeRate():   
     logger.info ("Exchange Rate route accessed")

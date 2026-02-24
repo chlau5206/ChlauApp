@@ -1,4 +1,4 @@
-# Board/__init__.py  
+# ExchangeRates/__init__.py  
 
 from flask import Blueprint
 
@@ -10,6 +10,6 @@ exchange_rate_bp = Blueprint(
     url_prefix='/ExchangeRates'
     )
 
-from . import ExchangeRates
+from . import routes_exch_rate
 # Import routes to register them with the blueprint
 
