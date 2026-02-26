@@ -143,6 +143,31 @@ project/
     ├── templates/
     └── static/
 
+
+project_name/
+│
+├── __init__.py
+├── routes.py
+├── models.py          (optional, if project uses DB)
+│
+├── templates/
+│   └── project_name/
+│       └── project.html     ← main project page
+│
+├── static/
+│   ├── css/
+│   │   └── project.css      ← optional, project-specific styling
+│   ├── js/
+│   │   └── project.js       ← optional, project-specific JS
+│   └── img/
+│       ├── screenshot1.png
+│       ├── screenshot2.png
+│       └── diagram.png
+│
+└── data/                    ← optional (downloads, sample files)
+    └── sample.epub
+
+
 ## Note: pythonanywhere need to renew the website every 3 month.
 
 # Commit the "Skeleton" On your local machine (PC), commit these changes and push to GitHub:

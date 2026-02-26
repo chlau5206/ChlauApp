@@ -39,9 +39,9 @@
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">Projects</a>
                         <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{ url_for('exchange_rate_bp.exchangeRate') }}">Exchange Rate</a>
-                            <a class="navbar-item" href="{{ url_for('ePubConv_bp.index') }}">CHS -> CHT ePub converter</a>
-
+                            <a class="navbar-item" href="{{ url_for('exchange_rate_bp.project') }}">Exchange Rate</a>
+                            <a class="navbar-item" href="{{ url_for('ePubConv_bp.project') }}">CHS -> CHT ePub converter</a>
+                            <a class="navbar-item" href="{{ url_for('boardDemo_bp.project') }}">Demo Message board</a>
                         </div>
                     </div>
 
@@ -59,10 +59,9 @@
                             <a class="navbar-item" href="{{ url_for('auth_bp.display_user') }}">Membership</a>
                             <a class="navbar-item" href="{{ url_for('admin_board_bp.show_message') }}">Messages board</a>
                             <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member page</a>
-                            ------------------------------------<br />
-                            <a class="navbar-item" href="{{ url_for('boardDemo_bp.demo_add_message') }}">Demo Message board</a>
-                            <a class="navbar-item" href="{{ url_for('home2_bp.index') }}">Home2</a>
-
+                            
+                            <!--<a class="navbar-item" href="{{ url_for('home2_bp.index') }}">Home2</a>-->
+                            
                         </div>
                     </div>
                     {% endif %}

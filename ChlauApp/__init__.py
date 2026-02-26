@@ -7,6 +7,9 @@ from .extensions import db, migrate, csrf, login_manager
 import logging
 from logging.handlers import RotatingFileHandler
 logger = logging.getLogger(__name__)
+
+# from flask_sqlalchemy import SQLAlchemy
+
 from .utils.utilities import handle_SQL_exception
 
 import os
@@ -142,14 +145,15 @@ def create_app():
         # Import all models here
         from .AppAdmin.members.models import User
         from .AppAdmin.adminBoard.BoardModels import Board
-        from .Projects.BoardDemo.BoardDemoModels import BoardDemo
-
+        from .Projects.BoardDemo.demoBoard import BoardDemoTbl
+        # from .Projects.BoardDemo.BoardDemoModels import BoardDemo
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
         logger.info('Bind SQLAlchemy to the app')
-
+        
         # Creates the demo tables manually
-        db.create_all(bind='demo')
+        with app.app_context():
+            db.create_all(bind='demo')
 
     except Exception as e:
         error_message = handle_SQL_exception(e) 

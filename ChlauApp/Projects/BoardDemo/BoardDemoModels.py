@@ -12,9 +12,9 @@ from wtforms import StringField,  TextAreaField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Email, InputRequired, Length
 
 
-class BoardDemo(db.Model):
+class BoardDemoTbl(db.Model):
     __bind_key__  = 'demo'
-    __tablename__ = 'BoardDemo'
+    __tablename__ = 'BoardDemoTbl'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=True) 

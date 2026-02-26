@@ -1,0 +1,89 @@
+<!--ExchangeRate / Project.html-->
+{% extends "layout.html" %}
+{% block content %}
+
+<section class="section">
+    <div class="container">
+
+        <!-- TITLE -->
+        <h1 class="title is-3">{{ project_title }}</h1>
+        <p class="subtitle is-5">{{ project_subtitle }}</p>
+
+        <!-- TAGS -->
+        <div class="tags">
+            {% for tag in project_tags %}
+            <span class="tag is-info">{{ tag }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- SCREENSHOTS -->
+        <div class="box">
+            <h2 class="title is-5">Screenshots</h2>
+            <div class="columns is-multiline">
+                {% for img in screenshots %}
+                <div class="column is-one-third">
+                    <figure class="image is-4by3">
+                        <img src="{{ url_for('exchange_rate_bp.static', filename='img/' + img) }}">
+                    </figure>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="box">
+            <h2 class="title is-5">Project Overview</h2>
+            <div class="content">
+                {{ project_description | safe }}
+            </div>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="box">
+            <h2 class="title is-5">Key Features</h2>
+            <ul>
+                {% for feature in features %}
+                <li>{{ feature }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- ARCHITECTURE -->
+        <div class="box">
+            <h2 class="title is-5">Architecture & Technical Notes</h2>
+            <div class="content">
+                {{ architecture_notes | safe }}
+            </div>
+        </div>
+
+        <!-- LINKS -->
+        <div class="box">
+            <h2 class="title is-5">Links</h2>
+            <p>
+                <a class="button is-link" href="{{ demo_link }}" target="_blank">Live Demo</a>
+                <a class="button is-dark" href="{{ source_link }}" target="_blank">Source Code</a>
+                {% if download_link %}
+                <a class="button is-info" href="{{ download_link }}" target="_blank">Download</a>
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- FUTURE IMPROVEMENTS -->
+        <div class="box">
+            <h2 class="title is-5">Future Improvements</h2>
+            <ul>
+                {% for item in future_work %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- LAST UPDATED -->
+        <p class="has-text-grey mt-4">
+            Last updated: {{ last_updated }}
+        </p>
+
+    </div>
+</section>
+
+{% endblock %}
