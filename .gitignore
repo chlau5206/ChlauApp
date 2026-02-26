@@ -21,7 +21,7 @@ instance/
 app_log/
 logs/
 AppAdmin/
-# Proj_template/
+Proj_template/
 
 Workdirectory/
 # message/

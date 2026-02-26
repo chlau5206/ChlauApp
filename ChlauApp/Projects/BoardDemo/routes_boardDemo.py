@@ -1,4 +1,4 @@
-# boardDemo/routes_boardDemo.py
+ï»¿# boardDemo/routes_boardDemo.py
 
 
 from flask import render_template
@@ -19,10 +19,11 @@ def project():
             <p>
                 boardDemo is a lightweight, safe, and public-friendly message board designed to
                 demonstrate clean form handling, SQLAlchemy models, and a dual-database architecture.
-                The project includes two modes—Visitor Mode and Power-User Mode—allowing users to
+                The project includes two modesâ€”Visitor Mode and Power-User Modeâ€”allowing users to
                 explore the UI without risking accidental data modification.
             </p>
-            <p>
+            
+                <p>
                 The demo uses an in-memory SQLite database for public interactions, ensuring that
                 all posts reset automatically on each server restart. This keeps the demo safe while
                 still showing realistic CRUD behavior.
@@ -30,6 +31,8 @@ def project():
         """,
 
         "features": [
+
+
             "Visitor Mode and Power-User Mode",
             "Dual-database architecture (persistent + in-memory)",
             "Safe public interaction with automatic resets",
@@ -49,13 +52,13 @@ def project():
             </p>
         """,
 
-        "demo_link": "/boardDemo",
-        "source_link": "https://github.com/charles/boardDemo",
+        "demo_link": "DemoShow",
+        "source_link": "https://github.com/chlau5206/ChlauApp/tree/main/ChlauApp", 
         "download_link": None,
 
         "future_work": [
             "Add admin-only filters",
-            "Add pagination",   # Done
+            "Add pagination",   # It's done.
             "Add search or keyword filtering",
             "Optional: add a compact mobile layout"
         ],
@@ -63,4 +66,4 @@ def project():
         "last_updated": "February 2026"
     }
 
-    return render_template("boardDemo/project.html", **context)
+    return render_template("project.html", **context)

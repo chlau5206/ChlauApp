@@ -1,7 +1,7 @@
 # ExchangeRate/routes_Exch_rate.py 
 
 from flask import render_template
-from . import exchange_rate_bp, ExchangeRates
+from . import exchange_rate_bp , ExchangeRates
 
 import logging
 logger = logging.getLogger(__name__)
@@ -59,5 +59,5 @@ def project():
         ],
         "last_updated": "February 2026"
     }
-    return render_template("project.html", **context)
+    return render_template("project_exch.html", **context)
 
