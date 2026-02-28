@@ -39,7 +39,7 @@ class BoardDemoForm(FlaskForm):
                       validators=[InputRequired()]) 
     email = StringField(label='Email', render_kw={'maxlength': 120, 'size': 30, 'style': 'width:300px;'},
                         validators=[DataRequired(), Email(granular_message=True)]) 
-    message= TextAreaField(label='Note', render_kw={'rows': 20, 'cols': 60},
+    message= TextAreaField(label='Note', render_kw={'rows': 6, 'cols': 60},
                         validators=[InputRequired(), Length(max=240)])  
     page = IntegerField('Page', default=1)  # For pagination
     submit = SubmitField(label="Send") 

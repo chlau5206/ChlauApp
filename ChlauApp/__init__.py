@@ -160,10 +160,15 @@ def create_app():
         with app.app_context():
             from .Projects.BoardDemo.BoardDemoModels import BoardDemoTbl
             db.create_all(bind_key='demo')
-            # db.create_all(bind='demo')
+            # db.create_all(bind='demo')   # incorrect syntax
 
             # debug
-            print (db.metadata.tables.keys())
+            print (db.metadata.tables.keys())  #verify table created
+
+             # Seed demo data
+            from .Projects.BoardDemo.demoBoard import seed_demo_messages
+            seed_demo_messages()
+
             logger.info('Demo db table created.')
 
     except Exception as e:
