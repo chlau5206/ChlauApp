@@ -4,8 +4,9 @@ from doctest import script_from_examples
 
 # from .. import db
 from ...extensions import db, csrf
-from sqlalchemy import Text, Index, desc
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from sqlalchemy import desc
 
 from flask_wtf import FlaskForm
 from wtforms import StringField,  TextAreaField, SubmitField, IntegerField 
@@ -24,7 +25,7 @@ class BoardDemoTbl(db.Model):
                           onupdate=func.current_timestamp())  # Add onupdate parameter 
      # Add an index for the timestamp column in descending order
     __table_args__ = (
-        Index('ix_Board_timestamp_desc', desc(timestamp)),    
+        db.Index('ix_Board_timestamp_desc', desc(timestamp)),    
         )
 
     def __repr__(self):

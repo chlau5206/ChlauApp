@@ -2,7 +2,7 @@
 
 
 from flask import render_template
-from . import boardDemo_bp
+from . import boardDemo_bp, demoBoard
 
 import logging
 logger = logging.getLogger(__name__)
@@ -31,8 +31,6 @@ def project():
         """,
 
         "features": [
-
-
             "Visitor Mode and Power-User Mode",
             "Dual-database architecture (persistent + in-memory)",
             "Safe public interaction with automatic resets",
@@ -57,8 +55,6 @@ def project():
         "download_link": None,
 
         "future_work": [
-            "Add admin-only filters",
-            "Add pagination",   # It's done.
             "Add search or keyword filtering",
             "Optional: add a compact mobile layout"
         ],
@@ -66,4 +62,4 @@ def project():
         "last_updated": "February 2026"
     }
 
-    return render_template("project.html", **context)
+    return render_template("project_board.html", **context)

@@ -103,5 +103,6 @@ def demo_delete_message(id):      # R = Remove
         flash (f'{error_message}', 'danger')
         logger.error(f'{error_message}')
     
-    return redirect(url_for('boardDemo_bp.show_message', page=request.args.get('page', 1)))
+    return redirect(url_for('boardDemo_bp.demo_show_message'
+                            , page=request.args.get('page', 1)))
 

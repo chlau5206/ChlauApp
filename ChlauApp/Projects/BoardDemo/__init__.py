@@ -2,6 +2,10 @@
 
 from flask import Blueprint
 
-boardDemo_bp = Blueprint('boardDemo_bp', __name__, template_folder= 'templates', static_folder='static')
+boardDemo_bp = Blueprint('boardDemo_bp', 
+                         __name__, 
+                         template_folder= 'templates', 
+                         static_folder='static',
+                         url_prefix='BoardDemo')
 
 from . import routes_boardDemo  # Import routes to register them with the blueprint
