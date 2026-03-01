@@ -2,7 +2,7 @@
 
 
 from flask import render_template
-from . import boardDemo_bp
+from . import boardDemo_bp, demoBoard
 
 import logging
 logger = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ def project():
         "project_title": "boardDemo",
         "project_subtitle": "A safe, dual-database message board demo.",
         "project_tags": ["Python", "Flask", "SQLAlchemy", "SQLite", "Bulma", "csrf"],
-        "screenshots": ["boardDemo_hero.png", "boardDemo_table.png"],
+        "screenshots": ["demoBoard_AddNewMsg.jpg", "demoBoard_PowerUser_Page.jpg"],
 
         "project_description": """
             <p>
@@ -31,8 +31,6 @@ def project():
         """,
 
         "features": [
-
-
             "Visitor Mode and Power-User Mode",
             "Dual-database architecture (persistent + in-memory)",
             "Safe public interaction with automatic resets",
@@ -57,8 +55,6 @@ def project():
         "download_link": None,
 
         "future_work": [
-            "Add admin-only filters",
-            "Add pagination",   # It's done.
             "Add search or keyword filtering",
             "Optional: add a compact mobile layout"
         ],
@@ -66,4 +62,4 @@ def project():
         "last_updated": "February 2026"
     }
 
-    return render_template("project.html", **context)
+    return render_template("project_board.html", **context)

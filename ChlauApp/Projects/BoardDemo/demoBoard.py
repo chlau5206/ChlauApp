@@ -1,4 +1,4 @@
-# Board/BoardDemo.py -- Contains the routes and CRUD operations
+﻿# Board/BoardDemo.py -- Contains the routes and CRUD operations
 
 
 from flask import render_template, redirect, url_for, flash, current_app, request
@@ -12,7 +12,7 @@ from .BoardDemoModels import BoardDemoTbl, BoardDemoForm
 import logging
 logger = logging.getLogger(__name__)
 
-ENTRY_LIMIT = 50    # message limited to 50
+ENTRY_LIMIT = 30    # message limited to 50
 PER_PAGE = 5        # Number of messages per page
 
 #########################################
@@ -26,6 +26,12 @@ def demo_add_message():
     logger.info('Contact me route accessed')
     
     sform = BoardDemoForm()
+
+    # GET request → just show the form
+    if request.method == 'GET':
+        return render_template('boardDemo_add.html', form=sform)
+
+    # POST request
     try:
         current_entries = BoardDemoTbl.query.count()  # Get the current number of entries
         if current_entries >= ENTRY_LIMIT:
@@ -33,15 +39,18 @@ def demo_add_message():
         
         
         if sform.validate_on_submit():
-            new_message = BoardDemoTbl(name=sform.name.data.strip(), 
-                                email=sform.email.data.strip(),
-                                message=sform.message.data.strip()
-                                )
+            new_message = BoardDemoTbl(
+                name=sform.name.data.strip(), 
+                email=sform.email.data.strip(),
+                message=sform.message.data.strip()
+                )
             db.session.add(new_message)
             db.session.commit()
+            
             flash('Message added successfully!', 'success')
             logger.warning('New message added')
-            # return redirect(url_for('boardDemo_bp.demo_add_message'))
+            
+            return redirect(url_for('boardDemo_bp.demo_add_message'))
 
     except ValueError as error_message:
             flash (f'{error_message}', 'danger')
@@ -53,9 +62,9 @@ def demo_add_message():
             flash (f'{error_message}', 'danger')
             logger.error(f'{error_message}')
             # return redirect(url_for('main.home'))
-    finally:
-        return render_template('boardDemo_add.html', form=sform)
-
+    # finally:
+    return render_template('boardDemo_add.html', form=sform)
+        
 
 # Operation: Display
 @boardDemo_bp.route('/DemoShow', methods=['GET', 'POST'])     # D = Display
@@ -103,5 +112,17 @@ def demo_delete_message(id):      # R = Remove
         flash (f'{error_message}', 'danger')
         logger.error(f'{error_message}')
     
-    return redirect(url_for('boardDemo_bp.show_message', page=request.args.get('page', 1)))
+    return redirect(url_for('boardDemo_bp.demo_show_message'
+                            , page=request.args.get('page', 1)))
 
+# pre-populate messages to demo.BoardDemoTbl
+def seed_demo_messages():
+    if BoardDemoTbl.query.count() == 0:
+        for i in range(1, 19):
+            msg = BoardDemoTbl(
+                name=f"User {i}",
+                email=f"user{i}@example.com",
+                message=f"This is a sample message #{i}."
+            )
+            db.session.add(msg)
+        db.session.commit()

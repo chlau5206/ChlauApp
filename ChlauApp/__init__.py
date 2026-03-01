@@ -103,7 +103,10 @@ def create_app():
     app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')    # READ db
-    app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///:memory:'}                                     # DEMO db :  In-memory database
+    app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///:memory:'}  # DEMO db :  In-memory database
+    
+    # Debug
+    # app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///demo.db'}  # DEMO db :  debug
     app.config["WTF_CSRF_ENABLED"] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
@@ -145,15 +148,28 @@ def create_app():
         # Import all models here
         from .AppAdmin.members.models import User
         from .AppAdmin.adminBoard.BoardModels import Board
-        from .Projects.BoardDemo.demoBoard import BoardDemoTbl
-        # from .Projects.BoardDemo.BoardDemoModels import BoardDemo
+        
+
+        # debug
+        print("DB Type:", type(db))
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
         logger.info('Bind SQLAlchemy to the app')
         
         # Creates the demo tables manually
         with app.app_context():
-            db.create_all(bind='demo')
+            from .Projects.BoardDemo.BoardDemoModels import BoardDemoTbl
+            db.create_all(bind_key='demo')
+            # db.create_all(bind='demo')   # incorrect syntax
+
+            # debug
+            print (db.metadata.tables.keys())  #verify table created
+
+             # Seed demo data
+            from .Projects.BoardDemo.demoBoard import seed_demo_messages
+            seed_demo_messages()
+
+            logger.info('Demo db table created.')
 
     except Exception as e:
         error_message = handle_SQL_exception(e) 

@@ -1,7 +1,7 @@
+<!--Demo Board - Visitor mode - Create new message -->
 {% extends "layout.html" %}
 
 {% block header %}
-
 {% endblock %}
 
 {% block content %}
@@ -40,7 +40,8 @@
                         {{ form.submit(class="button is-link") }}
                     </div>
                 </div>
-                <a href="{{ url_for('boardDemo_bp.demo_show_message') }}">Messages board</a>
+                <a href="{{ url_for('boardDemo_bp.demo_show_message') }}">Power User</a>
+            </div>
         </form>
     </div>
 </section>

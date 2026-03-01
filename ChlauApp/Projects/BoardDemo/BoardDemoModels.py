@@ -4,8 +4,9 @@ from doctest import script_from_examples
 
 # from .. import db
 from ...extensions import db, csrf
-from sqlalchemy import Text, Index, desc
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from sqlalchemy import desc
 
 from flask_wtf import FlaskForm
 from wtforms import StringField,  TextAreaField, SubmitField, IntegerField 
@@ -24,7 +25,7 @@ class BoardDemoTbl(db.Model):
                           onupdate=func.current_timestamp())  # Add onupdate parameter 
      # Add an index for the timestamp column in descending order
     __table_args__ = (
-        Index('ix_Board_timestamp_desc', desc(timestamp)),    
+        db.Index('ix_Board_timestamp_desc', desc(timestamp)),    
         )
 
     def __repr__(self):
@@ -38,7 +39,7 @@ class BoardDemoForm(FlaskForm):
                       validators=[InputRequired()]) 
     email = StringField(label='Email', render_kw={'maxlength': 120, 'size': 30, 'style': 'width:300px;'},
                         validators=[DataRequired(), Email(granular_message=True)]) 
-    message= TextAreaField(label='Note', render_kw={'rows': 20, 'cols': 60},
+    message= TextAreaField(label='Note', render_kw={'rows': 6, 'cols': 60},
                         validators=[InputRequired(), Length(max=240)])  
     page = IntegerField('Page', default=1)  # For pagination
     submit = SubmitField(label="Send") 
