@@ -5,7 +5,9 @@ import os
 from flask import render_template,  current_app, url_for
 
 from .AppAdmin.members.LoginForms import LoginForm   # contactUsModule import contactForm
-from .utils.utilities import handle_SQL_exception
+
+# from .AppAdmin.members.models import handle_SQL_exception
+# from .utils.utilities import handle_SQL_exception
 # from . import home2_bp
 
 import logging
@@ -15,16 +17,9 @@ logger = logging.getLogger(__name__)
 from flask import Blueprint
 main = Blueprint('main', __name__)
 
-
 ##############
 # Main Route #
 ##############
-
-# @home2_bp.route('/')     
-# def index():
-#     logger.debug('Home route accessed.')
-#     return render_template("home2.html", 
-#                            title="Home (v2)")
 
 @main.route("/")
 @main.route("/home2/")

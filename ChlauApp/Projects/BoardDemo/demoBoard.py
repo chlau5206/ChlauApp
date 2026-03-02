@@ -6,7 +6,8 @@ from flask_login import login_required
 
 from . import boardDemo_bp  
 from ...extensions import db, csrf
-from ...utils.utilities import handle_SQL_exception
+from ...AppAdmin.members.models import handle_SQL_exception
+# from ...utils.utilities import handle_SQL_exception
 from .BoardDemoModels import BoardDemoTbl, BoardDemoForm
 
 import logging
@@ -115,10 +116,13 @@ def demo_delete_message(id):      # R = Remove
     return redirect(url_for('boardDemo_bp.demo_show_message'
                             , page=request.args.get('page', 1)))
 
-# pre-populate messages to demo.BoardDemoTbl
+# pre-populate 18 demo messages for PowerUser view
+# Purpose:  It makes the PowerUser page immediately useful and 
+#           shows pagination, sorting, and table layout without 
+#           requiring visitors to manually add messages.
 def seed_demo_messages():
     if BoardDemoTbl.query.count() == 0:
-        for i in range(1, 19):
+        for i in range(1, 16):
             msg = BoardDemoTbl(
                 name=f"User {i}",
                 email=f"user{i}@example.com",

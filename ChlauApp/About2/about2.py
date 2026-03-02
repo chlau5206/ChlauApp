@@ -1,4 +1,4 @@
-# about/about.py -- Contains the routes and CRUD operations
+# about/about2.py -- Contains the routes and CRUD operations
 
 
 from flask import render_template

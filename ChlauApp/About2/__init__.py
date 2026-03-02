@@ -1,4 +1,4 @@
-# Board/__init__.py  
+# About2/__init__.py  
 
 from flask import Blueprint
 

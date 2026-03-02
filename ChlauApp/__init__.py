@@ -9,8 +9,8 @@ from logging.handlers import RotatingFileHandler
 logger = logging.getLogger(__name__)
 
 # from flask_sqlalchemy import SQLAlchemy
-
-from .utils.utilities import handle_SQL_exception
+from .AppAdmin.members.models import handle_SQL_exception
+# from .utils.utilities import handle_SQL_exception
 
 import os
 from dotenv import load_dotenv
@@ -71,16 +71,6 @@ def create_logger(app):
     '''
     return logger
 
-def get_pacific_time():
-    import pytz
-    from datetime import datetime
-
-    pacific = pytz.timezone('PST8PDT') 
-    utc_time = datetime.utcnow()
-    pacific_time = pytz.utc.localize(utc_time).astimezone(pacific).strftime('%Y-%m-%d %H:%M:%S')
-
-    return pacific_time
-
 def create_app():
     
     
@@ -104,9 +94,8 @@ def create_app():
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')    # READ db
     app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///:memory:'}  # DEMO db :  In-memory database
+    # DEBUG  app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///demo.db'}  # DEMO db :  debug
     
-    # Debug
-    # app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///demo.db'}  # DEMO db :  debug
     app.config["WTF_CSRF_ENABLED"] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
@@ -142,16 +131,10 @@ def create_app():
     # Set up Flask-Migrate
     # migrate.init_app(app, db)
     try: 
-        # with app.app_context():
-        #     db.create_all() # Create tables if they don't exist
-        
-        # Import all models here
         from .AppAdmin.members.models import User
         from .AppAdmin.adminBoard.BoardModels import Board
-        
 
-        # debug
-        print("DB Type:", type(db))
+        # DEBUG  print("DB Type:", type(db))
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
         logger.info('Bind SQLAlchemy to the app')
@@ -162,8 +145,7 @@ def create_app():
             db.create_all(bind_key='demo')
             # db.create_all(bind='demo')   # incorrect syntax
 
-            # debug
-            print (db.metadata.tables.keys())  #verify table created
+            # debug  print (db.metadata.tables.keys())  #verify table created
 
              # Seed demo data
             from .Projects.BoardDemo.demoBoard import seed_demo_messages
