@@ -2,6 +2,12 @@
    HOME2 — CARD POLISH
    ============================ */
 
+.hero {
+    /*margin-top: 52px;
+    height: 200px;*/
+    min-height: 200px;
+}
+
 .home2-card {
     height: 100%;
     display: flex;
@@ -9,14 +15,14 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-    .home2-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
+.home2-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
 
-    .home2-card .card-content {
-        flex-grow: 1;
-    }
+.home2-card .card-content {
+    flex-grow: 1;
+}
 
 /* ============================
    HERO SECTION POLISH
@@ -31,22 +37,26 @@
     line-height: 1.5;
 }
 
+.custom-hero {
+    background-size: cover;
+    background-position: center;
+}
+
+
 /* ============================
    SECTION SPACING
    ============================ */
-
 .section {
     padding-top: 3rem;
     padding-bottom: 3rem;
 }
 
-    /* ============================
-   CTA BUTTONS
-   ============================ */
-
-    .section .buttons .button {
-        min-width: 150px;
-    }
+/* ============================
+    CTA BUTTONS
+    ============================ */
+.section .buttons .button {
+    min-width: 150px;
+}
 
 /* ============================
    RESPONSIVE TWEAKS
@@ -57,7 +67,7 @@
         text-align: center;
     }
 
-        .hero .buttons {
-            justify-content: center;
-        }
+    .hero .buttons {
+        justify-content: center;
+    }
 }

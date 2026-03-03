@@ -1,17 +1,23 @@
 // layout.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    const burger = document.querySelector('.navbar-burger');
-    const menu = document.querySelector('.navbar-menu');
+    const burger = document.getElementById('mainBurger');
+    const menu = document.getElementById(burger.dataset.target);
     const dropdowns = document.querySelectorAll('.has-dropdown');
 
     // Toggle navbar menu
-    if (burger && menu) {
-        burger.addEventListener('click', () => {
-            burger.classList.toggle('is-active');
-            menu.classList.toggle('is-active');
-        });
-    }
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('is-active');
+        menu.classList.toggle('is-active');
+    });
+
+    // Reset menu state on resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            burger.classList.remove('is-active');
+            menu.classList.remove('is-active');
+        }
+    });
 
     // Toggle dropdown menus on click
     dropdowns.forEach((dropdown) => {
@@ -23,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
 window.addEventListener("scroll", () => {
     const navbar = document.querySelector(".navbar");
     if (window.scrollY > 10) {

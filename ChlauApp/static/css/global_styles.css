@@ -1,4 +1,4 @@
-/* global_styles.css */
+/*  global_styles.css */
 
 :root {
     --navbar-height: 125px;
@@ -53,7 +53,7 @@ h6 {
 
 /* Flash messages styling */
 .flash-message {
-    margin-top: 10px; /* Add spacing below the navbar */
+    margin-top: 2rem; /* Add spacing below the navbar */
     padding: 15px;
     background-color: #f8d7da; /* Example: red for danger flash */
     color: #842029;
@@ -117,24 +117,21 @@ h6 {
     width: auto;
 }
 
-.hero {
-    margin-top: 52px; /* Adjust this based on your navbar height */
-}
-
-.custom-hero {
-    background-size: cover;
-    background-position: center;
-}
 
 * {
     box-sizing: border-box;
 }
 
-article, section, footer {
-    width: 100%;
+article, footer {
+    /*width: 100%;*/
     max-width: 1200px; /* Adjust to your preferred page width */
     margin: 0 auto; /* Center content horizontally */
     padding: 20px;
+}
+
+.section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
 
 /* ============================
@@ -146,27 +143,22 @@ article, section, footer {
     top: 0;
     z-index: 1000;
     width: 100%;
-    height: var(--navbar-height);
-    /* Your colors */
+    min-height: var(--navbar-height); /* allow it to grow if needed */
     background-color: #3498db;
     color: darkblue;
-    /* Your spacing */
     margin: 0 auto;
-    padding: 1rem 10px;
-    /* Clean shadow (polished) */
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    /* Polished border */
     border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-    /* Shadow when scrolling */
-    .navbar.scrolled {
-        box-shadow: 0 2px 10px rgba(0,0,0,0.25);
-    }
+.navbar.scrolled {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
 
-/* ============================
-   BRAND + LOGO
-   ============================ */
+/* BRAND + LOGO */
 
 .navbar-brand {
     display: flex;
@@ -177,54 +169,81 @@ article, section, footer {
     max-height: 3rem;
 }
 
-/* ============================
-   NAVBAR LINKS
-   ============================ */
+/* LINKS */
 
 .navbar a {
     color: inherit;
     text-decoration: none;
-    font-weight: 500; /* polished */
+    font-weight: 500;
 }
 
-    .navbar a:hover {
-        background-color: aqua;
-        color: darkslateblue;
-    }
+.navbar a:hover {
+    background-color: aqua;
+    color: darkslateblue;
+}
 
-/* ============================
-   DROPDOWN BEHAVIOR
-   ============================ */
+/* DROPDOWN */
 
 .navbar-dropdown {
     display: none;
 }
 
-.navbar-item.has-dropdown.is-active .navbar-dropdown {
+.has-dropdown.is-active .navbar-dropdown {
     display: block;
 }
 
-/* ============================
-   MOBILE MENU
-   ============================ */
+/* MOBILE MENU TOGGLE */
 
 .navbar-burger {
-    display: none; /* hidden on desktop */
+    display: none;
 }
 
-.navbar-menu.is-active {
-    display: block;
-}
 
 /* ============================
-   OPTIONAL: MOBILE POLISH
+   BREAKPOINTS
    ============================ */
 
-@media (max-width: 1024px) {
+/* Desktop + tablet (tab menu) */
+@media (min-width: 769px) {
+    .navbar-menu {
+        display: block;
+    }
+
+    .navbar-burger {
+        display: none;
+    }
+}
+
+/* Mobile (burger menu) */
+@media (max-width: 768px) {
+    :root {
+        --navbar-height: 90px; /* give burger layout enough height */
+    }
+
+    .navbar {
+        padding: 0 10px;
+    }
+
+    .navbar-menu {
+        display: none;
+    }
+
     .navbar-burger {
         display: block;
     }
+
+    /* Active menu (used by JS) */
+    .navbar-menu.is-active {
+        display: block;
+    }
 }
+/* Extra small mobile */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+}
+
 
 /* ============================
    FOOTER REDESIGN
@@ -256,74 +275,3 @@ article, section, footer {
     font-size: 0.9rem;
     margin-top: 0.5rem;
 }
-
-
-@media screen and (max-width: 1024px) {
-    .navbar-menu {
-        display: none; /* Hide menu by default */
-    }
-
-    .navbar-menu.is-active {
-        display: block; /* Ensure the menu appears when active */
-    }
-
-    .navbar-burger {
-        display: block; /* Show burger menu on smaller screens */
-    }
-
-    .has-dropdown.is-active .navbar-dropdown {
-        display: block; /* Ensure dropdown menus are visible when active */
-    }
-}
-
-@media screen and (min-width: 1025px) {
-    .navbar-menu {
-        display: block;
-    }
-
-    .navbar-burger {
-        display: none;
-    }
-}
-
-/* For tablets (1024px and below) and larger screens (desktops) */
-@media (max-width: 1024px) {
-    .container {
-        max-width: 1024px;
-    }
-}
-
-/* For small laptops or narrow screens (900px) */
-@media (max-width: 900px) {
-    .container {
-        max-width: 900px;
-    }
-}
-
-/* For tablets (max-width: 768px) */
-@media (max-width: 768px) {
-    body {
-        padding-top: 50px;
-    }
-    .flash-message {
-        font-size:0.9rem;
-        padding: 10px;
-    }
-    .hero {
-        height: 200px;
-    }
-    .container {
-        max-width: 90%; /* Shrink container for smaller devices */
-    }
-}
-
-/* For mobile devices (max-width: 480px) */
-@media (max-width: 480px) {
-    .container {
-        height: 200px;
-        max-width: 95%;
-        padding: 10px; /* Add more padding for a mobile-friendly look */
-    }
-}
-
-
