@@ -1,40 +1,49 @@
-/* Data Container */
+﻿/* ExchangeRates.css — Theme‑aware, scoped
+ ***********************************************/
+
+/* Container spacing */
 .data-container {
-    margin-top: 20px; /* Top spacing for the container */
+    margin-top: 20px;
 }
 
-/* Data Item */
+/* Individual data items */
 .data-item {
-    margin-bottom: 10px; /* Bottom spacing between items */
+    margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--table-border);
+    background-color: var(--table-bg);
+    color: var(--table-text);
 }
 
-/* General Table Styling */
-table {
+/* Scoped table styling */
+#dataTable {
     width: 100%;
-    border-collapse: collapse; /* Prevent double borders */
+    border-collapse: collapse;
+    background-color: var(--table-bg);
+    color: var(--table-text);
 }
 
-/* Table Headers and Data Cells */
-th, td {
+/* Scoped header + cell styling */
+#dataTable th,
+#dataTable td {
     padding: 10px;
-    border: 1px solid #ddd; /* Adds borders to cells */
-    text-align: left; /* Default alignment */
+    border: 1px solid var(--table-border);
+    text-align: left;
 }
 
-/* Table Headers */
-th {
-    background-color: #f2f2f2; /* Light gray for headers */
+/* Header background */
+#dataTable th {
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
 }
 
-tr:empty {
+/* Remove empty rows */
+#dataTable tr:empty {
     display: none;
 }
 
-/* Specific Styling for DataTable */
-#dataTable th, #dataTable td {
-    text-align: right; /* Right-align only for DataTable */
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+/* Right-align numeric data */
+#dataTable td,
+#dataTable th {
+    text-align: right;
 }

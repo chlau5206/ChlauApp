@@ -52,6 +52,10 @@ if (prefersDark) {
 //document.documentElement.className = "soft-dark";     // soft dark
 //document.documentElement.className = "oled";          // OLED
 
+//window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+//    document.documentElement.className = e.matches ? "dark-mode" : "";
+//});
+
 
 // To test
 // window.matchMedia("(prefers-color-scheme: dark)").matches

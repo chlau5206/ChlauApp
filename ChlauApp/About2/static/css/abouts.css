@@ -1,19 +1,19 @@
-/* About2/About2.css - resume font Definitions */
-/* ============================
-   ABOUT2 — COLLAPSIBLE SECTIONS
-   ============================ */
+/* ABOUT2 — COLLAPSIBLE SECTIONS
+   ============================= */
 
 .collapsible {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     margin-bottom: 1.25rem;
     overflow: hidden;
-    transition: box-shadow 0.2s ease;
+    background-color: var(--card-bg);
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-    .collapsible:hover {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+.collapsible:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    background-color: var(--card-hover-bg);
+}
 
 /* Header */
 .collapsible-header {
@@ -22,13 +22,14 @@
     align-items: center;
     cursor: pointer;
     padding: 1rem 1.25rem;
-    background-color: #f7f9fc;
-    border-bottom: 1px solid #e5e5e5;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
 }
 
-    .collapsible-header:hover {
-        background-color: #eef3fa;
-    }
+.collapsible-header:hover {
+    background-color: var(--card-hover-bg);
+}
 
 /* Chevron */
 .chevron {

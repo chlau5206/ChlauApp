@@ -1,5 +1,4 @@
-/***********************************************
- * global_styles.css
+/* global_styles.css
  * Global layout, typography, navbar, footer,
  * flash messages, buttons, spacing, breakpoints,
  * and theme variables.
@@ -116,6 +115,19 @@ article, footer {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+}
+
+/* ========================= */
+/*   Global Form Controls    */
+/* ========================= */
+
+.form {
+    margin-bottom: 1.25rem; /* Add spacing between the form and the table */
+}
+
+.input {
+    max-width: 200px; /* Limit input field width */
+    margin-right: 0.75rem; /* Add spacing between form elements */
 }
 
 /* ========================= */

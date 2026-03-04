@@ -1,117 +1,108 @@
-/***  Table settings ***/
+﻿/* table.css — Theme‑aware table styling
+ ***********************************************/
 
-/* Base Styles for Table */
+/* Base table */
 .table {
-    border: 1px solid #ccc; /* Adds a border around the table */
-    border-collapse: collapse; /* Ensures borders don�t double up */
-    width: 100%; /* Full-width table */
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--table-bg);
+    color: var(--table-text);
+    border: 1px solid var(--table-border);
 }
 
-
-/* Table Data Cells */
+/* Dynamic cell sizing */
+.table th,
 .table td {
-    border: 1px solid #ccc; /* Adds borders to table cells */
-    padding: 4px 8px; /* Adjusts padding for tighter spacing */
-    text-align: left; /* Default text alignment */
-    font-size: 0.9rem; /* Slightly smaller font size */
-    vertical-align: middle; /* Vertically center content */
-    white-space: pre-wrap; /* Allows text to wrap */
-    word-wrap: break-word; /* Breaks long words */
+    min-width: 10px;
+    max-width: 100px;
+    min-height: 10px;
+    max-height: 100px;
 }
 
-/* Light mode */
-    .table {
-        background-color: azure; 
-        color: darkslategray; 
-    }
-
-    /* Table Headers */
-    .table th {
-        border: 1px solid #ccc; /* Adds borders to headers */
-        padding: 8px; /* Adjust header padding */
-        text-align: center; /* Center-align headers */
-        font-weight: bold; /* Bold font for headers */
-        font-size: 1rem; /* Header font size */
-        text-transform: uppercase; /* Makes text uppercase */
-    }
-
-    /* Row Striping */
-    .table.is-striped tbody tr:nth-child(odd) {
-        background-color: antiquewhite;
-        /* #f8f8f8; /* Light gray for odd rows */
-    }
-
-    .table.is-striped tbody tr:nth-child(even) {
-        background-color: white; /* White for even rows */
-    }
-
-    /* Hover Effects for All Rows */
-    .table tr:hover {
-        background-color: burlywood; /* Light gray hover effect */
-        cursor: pointer; /* Pointer cursor on hover */
-    }
-
-
-/* Dark Mode Styling */
-@media (prefers-color-scheme: dark) {
-    .table {
-        background-color: #2e2e2e; /* Dark background */
-        color: #f5f5f5; /* Light text */
-    }
-
-    .table th {
-        color: #f5f5f5; /* Light header text */
-    }
-
-    .table tbody tr:nth-child(odd) {
-        background-color: #3a3a3a; /* Dark gray for odd rows */
-    }
-
-    .table tbody tr:nth-child(even) {
-        background-color: #2e2e2e; /* Slightly darker gray for even rows */
-    }
-
-    .table tr:hover {
-        background-color: #444; /* Highlighted row on hover */
-    }
+/* Action column (buttons inside table cells) */
+.table td.action-column {
+    padding: 4px;
+    vertical-align: middle;
+    height: auto;
 }
 
-/* Table Container for Horizontal Scrolling */
+/* Table cells */
+.table td {
+    border: 1px solid var(--table-border);
+    padding: 4px 8px;
+    text-align: left;
+    font-size: 0.9rem;
+    vertical-align: middle;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Table headers */
+.table th {
+    border: 1px solid var(--table-border);
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
+}
+
+/* Row striping */
+.table.is-striped tbody tr:nth-child(odd) {
+    background-color: var(--table-row-odd);
+}
+
+.table.is-striped tbody tr:nth-child(even) {
+    background-color: var(--table-row-even);
+}
+
+/* Hover */
+.table tr:hover {
+    background-color: var(--table-row-hover);
+    cursor: pointer;
+}
+
+/* Table container */
 .table-container {
-    overflow-x: auto; /* Horizontal scrolling on small screens */
+    overflow-x: auto;
 }
 
-/* Message Column (Optional: Target Specific Columns) */
+/* Message column */
 .table td.message {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
 
-/* Adjust Margins and Spacing Between Rows */
+/* Row spacing */
 .table tr {
-    margin-bottom: 0; /* Remove unnecessary row spacing */
-    height: auto; /* Adapt row height to content */
+    margin-bottom: 0;
+    height: auto;
 }
 
+/* Custom cell */
 .custom-cell {
-    background-color: #eee;
+    background-color: var(--table-custom-cell-bg);
     width: 400px;
     height: 200px;
     vertical-align: top;
 }
 
+/* Pagination */
 .pagination {
-    justify-content: center; /* Center-align the pagination */
+    justify-content: center;
 }
 
 .pagination-previous,
 .pagination-next {
-    background-color: #3273dc; /* Primary color: a shade of blue */
-    color: greenyellow;
-    border: none;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--button-border);
 }
 
 .pagination-previous:hover,
 .pagination-next:hover {
-    background-color: #275baf; /* Darker shade of blue */
+    background-color: var(--button-hover-bg);
+    color: var(--button-hover-text);
 }
