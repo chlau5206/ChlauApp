@@ -1,205 +1,58 @@
-/*** Noto Sans fonts  ***
- ************************/
-/* Define Noto Sans for normal text */
+/***********************************************
+ * NotoSansFonts.css
+ * English + Symbols only
+ * Minimal, stable, portable
+ ***********************************************/
+
+/* ========================= */
+/*     Noto Sans (Latin)     */
+/* ========================= */
 @font-face {
     font-family: 'Noto Sans';
     src: url('../Fonts/NotoSans-VariableFont_wdth,wght.ttf') format('truetype');
     font-style: normal;
-}
-.noto-sans-<uniquifier > {
-    font-family: "Noto Sans", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-variation-settings: inherit;
-    /*font-variation-settings: "wght" 700 "wdth" 100.0;*/
-}
-/* HTML language-specific font application */
-html[lang="en"] .text {
-    font-family: "Noto Sans", sans-serif;
-}
-/* Global body font */
-body {
-    font-family: 'Noto Sans', sans-serif;
+    font-weight: 100 900;
 }
 
-/* Define Noto Sans Display for headings */
+/* Global body font */
+body {
+    font-family: 'Noto Sans', 'Segoe UI', Arial, sans-serif;
+}
+
+/* ========================= */
+/*   Noto Sans Display (H1)  */
+/* ========================= */
 @font-face {
     font-family: 'Noto Sans Display';
     src: url('../Fonts/NotoSansDisplay-VariableFont_wdth,wght.ttf') format('truetype');
     font-style: normal;
+    font-weight: 100 900;
 }
-.noto-sans-display-<uniquifier > {
-    font-family: "Noto Sans Display", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-variation-settings: inherit;
-    /*font-variation-settings: "wdth" 100;*/
-}
-/* Apply Noto Sans Display to headings */
+
+/* Headings */
 h1, h2, h3 {
-    font-family: 'Noto Sans Display', sans-serif;
+    font-family: 'Noto Sans Display', 'Segoe UI', Arial, sans-serif;
 }
 
-.noto-sans-mono-<uniquifier > {
-    font-family: "Noto Sans Mono", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-variation-settings: inherit;
-    /*  font-weight: <weight>;  */
-    /*font-variation-settings: "wdth" 100;*/
+/* ========================= */
+/*        Symbols / Emoji    */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Sans Symbols';
+    src: url('../Fonts/NotoSansSymbols-Regular.ttf') format('truetype');
 }
 
-.noto-sans-tc-<uniquifier > {
-    font-family: "Noto Sans TC", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-html[lang="tc"] .text {
-  font-family: "Noto Sans TC", sans-serif;
+@font-face {
+    font-family: 'Noto Sans Symbols 2';
+    src: url('../Fonts/NotoSansSymbols2-Regular.ttf') format('truetype');
 }
 
-.noto-sans-sc-<uniquifier > {
-    font-family: "Noto Sans SC", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-html[lang="sc"] .text {
-  font-family: "Noto Sans SC", sans-serif;
+@font-face {
+    font-family: 'Noto Color Emoji';
+    src: url('../Fonts/NotoColorEmoji.ttf') format('truetype');
 }
 
-.noto-sans-jp-<uniquifier > {
-    font-family: "Noto Sans JP", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
+@font-face {
+    font-family: 'Noto Emoji';
+    src: url('../Fonts/NotoEmoji-VariableFont_wght.ttf') format('truetype');
 }
-html[lang="jp"] .text {
-  font-family: "Noto Sans JP", sans-serif;
-}
-
-.noto-serif-hentaigana-<uniquifier > {
-    font-family: "Noto Serif Hentaigana", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-
-.noto-sans-kr-<uniquifier > {
-    font-family: "Noto Sans KR", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-html[lang="ko"] .text {
-  font-family: "Noto Sans KR", sans-serif;
-}
-
-.noto-sans-hk-<uniquifier > {
-    font-family: "Noto Sans HK", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-html[lang="hk"] .text {
-  font-family: "Noto Sans HK", sans-serif;
-}
-
-.noto-sans-symbols-<uniquifier > {
-    font-family: "Noto Sans Symbols", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-
-.noto-sans-symbols-2-regular {
-  font-family: "Noto Sans Symbols 2", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.noto-music-regular {
-  font-family: "Noto Music", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.noto-color-emoji-regular {
-  font-family: "Noto Color Emoji", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.noto-emoji-<uniquifier > {
-    font-family: "Noto Emoji", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-
-
-.noto-sans-egyptian-hieroglyphs-regular {
-    font-family: "Noto Sans Egyptian Hieroglyphs", serif;
-    font-style: normal;
-    /*  font-weight: <weight>;  */
-}
-
-.noto-sans-thai-looped-regular {
-    font-family: "Noto Sans Thai Looped", serif;
-    font-weight: 400; /* Normal - Regular */
-    font-style: normal;
-}
-html[lang="thai"] .text {
-  font-family: "Noto Sans Thai Looped", sans-serif;
-}
-
-.noto-sans-thai-looped-thin {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 100;  /* Thin */
-  font-style: normal;
-}
-
-.noto-sans-thai-looped-extralight {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 200;  /* Extra Light */
-  font-style: normal;
-}
-
-.noto-sans-thai-looped-light {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 300;  /* Light  */
-  font-style: normal;
-}
-
-.noto-sans-thai-looped-medium {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 500;  /* Medium */
-  font-style: normal;
-}
-
-.noto-sans-thai-looped-semibold {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 600;  /* Semi Bold */
-  font-style: normal;
-}
-
-.noto-sans-thai-looped-bold {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 700;  /* Bold */
-  font-style: normal;
-}
-
-.noto-sans-thai-looped-extrabold {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 800;  /* Extra Bold */
-  font-style: normal;
-}
-
-.noto-sans-thai-looped-black {
-  font-family: "Noto Sans Thai Looped", serif;
-  font-weight: 900;  /* Black */
-  font-style: normal;
-}
-
-

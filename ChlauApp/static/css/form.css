@@ -1,0 +1,10 @@
+/* form.css */
+
+.form {
+    margin-bottom: 1.25rem; /* Add spacing between the form and the table */
+}
+
+.input {
+    max-width: 200px; /* Limit input field width */
+    margin-right: 0.75rem; /* Add spacing between form elements */
+}

@@ -1,0 +1,89 @@
+/***********************************************
+ * Noto_lang.css
+ * Optional multilingual font support
+ ***********************************************/
+
+/* ========================= */
+/*   Traditional Chinese     */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Sans TC';
+    src: url('../Fonts/NotoSansTC-Regular.otf') format('opentype');
+}
+
+html[lang="tc"] .text {
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+/* ========================= */
+/*   Simplified Chinese      */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url('../Fonts/NotoSansSC-Regular.otf') format('opentype');
+}
+
+html[lang="sc"] .text {
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+/* ========================= */
+/*          Japanese         */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Sans JP';
+    src: url('../Fonts/NotoSansJP-Regular.otf') format('opentype');
+}
+
+html[lang="jp"] .text {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ========================= */
+/*          Korean           */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Sans KR';
+    src: url('../Fonts/NotoSansKR-Regular.otf') format('opentype');
+}
+
+html[lang="ko"] .text {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* ========================= */
+/*        Hong Kong          */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Sans HK';
+    src: url('../Fonts/NotoSansHK-Regular.otf') format('opentype');
+}
+
+html[lang="hk"] .text {
+    font-family: 'Noto Sans HK', sans-serif;
+}
+
+/* ========================= */
+/*           Thai            */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Sans Thai Looped';
+    src: url('../Fonts/NotoSansThaiLooped-Regular.ttf') format('truetype');
+}
+
+html[lang="thai"] .text {
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+}
+
+/* ========================= */
+/*     Special Scripts       */
+/* ========================= */
+@font-face {
+    font-family: 'Noto Serif Hentaigana';
+    src: url('../Fonts/NotoSerifHentaigana-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Egyptian Hieroglyphs';
+    src: url('../Fonts/NotoSansEgyptianHieroglyphs-Regular.otf') format('opentype');
+}

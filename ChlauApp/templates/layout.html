@@ -10,8 +10,8 @@
         {% endif %}
         ChLau App
     </title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bulma.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/NotoSansFonts.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bulma.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/global_styles.css') }}">
 
     {% block header %}{% endblock %}
@@ -58,6 +58,15 @@
                             <a class="navbar-item" href="{{ url_for('auth_bp.display_user') }}">Membership</a>
                             <a class="navbar-item" href="{{ url_for('admin_board_bp.show_message') }}">Messages board</a>
                             <a class="navbar-item" href="{{ url_for('members_bp.member') }}">Member page</a>
+                        </div>
+
+                        <br />------------------------------------------------<br />
+
+                        <div class="theme-switcher">
+                            <button data-theme="light">Light</button>
+                            <button data-theme="dark-mode">Dark</button>
+                            <button data-theme="soft-dark">Soft Dark</button>
+                            <button data-theme="oled">OLED</button>
                         </div>
                     </div>
                     {% endif %}
