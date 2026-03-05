@@ -1,4 +1,4 @@
-﻿# Board/BoardDemo.py -- Contains the routes and CRUD operations
+# Board/BoardDemo.py -- Contains the routes and CRUD operations
 
 
 from flask import render_template, redirect, url_for, flash, current_app, request

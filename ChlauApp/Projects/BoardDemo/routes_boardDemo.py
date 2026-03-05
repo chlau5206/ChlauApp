@@ -1,4 +1,4 @@
-﻿# boardDemo/routes_boardDemo.py
+# boardDemo/routes_boardDemo.py
 
 
 from flask import render_template

@@ -6,10 +6,6 @@ from flask import render_template,  current_app, url_for
 
 from .AppAdmin.members.LoginForms import LoginForm   # contactUsModule import contactForm
 
-# from .AppAdmin.members.models import handle_SQL_exception
-# from .utils.utilities import handle_SQL_exception
-# from . import home2_bp
-
 import logging
 logger = logging.getLogger(__name__)
 

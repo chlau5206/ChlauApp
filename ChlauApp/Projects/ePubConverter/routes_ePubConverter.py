@@ -1,4 +1,4 @@
-﻿# ePubConverter/routes_ePubConverter.py
+# ePubConverter/routes_ePubConverter.py
 
 from flask import render_template
 from . import ePubConv_bp
