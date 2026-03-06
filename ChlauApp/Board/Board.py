@@ -1,13 +1,11 @@
-# Board/Board.py -- Contains the routes and CRUD operations
-
+# Board/Board.py -- Contains the routes for add message operations
 
 from flask import render_template, redirect, url_for, flash, current_app, request
 from flask_login import login_required 
 
 from . import board_bp  
 from ..extensions import db, csrf
-from ..utils.utilities import handle_SQL_exception
-# from ..AppAdmin.members.models import roles_required, handle_exception 
+from ..AppAdmin.members.models import handle_SQL_exception
 from ..AppAdmin.adminBoard.BoardModels import Board, BoardForm
 
 import logging
@@ -19,7 +17,6 @@ PER_PAGE = 10     # Number of messages per page
 #########################################
 # def get_messages(page, per_page=10):
 #     return Board.query.order_by(Board.timestamp.desc()) .limit(per_page).offset((page - 1) * per_page).all()
-
 @board_bp.route('/general_add', methods=['GET', 'POST'])
 def general_add_message():
     logger.info('Contact me route accessed')

@@ -1,5 +1,6 @@
 /* About2/about2.js */
 
+/*This jS is to control content collapse and expand. */
 document.addEventListener("DOMContentLoaded", () => {
     const collapsibles = document.querySelectorAll(".collapsible");
 

@@ -3,14 +3,18 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+* text=auto
+
 ## User-specific files
-.env
+#.env
 .env.development
 .env.testing
-.gitignore
+# .gitignore
 *.pyproj
 *.pyproj.user
 *.sln
+BugReport.txt
+SelfNotes.txt
 test*.html
 FirstUser.html
 selections.js
