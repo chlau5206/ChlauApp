@@ -59,6 +59,23 @@ h4, h5, h6 {
 }
 
 /* ========================= */
+/*        Screenshots        */
+/* ========================= */
+
+.screenshots {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /*justify-items: center;*/
+}
+
+.screenshots img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* ========================= */
 /*        FLASH MESSAGES     */
 /* ========================= */
 .flash-message {
