@@ -123,6 +123,10 @@ h4, h5, h6 {
     padding-bottom: 3rem;
 }
 
+.section-bg {
+    background-color: lightskyblue; /* #f0f8ff; /* very light blue */
+}
+
 .logo {
     height: 80px;
     width: auto;
@@ -151,7 +155,7 @@ article, footer {
 /*         NAVBAR            */
 /* ========================= */
 .navbar {
-    position: sticky;
+    position: relative;   /* sticky; */
     top: 0;
     z-index: 1000;
     width: 100%;
@@ -390,6 +394,10 @@ article, footer {
         --link-hover: #82c3ff;
     }
 
+    :root.dark-mode .section-bg {
+        background-color: #121212;
+    }
+
     /* ========================= */
     /*        SOFT DARK          */
     /* ========================= */
@@ -416,6 +424,10 @@ article, footer {
         --link-hover: #cfe6ff;
     }
 
+    :root.dark-mode .section-bg {
+        background-color: #121212;
+    }
+
     /* ========================= */
     /*        OLED BLACK         */
     /* ========================= */
@@ -440,6 +452,10 @@ article, footer {
         --footer-text: #4da3ff;
         --link-color: #4da3ff;
         --link-hover: #82c3ff;
+    }
+
+    :root.dark-mode .section-bg {
+        background-color: #121212;
     }
 }
 
