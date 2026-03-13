@@ -1,20 +1,22 @@
 // main / layout.js
 
-const DEBUG = false;
+window.DEBUG = false;
 
-function log(msg) {
-    if (DEBUG) console.log(msg);
+window.debug = function (msg) {
+    if (window.DEBUG) console.log(msg);
 }
 
-log("layout.js loaded")
+debug("[layout.js] loaded")
 document.addEventListener('DOMContentLoaded', () => {
+    debug("[layout.js] DOM ready, navbar listeners attached");
+
     const burger = document.getElementById('mainBurger');
     const menu = document.getElementById(burger.dataset.target);
     const dropdowns = document.querySelectorAll('.has-dropdown');
 
     // Toggle navbar menu
     burger.addEventListener('click', () => {
-        log("layout.js navbar menu: burger clicked")
+        debug("layout.js navbar menu: burger clicked")
         burger.classList.toggle('is-active');
         menu.classList.toggle('is-active');
     });
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const link = dropdown.querySelector('.navbar-link');
         if (link) {
             link.addEventListener('click', () => {
-                log("layout.js navbar-dropdown: burger clicked")
+                debug ("layout.js navbar-dropdown: burger clicked")
                 dropdown.classList.toggle('is-active');
             });
         }

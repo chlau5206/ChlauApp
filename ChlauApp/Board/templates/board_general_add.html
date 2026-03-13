@@ -1,51 +1,62 @@
-<!--Board / board_general_add.html - for visitor add message, no admin required-->
+﻿<!--Board / board_general_add.html  new - for visitor add message, no admin required-->
 {% extends "layout.html" %}
 
 {% block header %}
-
+<link rel="stylesheet" type="text/css" href="{{ url_for('board_bp.static', filename='css/board_add.css')}}" />
 {% endblock %}
 
 {% block content %}
+
 <section class="section section-bg">
-    <div class="container mt-5">
-        <h2 class="text-center">Contact Us</h2><br />
+    <div class="container contact-card">
+
+        <h2 class="title is-4 has-text-centered">Contact Me</h2>
+        <p class="subtitle is-6 has-text-centered">
+            Feel free to leave a message — I’ll get back to you soon.
+        </p>
+
         <form method="POST" action="{{ url_for('board_bp.general_add_message') }}">
-            {{ form.hidden_tag() }}  <!-- CSRF Token -->
+            {{ form.hidden_tag() }}
+
+            <!-- Name -->
             <div class="field">
                 <label class="label">{{ form.name.label }}</label>
-                <div class="control has-icons-left has-icons-right">
-                    {{ form.name(class="input") }}
+                <div class="control has-icons-left">
+                    {{ form.name(class="input", placeholder="Your name") }}
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
                 </div>
-                <div class="field">
-                    <label class="label">{{ form.email.label }}</label>
-                    <div class="control has-icons-left has-icons-right">
-                        {{ form.email(class="input") }}
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <span class="icon is-small is-right">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </span>
-                    </div>
+            </div>
+
+            <!-- Email -->
+            <div class="field">
+                <label class="label">{{ form.email.label }}</label>
+                <div class="control has-icons-left">
+                    {{ form.email(class="input", placeholder="your@email.com") }}
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
                 </div>
-                <div class="field">
-                    <label class="label">{{ form.message.label }}</label>
-                    <div class="control">
-                        <textarea class="textarea" placeholder="message" {{ form.message(class="input") }}
-                        </textarea>
-                    </div>
+            </div>
+
+            <!-- Message -->
+            <div class="field">
+                <label class="label">{{ form.message.label }}</label>
+                <div class="control">
+                    {{ form.message(class="textarea", placeholder="Your message...") }}
                 </div>
-                <br />
-                <div class="field">
-                    <div class="control">
-                        {{ form.submit(class="button is-link") }}
-                    </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="field mt-4">
+                <div class="control">
+                    {{ form.submit(class="button is-link is-fullwidth") }}
                 </div>
+            </div>
+
         </form>
     </div>
 </section>
 
-        {% endblock %}
-
-
-
+{% endblock %}
