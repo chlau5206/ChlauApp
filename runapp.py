@@ -1,9 +1,7 @@
-"""
+"""  main / runapp.py
 This script is for the ChlauApp application's entry point. 
 """
 
-''' runapp.py
-'''
 import os, sys
 from ChlauApp import app
 

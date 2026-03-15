@@ -369,7 +369,12 @@ article, footer {
     --link-hover: #0055aa;
     /* section */
     --section-bg: skyblue; /*  lightskyblue;  #f0f8ff = very light blue */
-
+    /* table */
+    --table-bg: lightskyblue;
+    --table-text: #222;
+    --table-border: #ccc;
+    --table-header-bg: aqua;
+    --table-header-text: #111;
 }
 
 /* ========================= */
@@ -402,6 +407,11 @@ article, footer {
         --link-color: #4da3ff;
         --link-hover: #82c3ff;
         --section-bg: #121212; /* #1a1a1a; */
+        --table-bg: #0d2b4d;
+        --table-text: #e0e0e0;
+        --table-border: #444;
+        --table-header-bg: #2a2a2a;
+        --table-header-text: #fff;
     }
 
     /* ========================= */
@@ -429,6 +439,11 @@ article, footer {
         --link-color: #9ecbff;
         --link-hover: #cfe6ff;
         --section-bg: #121212;
+        --table-bg: #1e1e1e;
+        --table-text: #e0e0e0;
+        --table-border: #444;
+        --table-header-bg: #2a2a2a;
+        --table-header-text: #fff;
     }
 
     /* ========================= */
@@ -456,5 +471,10 @@ article, footer {
         --link-color: #4da3ff;
         --link-hover: #82c3ff;
         --section-bg: #1a1a1a;
+        --table-bg: #1e1e1e;
+        --table-text: #e0e0e0;
+        --table-border: #444;
+        --table-header-bg: #2a2a2a;
+        --table-header-text: #fff;
     }
 }

@@ -13,7 +13,7 @@ def project():
         "project_title": "boardDemo",
         "project_subtitle": "A safe, dual-database message board demo.",
         "project_tags": ["Python", "Flask", "SQLAlchemy", "SQLite", "Bulma", "csrf"],
-        "screenshots": ["demoBoard_AddNewMsg.jpg", "demoBoard_PowerUser_Page.jpg"],
+        "screenshots": ["demoBoard_PowerUser_Page.jpg", "demoBoard_add_2026-03-13.png"],
 
         "project_description": """
             <p>
