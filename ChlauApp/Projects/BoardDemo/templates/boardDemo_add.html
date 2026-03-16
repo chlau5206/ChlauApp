@@ -3,6 +3,7 @@
 
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('boardDemo_bp.static', filename='css/board_add.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('boardDemo_bp.static', filename='css/boardDemo.css')}}" />
 {% endblock %}
 
 {% block content %}
@@ -57,7 +58,7 @@
 
         </form>
         <!-- <a href="{{ url_for('boardDemo_bp.demo_show_message') }}">Power User</a> -->
-        <a class="button is-primary" href="{{ url_for('boardDemo_bp.demo_show_message') }}">Power User</a>
+        <a class="button is-info is-light" href="{{ url_for('boardDemo_bp.demo_show_message') }}">Power User</a>
     </div>
 </section>
 

@@ -40,15 +40,15 @@
 }
 
 /* Pagination (kept here for table pages) */
-.pagination-previous,
-.pagination-next {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: 1px solid var(--button-border);
-}
+    .pagination-previous,
+    .pagination-next {
+        background-color: var(--button-bg);
+        color: var(--button-text);
+        border: 1px solid var(--button-border);
+    }
 
-.pagination-previous:hover,
-.pagination-next:hover {
-    background-color: var(--button-hover-bg);
-    color: var(--button-hover-text);
-}
+    .pagination-previous:hover,
+    .pagination-next:hover {
+        background-color: var(--button-hover-bg);
+        color: var(--button-hover-text);
+    }
