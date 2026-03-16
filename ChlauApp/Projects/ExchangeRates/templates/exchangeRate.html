@@ -3,32 +3,38 @@
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{ url_for('exchange_rate_bp.static', filename='css/ExchangeRates.css')}}" />
-
+<link rel="stylesheet" type="text/css" href="{{ url_for('exchange_rate_bp.static', filename='css/demo.css')}}" />
 {% endblock %}
 
 {% block content %}
 <section class="section section-bg">
     <div class="container">
-        <h3>
-            Exchange Rate (USD based) Date token: <span id="toke_date"></span>
-        </h3>
+        <!-- Page Title -->
+        <h1 class="title is-2 has-text-centered mb-5">Exchange Rate Viewer</h1>
 
-        <table class="table is-striped is-link" id="dataTable">
-            <!--<tr valign="top">
-                <td bgcolor="#eee" width="400" height="200">-->
-            <thead>
-                <tr>
-                    <th>Country</th>
-                    <th>USD to $</th>
-                    <th>$ to USD</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="custom-cell"></td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Summary Box -->
+        <div class="box mb-5">
+            <p class="title is-4">USD Base Currency</p>
+            <p class="subtitle is-6">Last updated: <span id="toke_date"></span></p>
+        </div>
+
+        <!-- Exchange Rate Table -->
+        <div class="table-container mt-5">
+            <table class="table is-striped is-hoverable is-fullwidth" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>USD to $</th>
+                        <th>$ to USD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="custom-cell"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 
