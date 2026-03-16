@@ -1,13 +1,20 @@
-<!-- Demo Board - Power User mode - display, delete -->
+﻿<!-- DemoBoard / boardDemo.html  -->
+
 {% extends "layout.html" %}
 
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/table.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('boardDemo_bp.static', filename='css/demo.css')}}" />
 {% endblock %}
 
 {% block content %}
-<section class="section">
-    <h2 class="text-center">Message board</h2>
+<section class="section section-bg">
+    <h1 class="title is-2 has-text-centered">Demo Message board</h1>
+    <p class="subtitle has-text-centered">Demo Manage user messages</p>
+
+    <p class="has-text-weight-semibold has-text-grey mb-4">
+        Total messages: {{ total_messages }}
+    </p>
     <div class="container mt-5">
         <table class="table is-striped is-hoverable">
             <thead>
@@ -23,33 +30,73 @@
 
                 {% for message in messages %}
                 <tr style="text-align: left; vertical-align: top;">
-                    <td>{{ message.timestamp }}</td>
+                    <td>{{ (message.timestamp|localtime).strftime("%Y-%m-%d %H:%M %Z")}}</td>
                     <td>{{ message.name }}</td>
                     <td>{{ message.email }}</td>
                     <td>{{ message.message }}</td>
                     <td style="text-align: center; vertical-align: top;">
                         <form method="POST" action="{{ url_for('boardDemo_bp.demo_delete_message', id=message.id) }}" style="display: inline-block;">
                             {{ form.hidden_tag() }}  <!-- Add CSRF token -->
-                            <button type="submit" class="button is-danger">Delete</button>
+                            <button type="submit" class="button is-small is-danger is-light">Delete</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <nav class="pagination" role="navigation" aria-label="pagination">
+
+        <nav class="pagination is-centered mt-5" role="navigation" aria-label="pagination">
 
             {% if prev_page %}
-            <a class="pagination-previous" href="{{ url_for('boardDemo_bp.demo_show_message', page=prev_page) }}">Previous</a>
+                <a class="pagination-previous" href="?page={{ prev_page }}">Previous</a>
+            {% else %}
+                <a class="pagination-previous" disabled>Previous</a>
             {% endif %}
+
             {% if next_page %}
-            <a class="pagination-next" href="{{ url_for('boardDemo_bp.demo_show_message', page=next_page) }}">Next</a>
+                <a class="pagination-next" href="?page={{ next_page }}">Next</a>
+            {% else %}
+                <a class="pagination-next" disabled>Next</a>
             {% endif %}
+
+            <ul class="pagination-list">
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == current_page %}
+                        <li>
+                            <a class="pagination-link is-current">{{ p }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="pagination-link" href="?page={{ p }}">{{ p }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
 
         </nav>
-
-        <a href="{{ url_for('boardDemo_bp.demo_add_message') }}">add message</a>
     </div>
+    <div class="buttons mb-4">
+        <!-- Add -->
+        <a class="button is-info is-light" href="{{ url_for('boardDemo_bp.demo_add_message') }}">Add Message</a>
+
+        <!-- Project Page -->
+        <a class="button is-info is-light" href="{{ url_for('boardDemo_bp.project') }}">
+            Project page
+        </a>
+    </div>
+
+    <!-- 
+    <nav class="pagination" role="navigation" aria-label="pagination">
+
+        {% if prev_page %}
+        <a class="pagination-previous" href="{{ url_for('admin_board_bp.show_message', page=prev_page) }}">Previous</a>
+        {% endif %}
+        {% if next_page %}
+        <a class="pagination-next" href="{{ url_for('admin_board_bp.show_message', page=next_page) }}">Next</a>
+        {% endif %}
+
+    </nav>
+    -->
 </section>
 
 {% endblock %}

@@ -1,4 +1,5 @@
-# ExchangeRates / ExchangeRate.py
+# ExchangeRates / ExchangeRate.py   
+# Demo API data to Web
 
 import logging, os
 from flask import render_template, json, jsonify, current_app

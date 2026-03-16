@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<section class="section">
+<section class="section section-bg">
     <div class="container">
 
         <!-- TITLE -->
@@ -19,13 +19,12 @@
         <!-- SCREENSHOTS -->
         <div class="box">
             <h2 class="title is-5">Screenshots</h2>
-            <div class="columns is-multiline">
+
+            <div class="screenshots">
                 {% for img in screenshots %}
-                <div class="column is-one-third">
-                    <figure class="image is-4by3">
-                        <img src="{{ url_for('boardDemo_bp.static', filename='img/' + img) }}">
-                    </figure>
-                </div>
+                <figure class="image is-4by3">
+                    <img src="{{ url_for('boardDemo_bp.static', filename='img/' + img) }}">
+                </figure>
                 {% endfor %}
             </div>
         </div>

@@ -1,7 +1,7 @@
 """  ChlauApp/__init__.py
 The flask application package.
 """
-from flask import Flask # , current_app
+from flask import Flask 
 from .extensions import db, migrate, csrf, login_manager
 
 import logging
@@ -10,12 +10,18 @@ logger = logging.getLogger(__name__)
 
 # from flask_sqlalchemy import SQLAlchemy
 from .AppAdmin.members.models import handle_SQL_exception
-# from .utils.utilities import handle_SQL_exception
 
 import os
 from dotenv import load_dotenv
+from zoneinfo import ZoneInfo
 
 FLASK_ENV = ''
+
+def utc_to_local(dt, tz_name):
+    if dt is None:
+        ZoneInfo.key
+        return ""
+    return dt.replace(tzinfo=ZoneInfo("Etc/UTC")).astimezone(ZoneInfo(tz_name))
 
 #######################################
 #  create Logging
@@ -72,8 +78,6 @@ def create_logger(app):
     return logger
 
 def create_app():
-    
-    
     app = Flask(__name__) 
 
     #################################################
@@ -96,9 +100,12 @@ def create_app():
     app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///:memory:'}  # DEMO db :  In-memory database
     # DEBUG  app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///demo.db'}  # DEMO db :  debug
     
+    app.config['LOCAL_TIMEZONE'] = os.getenv("LOCAL_TIMEZONE", 'America/Los_Angeles')    
     app.config["WTF_CSRF_ENABLED"] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
+
+    app.jinja_env.filters['localtime'] = lambda dt: utc_to_local(dt, app.config['LOCAL_TIMEZONE'])
 
     #######################################
     # Logging

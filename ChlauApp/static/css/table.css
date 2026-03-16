@@ -1,108 +1,54 @@
-/* table.css — Theme‑aware table styling
- ***********************************************/
+/* table.css 
+   ============================================================
+   Bulma‑Native Table Overrides
+   Shared across projects
+   Only theme-aware color overrides + custom behavior
+   ============================================================ */
 
-/* Base table */
+/* Base table colors (Bulma handles layout) */
 .table {
-    width: 100%;
-    border-collapse: collapse;
     background-color: var(--table-bg);
     color: var(--table-text);
-    border: 1px solid var(--table-border);
+    border: 1px solid var(--table-border);   /* Outer border */
 }
 
-/* Dynamic cell sizing */
-.table th,
-.table td {
-    min-width: 10px;
-    max-width: 100px;
-    min-height: 10px;
-    max-height: 100px;
-}
-
-/* Action column (buttons inside table cells) */
-.table td.action-column {
-    padding: 4px;
-    vertical-align: middle;
-    height: auto;
-}
-
-/* Table cells */
-.table td {
-    border: 1px solid var(--table-border);
-    padding: 4px 8px;
-    text-align: left;
-    font-size: 0.9rem;
-    vertical-align: middle;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
-/* Table headers */
 .table th {
-    border: 1px solid var(--table-border);
-    padding: 8px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1rem;
-    text-transform: uppercase;
     background-color: var(--table-header-bg);
     color: var(--table-header-text);
 }
 
-/* Row striping */
-.table.is-striped tbody tr:nth-child(odd) {
-    background-color: var(--table-row-odd);
+.table td,
+.table th {
+    border-color: var(--table-border);
 }
 
-.table.is-striped tbody tr:nth-child(even) {
-    background-color: var(--table-row-even);
-}
-
-/* Hover */
-.table tr:hover {
-    background-color: var(--table-row-hover);
-    cursor: pointer;
-}
-
-/* Table container */
-.table-container {
-    overflow-x: auto;
-}
-
-/* Message column */
+/* Message column: allow long text to wrap */
 .table td.message {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
 
-/* Row spacing */
-.table tr {
-    margin-bottom: 0;
-    height: auto;
+/* Action column: center buttons/icons */
+.table td.action-column {
+    text-align: center;
+    vertical-align: middle;
 }
 
-/* Custom cell */
-.custom-cell {
-    background-color: var(--table-custom-cell-bg);
-    width: 400px;
-    height: 200px;
-    vertical-align: top;
+/* Responsive container (Bulma recommends this) */
+.table-container {
+    overflow-x: auto;
 }
 
-/* Pagination */
-.pagination {
-    justify-content: center;
-}
+/* Pagination (kept here for table pages) */
+    .pagination-previous,
+    .pagination-next {
+        background-color: var(--button-bg);
+        color: var(--button-text);
+        border: 1px solid var(--button-border);
+    }
 
-.pagination-previous,
-.pagination-next {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: 1px solid var(--button-border);
-}
-
-.pagination-previous:hover,
-.pagination-next:hover {
-    background-color: var(--button-hover-bg);
-    color: var(--button-hover-text);
-}
+    .pagination-previous:hover,
+    .pagination-next:hover {
+        background-color: var(--button-hover-bg);
+        color: var(--button-hover-text);
+    }

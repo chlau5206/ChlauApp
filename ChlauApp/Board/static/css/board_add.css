@@ -1,0 +1,14 @@
+/*  Board / board.css */
+
+.contact-card {
+    background-color: #ddeff7; /* PowderBlue Lightened */
+    padding: 2rem 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.contact-card .field {
+    margin-bottom: 1.5rem;
+}

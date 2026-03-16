@@ -1,4 +1,10 @@
 3/1		DemoBoard: Change populate message count to 15. 
 
 
+Run this on PythonAnywhere 
+from zoneinfo import ZoneInfo
+from datetime import datetime
 
+utc = datetime(2026, 3, 13, 0, 0, 0, tzinfo=ZoneInfo("Etc/UTC"))
+local = utc.astimezone(ZoneInfo("America/Los_Angeles"))
+print(local)

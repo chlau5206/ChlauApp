@@ -1,0 +1,10 @@
+/* boardDemo - boardDemo.css */
+.section-bg{
+    background-color: seagreen;
+}
+
+@media (prefers-color-scheme: dark) {
+    .dark-mode .section-bg {
+        background-color: darkseagreen; 
+    }
+}
