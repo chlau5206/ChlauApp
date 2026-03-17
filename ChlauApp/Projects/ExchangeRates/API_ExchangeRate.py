@@ -10,7 +10,7 @@
 '''
 
 # import requests
-import os, logging
+import os
 import json
 import shutil
 import urllib3
@@ -19,7 +19,7 @@ from datetime import date, datetime
 from dotenv import load_dotenv
 
 DEBUG = False
-logger = logging.getLogger(__name__)
+ACCESS_KEY = None        
 
 class ExchangeRateOps():
 
@@ -44,45 +44,46 @@ class ExchangeRateOps():
         self.APIStatusCodes = {
             "200": "Everything went okay, and the result has been returned (if any).",
             "301": "The server is redirecting you to a different endpoint. This can happen when a company switches domain names, or an endpoint name is changed.",
-            "400": "The server thinks you made a bad request. This can happen when you donâ€™t send along the right data, among other things.",
-            "401": "The server thinks youâ€™re not authenticated. Many APIs require login ccredentials, so this happens when you donâ€™t send the right credentials to access an API.",
-            "403": "The resource youâ€™re trying to access is forbidden: you donâ€™t have the right perlessons to see it.",
-            "404": "The resource you tried to access wasnâ€™t found on the server.",
+            "400": "The server thinks you made a bad request. This can happen when you do not send along the right data, among other things.",
+            "401": "The server thinks you are not authenticated. Many APIs require login ccredentials, so this happens when you do not send the right credentials to access an API.",
+            "403": "The resource you are trying to access is forbidden: you do not have the right perlessons to see it.",
+            "404": "The resource you tried to access was not found on the server.",
             "503": "The server is not ready to handle the request.",
             }
         
-        self.sample_JSON = b'{"success":false,"timestamp":1763580847,"base":"EUR","date":"2025-11-19","rates":{"EUR":1,"USD":1.152538,"CAD":1.620267,"GBP":0.882942,"JPY":180.783096,"CNY":8.19221,"AUD":1.784256,"HKD":8.979511,"IDR":19276.891593,"MXN":21.169296,"SGD":1.506563,"KRW":1692.390632,"THB":37.439624,"TWD":35.990881}}'
+        self.sample_JSON = b'{"success":false,"timestamp":1763580847,"base":"EUR","date":"2025-11-19","rates":{"EUR":1,"USD":1.152538,"CAD":1.620267,"GBP":0.882942,"JPY":180.783096}}'
 
         ## Replace single quotes with double quotes (JSON standard)
         # self.sample_JSON = self.sample_JSON.replace("'", '"')
         
         # self.file_path = os.getcwd()  # os.path.join( "os.getcwd()", "static", "data" )
-        self.file_path = r'C:\Users\charl_zt65sur\Doc\.src\.repos\ChlauSolutions\ChlauTools'
-        self.latest_file = os.path.join(self.file_path, "LatestRate.json")
+        self.project_path = os.path.join(os.curdir, "static", "data")
+        self.latest_file = os.path.join(self.project_path, "LatestRate.json")
 
     ## def format_json(self, json_file):
     #     return json.dumps(json_file, indent = 4)
 
     def Get_API(self) -> str:
-        logger.info("ExchangeRate Get API ")
+        print ("ExchangeRate Get API ")
         # Create a PoolManager instance
         http = urllib3.PoolManager()
         
         # Make a GET request to the API endpoint
         APIURL = "http://api.exchangeratesapi.io/v1/latest"
         
-
-        ######################################################
-        ###### DO NOT SHARE  ############
         try: 
-            if DEBUG is True:
-                ACCESS_KEY = "55eb6ba3"
-            else: 
-                load_dotenv(dotenv_path=".env")
-                ACCESS_KEY = os.getenv("API_KEY")
-                if ACCESS_KEY is None:
-                    raise ValueError("API_KEY not found")
-
+            if DEBUG and os.path.exists(".env.APIkey"):
+                load_dotenv(dotenv_path=".env.APIkey")
+                print (".env.keys loaded.")
+            else:     
+                load_dotenv()
+                print (".env loaded.")
+            ACCESS_KEY = os.getenv("API_KEY")
+            
+            print (f"Access Key: {ACCESS_KEY}")
+            if not ACCESS_KEY :
+                raise ValueError("API_KEY not found")
+                
         except OSError as e:
             print (f"OSExcept #{e.errno}:{e.strerror} -- {e.filename} ")
         except Exception as e:
@@ -109,76 +110,67 @@ class ExchangeRateOps():
             retries=urllib3.Retry(total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503, 504])
         )
         response = http.request("GET", APIURL, fields=exchangeQueryStr)
-        print(f"response code - {response.status}")
-        if response.status == 200:   # data in bytes format
-            print("Exchange rate retrieved success.")
+        
+        if response.status < 300:   # data in bytes format
+            print(f"response code - {response.status}")
             rate_data = response.data
         else: 
             rate_data = self.sample_JSON
             if response.status >= 500:
-                print("Server error â€” try again later.")
-            elif response.status in http_status:  # status in 400
-                print(f"API user error: {http_status[response.status]}")
+                print("Server error - try again later.")
+            # elif str(response.status) in self.APIStatusCodes.keys:  # status in 400
+            #     print(f"API user error: {self.APIStatusCodes[response.status]}")
             else:
                 print(f"unknown error: {response.status}")
 
         return rate_data.decode('utf-8')  # convert to utf-8 string
 
     def getExchangeRate(self):
-        logger.info("ExchangeRate get rate")
+        print ("ExchangeRate get rate")
         # for import requests
         # response = requests.get(self.APIURL, params=self.exchangeSymbols) 
-
         # JSON_data = str()
 
-        # if exchange rate loaded today, then skip Get_API, read latestfile instead.
         today_date = date.today().isoformat()
-        todayFile = os.path.join(self.file_path, "ExchangeRate_" + today_date + ".json")
-        if not os.path.exists(todayFile):
-
-            JSON_data = self.Get_API()
+        todayFile = os.path.join(self.project_path, "ExchangeRate_" + today_date + ".json")
+        # if exchange rate loaded today, then skip Get_API, read latestfile instead.
+        # if os.path.exists(todayFile):
+        #     print ("Exchange rate file exist.")
+        # else:
+        JSON_data = self.Get_API()
+        if DEBUG:
             JSON_Print(JSON_data)
-            
-            try:
-                with open(todayFile, 'w') as writeFile:
-                    writeFile.write(JSON_data)
-                    writeFile.close()
-                with open(self.latest_file, 'w') as LatestFile:
-                    LatestFile.write(JSON_data)
-                    LatestFile.close()
+        try:
+            with open(todayFile, 'w') as writeFile:
+                writeFile.write(JSON_data)
+                writeFile.close()
+            with open(self.latest_file, 'w') as LatestFile:
+                LatestFile.write(JSON_data)
+                LatestFile.close()
 
-            except IOError as e: 
-                st = None
-                if not os.path.exists(os.path.dirname(self.file_path)): 
-                    st = f"{e}.  The directory does not exist."
-                elif not os.access(os.path.dirname(self.file_path), os.W_OK): 
-                    st = f"{e}.  You do not have write permissions to {self.file_path}."
-                elif os.path.isfile(todayFile) and not os.access(todayFile, os.W_OK):
-                    st = f"{e}.  You do not have write permissions to {todayFile}."
-                elif os.path.isfile(self.latest_file) and not os.access(self.latest_file, os.W_OK):
-                    st = f"{e}.  You do not have write permissions to {self.latest_file}."
-                print(st)
-            except ValueError as e:
-                print(f"Incorrect value. {e}")
-            except Exception as e:
-                print(f"An unexpected error occurred: {e}")
-            
-                # currentTime = datetime.now().isoformat()
-                # errorLog = os.path.join(self.file_path, "API_ExchangeRateError.log")
-                # errorStr = f"{currentTime}:Error {e}: " + st
-                # with open("API_ExchangeRate_Error.log", 'a') as append_file:
-                #     append_file.write(errorStr)
-        # with open(self.latest_file, 'r') as file:
-        #     data = file.read()
-
+        except IOError as e: 
+            st = None
+            if not os.path.exists(os.path.dirname(self.file_path)): 
+                st = f"{e}.  The directory does not exist."
+            elif not os.access(os.path.dirname(self.file_path), os.W_OK): 
+                st = f"{e}.  You do not have write permissions to {self.file_path}."
+            elif os.path.isfile(todayFile) and not os.access(todayFile, os.W_OK):
+                st = f"{e}.  You do not have write permissions to {todayFile}."
+            elif os.path.isfile(self.latest_file) and not os.access(self.latest_file, os.W_OK):
+                st = f"{e}.  You do not have write permissions to {self.latest_file}."
+            print(st)
+        except ValueError as e:
+            print(f"Incorrect value. {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+    
         return True
 
     def copy_latest_file(self):
-        logger.info("ExchangeRate copy latest file")
+        print ("ExchangeRate copy latest file")
         try: 
             source = self.latest_file
-            destination = r'C:\Users\charl_zt65sur\Doc\.src\.repos\ChlauSolutions\ChlauApp\ChlauApp\Projects\ExchangeRates\static\data\LatestRate.json'
-            # r'D:\.Projects\[repos]\ChlauSolutions\ChlauApp\ChlauApp\ExchangeRates\static\data\LatestRate.json'
+            destination = "/home/chlau5206/ChlauApp/ChlauApp/Projects/ExchangeRates/static/data/LatestRate.json"
             shutil.copy(source, destination)
             print(f"File copied to {destination}.")
         except Exception as e: 
@@ -194,7 +186,6 @@ def JSON_Print(obj):
 if __name__=="__main__":
     EX = ExchangeRateOps()
     response = EX.getExchangeRate()
-    # JSON_Print(response)
     # EX.copy_latest_file()
     
     
