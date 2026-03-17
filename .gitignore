@@ -6,10 +6,8 @@
 * text=auto
 
 ## User-specific files
-#.env
-.env.development
-.env.testing
-.env.key
+# .env
+.env.*
 # .gitignore
 *.pyproj
 *.pyproj.user
@@ -21,6 +19,9 @@ FirstUser.html
 selections.js
 app.log
 # API_ExchangeRate.py
+Current_Resume.pdf
+LatestRate.json
+ExchangeRate_????-??-??.json
 
 ## Project exclude folders
 instance/
@@ -28,6 +29,7 @@ app_log/
 logs/
 AppAdmin/
 Proj_template/
+Archive/
 
 ## from PyCharm, JetBrains IDE, WebStorm, RubyMine
 .idea/ 
