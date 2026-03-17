@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 ENTRY_LIMIT = 1000    # message limited to 1000
 PER_PAGE = 10     # Number of messages per page
 
-#########################################
-# def get_messages(page, per_page=10):
-#     return Board.query.order_by(Board.timestamp.desc()) .limit(per_page).offset((page - 1) * per_page).all()
 @board_bp.route('/general_add', methods=['GET', 'POST'])
 def general_add_message():
     logger.info('Contact me route accessed')

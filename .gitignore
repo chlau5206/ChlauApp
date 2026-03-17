@@ -9,6 +9,7 @@
 #.env
 .env.development
 .env.testing
+.env.key
 # .gitignore
 *.pyproj
 *.pyproj.user
@@ -19,7 +20,7 @@ test*.html
 FirstUser.html
 selections.js
 app.log
-API_ExchangeRate.py
+# API_ExchangeRate.py
 
 ## Project exclude folders
 instance/

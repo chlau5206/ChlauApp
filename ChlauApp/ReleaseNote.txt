@@ -1,8 +1,17 @@
+3/16    UI/UX enhancement and fixed bugs are completed. 
+
 3/1		DemoBoard: Change populate message count to 15. 
 
+==============================================================
+Next steps:
+1. Admin Dashboard layout (new landing page)
+2. failed login lockout logic (security improvement)
 
+
+**************************************************************
 Run this on PythonAnywhere 
 from zoneinfo import ZoneInfo
+from tzdata
 from datetime import datetime
 
 utc = datetime(2026, 3, 13, 0, 0, 0, tzinfo=ZoneInfo("Etc/UTC"))
