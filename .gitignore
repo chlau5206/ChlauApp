@@ -31,6 +31,7 @@ logs/
 AppAdmin/
 Proj_template/
 Archive/
+utils/
 
 ## from PyCharm, JetBrains IDE, WebStorm, RubyMine
 .idea/ 

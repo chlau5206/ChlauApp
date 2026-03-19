@@ -2,15 +2,15 @@
 '''
 import os
 import json
-import shutil
-import urllib
-import urllib3
+# import shutil
+# import urllib
+# import urllib3
 
 import requests 
 from datetime import date, datetime
 from dotenv import load_dotenv
 
-DEBUG = True
+DEBUG = False
 
 class ExchangeRateOps():
 
@@ -64,7 +64,7 @@ class ExchangeRateOps():
         ## Replace single quotes with double quotes (JSON standard)
         # self.sample_JSON = self.sample_JSON.replace("'", '"')
         
-        if DEBUG and os.path.exists(".env.dev"):
+        if os.path.exists(".env.dev"):
             load_dotenv(dotenv_path=".env.dev")
             print (".env.dev loaded.")
         else:     
@@ -77,11 +77,10 @@ class ExchangeRateOps():
                                         "LatestRate.json")
 
     def get_AccesKey(self) -> str:
-        print ('Get Access Key')
+        if DEBUG:
+            print ('Get Access Key')
         try: 
             key = os.getenv("API_KEY")
-            if not key :
-                raise ValueError("API_KEY not found")
                 
         except OSError as e:
             print (f"OSExcept #{e.errno}:{e.strerror} -- {e.filename} ")
@@ -91,7 +90,8 @@ class ExchangeRateOps():
         return key
  
     def get_API(self) -> str:
-        print ("ExchangeRate Get API ")
+        if DEBUG:
+            print ("ExchangeRate Get API ")
 
         # Make a GET request to the API endpoint
         APIURL = "http://api.exchangeratesapi.io/v1/latest"
@@ -103,9 +103,10 @@ class ExchangeRateOps():
             }
 
         if DEBUG:
-            print (f"Key: {ACCESS_KEY}")
-            
-        print ("Begin API request:")
+            print (f"Debug: {DEBUG}")
+            print (f"API URL: {APIURL}")
+            print ("params: ", exchangeQueryStr)
+            print ("Begin API request:")
         response = requests.get(
             APIURL, 
             params=exchangeQueryStr,
@@ -136,15 +137,17 @@ class ExchangeRateOps():
             todayFile = os.path.join(self.project_path,
                                      "Projects", "ExchangeRates", "static","data",
                                     "ExchangeRate_" + today_date + ".json")
-            with open(todayFile, 'w') as writeFile:
-                writeFile.write(JSON_data)
-                writeFile.close()
-            print (f"Today file {todayFile} saved.")
+            
+            if DEBUG:
+                with open(todayFile, 'w') as writeFile:
+                    writeFile.write(JSON_data)
+                    writeFile.close()
+                print (f"Today file {todayFile} saved.")
 
             with open(self.latest_file, 'w') as LatestFile:
                 LatestFile.write(JSON_data)
                 LatestFile.close()
-            print (f"Latest File saved.")
+            print (f"Latest File, {self.latest_file} saved.")
 
         except IOError as e: 
             st = None
