@@ -11,7 +11,7 @@ from .BoardDemoModels import BoardDemoTbl, BoardDemoForm
 import logging
 logger = logging.getLogger(__name__)
 
-ENTRY_LIMIT = 30    # message limited to 50
+ENTRY_LIMIT = 20   # message limited to 50
 PER_PAGE = 5        # Number of messages per page
 
 # Operation: Display

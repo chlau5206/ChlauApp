@@ -1,12 +1,4 @@
 ﻿''' API Exchange Rate.py
-    Warming: This script contains Access key.  Do not publish to public
-    retrive Exchange Rate via API
-
-    pip install requests
-    python.exe -m pip install --upgrade pip  
-
-    python version > 3.10
-
 '''
 
 # import requests
@@ -15,11 +7,11 @@ import json
 import shutil
 import urllib3
 # from http.client import responses
+import requests 
 from datetime import date, datetime
 from dotenv import load_dotenv
 
-DEBUG = False
-ACCESS_KEY = None        
+DEBUG = True
 
 class ExchangeRateOps():
 
@@ -41,36 +33,45 @@ class ExchangeRateOps():
             "USD":"US DOLLAR",
             }
 
-        self.APIStatusCodes = {
+        self.APIStatusCodes = {       
+            "101":  "No API Key was specified or an invalid API Key was specified.",
+            "102":  "The account this API request is coming from is inactive.",
+            "103":  "The requested API endpoint does not exist.",
+            "104":  "The maximum allowed API amount of monthly API requests has been reached.",
+            "105":	"The current subscription plan does not support this API endpoint.",
+            "106":	"The current request did not return any results.",
+            
             "200": "Everything went okay, and the result has been returned (if any).",
-            "301": "The server is redirecting you to a different endpoint. This can happen when a company switches domain names, or an endpoint name is changed.",
+            "201":	"An invalid base currency has been entered.",
+            "202":	"One or more invalid symbols have been specified.",
+            
+            "301":	"No date has been specified. [historical]",
+            "302":	"An invalid date has been specified. [historical, convert]",
+
             "400": "The server thinks you made a bad request. This can happen when you do not send along the right data, among other things.",
             "401": "The server thinks you are not authenticated. Many APIs require login ccredentials, so this happens when you do not send the right credentials to access an API.",
-            "403": "The resource you are trying to access is forbidden: you do not have the right perlessons to see it.",
-            "404": "The resource you tried to access was not found on the server.",
-            "503": "The server is not ready to handle the request.",
-            }
-        
+            "403":	"No or an invalid amount has been specified. [convert]",
+            "404":	"The requested resource does not exist.",
+            
+            "501":	"No or an invalid timeframe has been specified. [timeseries]",
+            "502": 	"No or an invalid 'start_date' has been specified. [timeseries, fluctuation]",
+            "503":	"No or an invalid 'end_date' has been specified. [timeseries, fluctuation]",
+            "504":	"An invalid timeframe has been specified. [timeseries, fluctuation]",
+            "505":	"The specified timeframe is too long, exceeding 365 days. [timeseries, fluctuation]"
+        }
+
         self.sample_JSON = b'{"success":false,"timestamp":1763580847,"base":"EUR","date":"2025-11-19","rates":{"EUR":1,"USD":1.152538,"CAD":1.620267,"GBP":0.882942,"JPY":180.783096}}'
 
         ## Replace single quotes with double quotes (JSON standard)
         # self.sample_JSON = self.sample_JSON.replace("'", '"')
         
-        # self.file_path = os.getcwd()  # os.path.join( "os.getcwd()", "static", "data" )
         self.project_path = os.path.join(os.curdir, "static", "data")
         self.latest_file = os.path.join(self.project_path, "LatestRate.json")
 
-    ## def format_json(self, json_file):
-    #     return json.dumps(json_file, indent = 4)
-
-    def Get_API(self) -> str:
-        print ("ExchangeRate Get API ")
-        # Create a PoolManager instance
-        http = urllib3.PoolManager()
-        
-        # Make a GET request to the API endpoint
-        APIURL = "http://api.exchangeratesapi.io/v1/latest"
-        
+    def get_AccesKey(self) -> str:
+        print ('Get Access Key')
+        #key = ""
+        print (f"Where: {os.getcwd()}")
         try: 
             if DEBUG and os.path.exists(".env.APIkey"):
                 load_dotenv(dotenv_path=".env.APIkey")
@@ -78,20 +79,27 @@ class ExchangeRateOps():
             else:     
                 load_dotenv()
                 print (".env loaded.")
-            ACCESS_KEY = os.getenv("API_KEY")
+            key = os.getenv("API_KEY")
             
-            print (f"Access Key: {ACCESS_KEY}")
-            if not ACCESS_KEY :
+            if not key :
                 raise ValueError("API_KEY not found")
                 
         except OSError as e:
             print (f"OSExcept #{e.errno}:{e.strerror} -- {e.filename} ")
         except Exception as e:
             print (f"Error: {e}")
-        ######################################################
+        
+        return key
 
+    def get_API_urlLib3(self) -> str:
+        print ("ExchangeRate Get API ")
+        # Create a PoolManager instance
+        http = urllib3.PoolManager()
+        # Make a GET request to the API endpoint
+        APIURL = "http://api.exchangeratesapi.io/v1/latest"
+        ACCESS_KEY = self.get_AccesKey()                
         exchangeQueryStr = {
-            "access_key": ACCESS_KEY,
+            "access_key": "ABCD", #ACCESS_KEY,
             "symbols": "EUR,USD,CAD,GBP,JPY,CNY,AUD,HKD,IDR,MXN,SGD,KRW,THB,TWD"
             }
         
@@ -109,6 +117,9 @@ class ExchangeRateOps():
             timeout=urllib3.Timeout(connect=2.0, read=5.0),
             retries=urllib3.Retry(total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503, 504])
         )
+
+        if DEBUG:
+            print ("Begin request:")
         response = http.request("GET", APIURL, fields=exchangeQueryStr)
         
         if response.status < 300:   # data in bytes format
@@ -125,6 +136,37 @@ class ExchangeRateOps():
 
         return rate_data.decode('utf-8')  # convert to utf-8 string
 
+    def get_API(self) -> str:
+        print ("ExchangeRate Get API ")
+
+        # Make a GET request to the API endpoint
+        APIURL = "http://api.exchangeratesapi.io/v1/latest"
+        ACCESS_KEY = self.get_AccesKey()  
+        rate_data = ""
+        exchangeQueryStr = {
+            "access_key": ACCESS_KEY,
+            "symbols": "EUR,USD,CAD,GBP,JPY,CNY,AUD,HKD,IDR,MXN,SGD,KRW,THB,TWD"
+            }
+
+        if DEBUG:
+            print (f"Key: {ACCESS_KEY}")
+            print ("Begin request:")
+        response = requests.get(
+            APIURL, 
+            params=exchangeQueryStr,
+            timeout=2.5
+            )
+            
+        print(f"response code - {response.status_code}")
+        if response.status_code == 200: 
+            rate_data = response.content
+        else: 
+            rate_data = self.sample_JSON
+            #print (f"error: {self.APIStatusCodes[response.status_code]} ")
+        
+        return rate_data.decode('utf-8')  # convert to utf-8 string
+ 
+
     def getExchangeRate(self):
         print ("ExchangeRate get rate")
         # for import requests
@@ -137,7 +179,7 @@ class ExchangeRateOps():
         # if os.path.exists(todayFile):
         #     print ("Exchange rate file exist.")
         # else:
-        JSON_data = self.Get_API()
+        JSON_data = self.get_API()
         if DEBUG:
             JSON_Print(JSON_data)
         try:
