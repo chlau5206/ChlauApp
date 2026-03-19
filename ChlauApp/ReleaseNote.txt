@@ -1,5 +1,5 @@
+3/18    ExchangeRate API handler completed, and schedule to run at PythonAnywhere
 3/16    UI/UX enhancement and fixed bugs are completed. 
-
 3/1		DemoBoard: Change populate message count to 15. 
 
 ==============================================================
@@ -7,8 +7,9 @@ Next steps:
 1. Admin Dashboard layout (new landing page)
 2. failed login lockout logic (security improvement)
 3. Create a multi-thread for populate data to demo Board. 
-4. Merge ExchangeRate API handle
+4. Merge ExchangeRate API handle  ------- Done
 5. Add email support ( Zoho Mail / Ionos / Namecheap )
+6. Clean up old codes and un-use codes. 
 
 **************************************************************
 Run this on PythonAnywhere 

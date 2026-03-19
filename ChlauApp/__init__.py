@@ -82,25 +82,26 @@ def create_app():
 
     #################################################
     # Load configurations from environment variables
-    if  os.path.exists('.env.development'):
-        load_dotenv(dotenv_path='.env.development')
-        print ('load env.development')
+    if  os.path.exists('.env.dev'):
+        load_dotenv(dotenv_path='.env.dev')
+        print ('load env.dev')
     else: 
         load_dotenv()
         print ('load env (Production)')
 
+    app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
+    app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['FLASK_APP'] = os.getenv("FLASK_APP", 'runapp.py') 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
     app.config['APP_NAME'] = os.getenv("APP_NAME", 'ChlauApp')    
     app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "production") # [development | production]
-    app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
-    app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
     app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')    # READ db
     app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///:memory:'}  # DEMO db :  In-memory database
-    # DEBUG  app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///demo.db'}  # DEMO db :  debug
+    #  app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///demo.db'}  # DEMO db :  debug
     
     app.config['LOCAL_TIMEZONE'] = os.getenv("LOCAL_TIMEZONE", 'America/Los_Angeles')    
+    app.config['PROJECT_PATH'] = os.getenv('PROJECT_PATH')
     app.config["WTF_CSRF_ENABLED"] = True
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
     app.secret_key = app.config['SECRET_KEY']
