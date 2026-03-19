@@ -11,8 +11,8 @@ from ..AppAdmin.adminBoard.BoardModels import Board, BoardForm
 import logging
 logger = logging.getLogger(__name__)
 
-ENTRY_LIMIT = 1000    # message limited to 1000
-PER_PAGE = 10     # Number of messages per page
+ENTRY_LIMIT = 50   # message limited to 50
+PER_PAGE = 5     # Number of messages per page
 
 @board_bp.route('/general_add', methods=['GET', 'POST'])
 def general_add_message():

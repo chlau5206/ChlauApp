@@ -6,7 +6,7 @@
 * text=auto
 
 ## User-specific files
-# .env
+.env
 .env.*
 # .gitignore
 *.pyproj
@@ -22,6 +22,7 @@ app.log
 Current_Resume.pdf
 LatestRate.json
 ExchangeRate_????-??-??.json
+obsolete.py
 
 ## Project exclude folders
 instance/

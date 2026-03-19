@@ -107,7 +107,7 @@ ChlauApp/
 ├── runapp.py               # Entry point to run the Flask application
 └── requirements.txt        # List of Python dependencies for the project
 
-
+## Updated project structure
 project/
 │
 ├── static/

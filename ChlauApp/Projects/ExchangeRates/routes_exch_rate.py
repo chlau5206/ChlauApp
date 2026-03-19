@@ -50,14 +50,14 @@ def project():
         "source_link": "https://github.com/chlau5206/ChlauApp/tree/main/ChlauApp/Projects/ExchangeRates", 
         "download_link": None,
         "future_work": [
-            "API integration: Swap static JSON for a controlled API handler.",
+            # "API integration: Swap static JSON for a controlled API handler.", --- Done
             "Last updated: Show a timestamp for the latest data refresh.",
             "Search/filter: Quickly find specific currencies.",
             "Mobile polish: Further refine the compact layout.",
             "Trends: Optional small chart for USD trends over time.",
 
         ],
-        "last_updated": "February 2026"
+        "last_updated": "March 2026"
     }
     return render_template("project_exch.html", **context)
 
