@@ -85,7 +85,7 @@ class ExchangeRateOps():
             print (".env loaded.")
 
         self.project_path = os.path.join( # os.getenv("PROJECT_PATH"), 
-                                         os.getcwd(), "ChlauApp", 
+                                         os.getcwd(), "ChlauApp",  # for local device
                                          "Projects", "ExchangeRates")
         self.latest_file = os.path.join(self.project_path,
                                         "data", "LatestRate.json")
