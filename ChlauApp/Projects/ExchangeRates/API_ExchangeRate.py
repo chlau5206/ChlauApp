@@ -2,18 +2,19 @@
 1. pip install requests    # PythonAnywhere required to use "requests"
 2. Update .env 
     API_KEY=55eb6b.....
-    PROJECT_PATH=/home/<usersite>/ProjectName
-3. Adjust DEBUG to turn on/off
-4. This is an independ procedure. It cannot run in the project.
-    To test it, Right-click the .py and select "Run Python file in Terminal" at the bottom. 
+3. Update .env.keys, self.project_path and self.todayfile locations.    
+4. Adjust DEBUG to turn on/off
+5. This is an independ procedure. It cannot run in the project.
+6. To test it, Right-click the .py and select "Run Python file in Terminal" at the bottom. 
+
 '''
+DEBUG = False
+
 import os
 import json
 import requests 
 from datetime import date
 from dotenv import load_dotenv
-
-DEBUG = True
 
 class ExchangeRateOps():
 
@@ -67,15 +68,10 @@ class ExchangeRateOps():
         ## Replace single quotes with double quotes (JSON standard)
         # self.sample_JSON = self.sample_JSON.replace("'", '"')
 
-        # if os.path.exists(env_keys):
-        #     load_dotenv(dotenv_path=env_keys)
-        #     print (".env.dev loaded.")
+        self.project_path = os.path.join( os.getcwd(), "ChlauApp")
+        env_keys = os.path.join( self.project_path, ".env.keys")
+        print (f"env_keys = {env_keys}" )
 
-        # env_keys = os.path.join(os.getcwd(), 
-        #                         "ChlauApp", "Projects", "ExchangeRates",
-        #                         ".env.keys")
-        # print (f"env_keys = {env_keys}" )
-        env_keys = ".env.keys"
         if os.path.exists(env_keys):
             load_dotenv(dotenv_path=env_keys)
             print (".env.keys loaded.")
@@ -84,13 +80,19 @@ class ExchangeRateOps():
             load_dotenv()
             print (".env loaded.")
 
-        self.project_path = os.path.join( # os.getenv("PROJECT_PATH"), 
-                                         os.getcwd(), "ChlauApp",  # for local device
-                                         "Projects", "ExchangeRates")
         self.latest_file = os.path.join(self.project_path,
-                                        "data", "LatestRate.json")
+                                        "ChlauApp", "Projects", "ExchangeRates",
+                                        "static", "data", "LatestRate.json")
+        
+        today_date = date.today().isoformat()
+            # today_date = JSON_data.get('date')
+        self.todayFile = os.path.join(self.project_path,
+                                        "ChlauApp", "Projects", "ExchangeRates",
+                                        "static", "data", "ExchangeRate_" + today_date + ".json")
+
         if DEBUG : 
-            print (f"Proj path: {self.project_path}")
+            print (f"Latest file path: {self.latest_file}")
+            print (f"today file path: {self.todayFile}")
 
     def get_AccesKey(self) -> str:
         if DEBUG: 
@@ -146,16 +148,12 @@ class ExchangeRateOps():
             else: 
                 print ("JSON_data is empty.")
         try:
-            today_date = date.today().isoformat()
-            # today_date = JSON_data.get('date')
-            todayFile = os.path.join(self.project_path,
-                                    "data", "ExchangeRate_" + today_date + ".json")
             
             if DEBUG:
-                with open(todayFile, 'w') as writeFile:
+                with open(self.todayFile, 'w') as writeFile:
                     writeFile.write(JSON_data)
                     writeFile.close()
-                print (f"Today file {todayFile} saved.")
+                print (f"Today file {self.todayFile} saved.")
 
             with open(self.latest_file, 'w') as LatestFile:
                 LatestFile.write(JSON_data)
@@ -165,12 +163,12 @@ class ExchangeRateOps():
 
         except IOError as e: 
             st = None
-            if not os.path.exists(os.path.dirname(self.file_path)): 
+            if not os.path.exists(os.path.dirname(self.latest_file)): 
                 st = f"{e}.  The directory does not exist."
-            elif not os.access(os.path.dirname(self.file_path), os.W_OK): 
-                st = f"{e}.  You do not have write permissions to {self.file_path}."
-            elif os.path.isfile(todayFile) and not os.access(todayFile, os.W_OK):
-                st = f"{e}.  You do not have write permissions to {todayFile}."
+            elif not os.access(os.path.dirname(self.latest_file), os.W_OK): 
+                st = f"{e}.  You do not have write permissions to {self.latest_file}."
+            elif os.path.isfile(self.latest_file) and not os.access(self.latest_file, os.W_OK):
+                st = f"{e}.  You do not have write permissions to {self.latest_file}."
             elif os.path.isfile(self.latest_file) and not os.access(self.latest_file, os.W_OK):
                 st = f"{e}.  You do not have write permissions to {self.latest_file}."
             print(st)
