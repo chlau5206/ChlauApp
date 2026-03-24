@@ -71,12 +71,12 @@ class ExchangeRateOps():
         #     load_dotenv(dotenv_path=env_keys)
         #     print (".env.dev loaded.")
 
-        env_keys = os.path.join(os.getcwd(), 
-                                "ChlauApp", "Projects", "ExchangeRates",
-                                ".env.keys")
-        print (f"env_keys = {env_keys}" )
+        # env_keys = os.path.join(os.getcwd(), 
+        #                         "ChlauApp", "Projects", "ExchangeRates",
+        #                         ".env.keys")
+        # print (f"env_keys = {env_keys}" )
+        env_keys = ".env.keys"
         if os.path.exists(env_keys):
-            print ("keys found.")
             load_dotenv(dotenv_path=env_keys)
             print (".env.keys loaded.")
         else:     
@@ -84,7 +84,9 @@ class ExchangeRateOps():
             load_dotenv()
             print (".env loaded.")
 
-        self.project_path = os.path.join(os.getenv("PROJECT_PATH"), "Projects", "ExchangeRates")
+        self.project_path = os.path.join( # os.getenv("PROJECT_PATH"), 
+                                         os.getcwd(), "ChlauApp", 
+                                         "Projects", "ExchangeRates")
         self.latest_file = os.path.join(self.project_path,
                                         "data", "LatestRate.json")
         if DEBUG : 
@@ -110,7 +112,7 @@ class ExchangeRateOps():
         ACCESS_KEY = self.get_AccesKey()  
         rate_data = ""
         exchangeQueryStr = {
-            "access_key": "A test", # ACCESS_KEY,
+            "access_key": ACCESS_KEY,
             "symbols": "EUR,USD,CAD,GBP,JPY,CNY,AUD,HKD,IDR,MXN,SGD,KRW,THB,TWD"
             }
 
