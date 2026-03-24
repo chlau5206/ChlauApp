@@ -1,13 +1,16 @@
 ﻿''' API Exchange Rate.py
+1. pip install requests    # PythonAnywhere required to use "requests"
+2. Update .env 
+    API_KEY=55eb6b.....
+    PROJECT_PATH=/home/<usersite>/ProjectName
+3. Adjust DEBUG to turn on/off
+4. This is an independ procedure. It cannot run in the project.
+    To test it, Right-click the .py and select "Run Python file in Terminal" at the bottom. 
 '''
 import os
 import json
-import shutil
-import urllib
-import urllib3
-
 import requests 
-from datetime import date, datetime
+from datetime import date
 from dotenv import load_dotenv
 
 DEBUG = True
@@ -63,49 +66,59 @@ class ExchangeRateOps():
 
         ## Replace single quotes with double quotes (JSON standard)
         # self.sample_JSON = self.sample_JSON.replace("'", '"')
-        
-        if DEBUG and os.path.exists(".env.dev"):
-            load_dotenv(dotenv_path=".env.dev")
-            print (".env.dev loaded.")
+
+        # if os.path.exists(env_keys):
+        #     load_dotenv(dotenv_path=env_keys)
+        #     print (".env.dev loaded.")
+
+        env_keys = os.path.join(os.getcwd(), 
+                                "ChlauApp", "Projects", "ExchangeRates",
+                                ".env.keys")
+        print (f"env_keys = {env_keys}" )
+        if os.path.exists(env_keys):
+            print ("keys found.")
+            load_dotenv(dotenv_path=env_keys)
+            print (".env.keys loaded.")
         else:     
+            print ("Keys not found.")
             load_dotenv()
             print (".env loaded.")
 
-        self.project_path = os.getenv("PROJECT_PATH")
+        self.project_path = os.path.join(os.getenv("PROJECT_PATH"), "Projects", "ExchangeRates")
         self.latest_file = os.path.join(self.project_path,
-                                        "Projects", "ExchangeRates", "static","data",
-                                        "LatestRate.json")
+                                        "data", "LatestRate.json")
+        if DEBUG : 
+            print (f"Proj path: {self.project_path}")
 
     def get_AccesKey(self) -> str:
-        print ('Get Access Key')
+        if DEBUG: 
+            print ('Get Access Key')
         try: 
             key = os.getenv("API_KEY")
-            if not key :
-                raise ValueError("API_KEY not found")
-                
         except OSError as e:
             print (f"OSExcept #{e.errno}:{e.strerror} -- {e.filename} ")
         except Exception as e:
             print (f"Error: {e}")
-        
         return key
  
     def get_API(self) -> str:
-        print ("ExchangeRate Get API ")
+        if DEBUG:
+            print ("ExchangeRate Get API ")
 
         # Make a GET request to the API endpoint
         APIURL = "http://api.exchangeratesapi.io/v1/latest"
         ACCESS_KEY = self.get_AccesKey()  
         rate_data = ""
         exchangeQueryStr = {
-            "access_key": ACCESS_KEY,
+            "access_key": "A test", # ACCESS_KEY,
             "symbols": "EUR,USD,CAD,GBP,JPY,CNY,AUD,HKD,IDR,MXN,SGD,KRW,THB,TWD"
             }
 
         if DEBUG:
-            print (f"Key: {ACCESS_KEY}")
-            
-        print ("Begin API request:")
+            print (f"Debug: {DEBUG}")
+            print (f"API URL: {APIURL}")
+            print ("params: ", exchangeQueryStr)
+            print ("Begin API request:")
         response = requests.get(
             APIURL, 
             params=exchangeQueryStr,
@@ -134,17 +147,19 @@ class ExchangeRateOps():
             today_date = date.today().isoformat()
             # today_date = JSON_data.get('date')
             todayFile = os.path.join(self.project_path,
-                                     "Projects", "ExchangeRates", "static","data",
-                                    "ExchangeRate_" + today_date + ".json")
-            with open(todayFile, 'w') as writeFile:
-                writeFile.write(JSON_data)
-                writeFile.close()
-            print (f"Today file {todayFile} saved.")
+                                    "data", "ExchangeRate_" + today_date + ".json")
+            
+            if DEBUG:
+                with open(todayFile, 'w') as writeFile:
+                    writeFile.write(JSON_data)
+                    writeFile.close()
+                print (f"Today file {todayFile} saved.")
 
             with open(self.latest_file, 'w') as LatestFile:
                 LatestFile.write(JSON_data)
                 LatestFile.close()
-            print (f"Latest File saved.")
+            if DEBUG:
+                print (f"Latest File, {self.latest_file} saved.")
 
         except IOError as e: 
             st = None
@@ -157,10 +172,13 @@ class ExchangeRateOps():
             elif os.path.isfile(self.latest_file) and not os.access(self.latest_file, os.W_OK):
                 st = f"{e}.  You do not have write permissions to {self.latest_file}."
             print(st)
+            return False
         except ValueError as e:
             print(f"Incorrect value. {e}")
+            return False
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+            return False
     
         return True
 
