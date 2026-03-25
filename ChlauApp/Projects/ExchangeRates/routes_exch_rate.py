@@ -12,7 +12,7 @@ def project():
         "project_title": "Exchange Rate Viewer",
         "project_subtitle": "A simple, clean currency-rate viewer built for clarity and stable demos.",
         "project_tags": ["Python", "Flask", "Bulma", "API"],
-        "screenshots": ["ExchangeRate_Screenshot.jpg"],
+        "screenshots": ["ExcRateViewer2026-03-25_light.jpg","ExcRateViewer2026-03-25_dark.jpg"],
         "project_description": """
             <p>Exchange Rate Viewer is a lightweight web application that displays currency exchange rates
             in a clean, easy-to-read interface. The demo uses a static JSON dataset to ensure consistent
