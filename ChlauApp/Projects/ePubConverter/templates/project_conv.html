@@ -22,7 +22,7 @@
             <div class="screenshots">
                 {% for img in screenshots %}
                     <figure class="image is-4by3">
-                        <img src="{{ url_for('ePubConv_bp.static', filename='img/' + img) }}">
+                        <img src="{{ url_for('ePubConv_bp.static', filename='img/' ~ img) }}">
                     </figure>
                 {% endfor %}
             </div>

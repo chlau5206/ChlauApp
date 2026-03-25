@@ -1,5 +1,6 @@
 # ePubConverter/routes_ePubConverter.py
 
+import os
 from flask import render_template
 from . import ePubConv_bp
 
@@ -8,11 +9,13 @@ logger = logging.getLogger(__name__)
 
 @ePubConv_bp.route('/')
 def project():
+    screenshots = get_screenshots(ePubConv_bp.static_folder)
     context = {
         "project_title": "ePub Converter (CHS → CHT)",
         "project_subtitle": "A C# utility that converts Simplified Chinese ePub books to Traditional Chinese.",
         "project_tags": ["C#", ".NET", "ePub", "Text Processing", "CLI Tool"],
-        "screenshots": ["ePubConverterScreenShot.jpg",],
+        "screenshots": screenshots,
+            # ["ePubConverterScreenShot.jpg",],
 
         "project_description": """
             <p>
@@ -79,3 +82,14 @@ def project():
     }
 
     return render_template("project_conv.html", **context)
+
+def get_screenshots(folder_path):
+    img_path = os.path.join(folder_path, "img")
+    if not os.path.exists(img_path):
+        return []
+
+    files = sorted([
+        f for f in os.listdir(img_path)
+        if f.lower().endswith((".png", ".jpg", ".jpeg", ".webp"))
+    ])
+    return files
