@@ -6,8 +6,9 @@
 * text=auto
 
 ## User-specific files
-.env
+!.env
 .env.*
+!.env.keys
 # .gitignore
 *.pyproj
 *.pyproj.user

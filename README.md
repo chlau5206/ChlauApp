@@ -16,157 +16,183 @@ Flask project using:
 =====================
 = Project structure =
 =====================
-ChlauApp/
-│
+## Updated project structure
+ChlauApp
 ├── ChlauApp/
-│   ├── __init__.py       # Initializes the Flask app and extensions (SQLAlchemy, Login-Manager, Configuration file for your Flask app (e.g., SECRET_KEY, database URI))
-│   ├── models.py         # Defines SQLAlchemy database models
-│   ├── LoginForms.py     # Contains WTForms for the Login module
-│   ├── views.py          # Defines routes for the main application
-│   │   
-│   ├── static/           # Contains global static files like CSS, JavaScript, and images
+│   ├── About2/
+│   │   ├── static/
+│   │   │   ├── css/
+│   │   │   │   └── abouts.css
+│   │   │   ├── data/
+│   │   │   │   └── Current_Resume.pdf
+│   │   │   └── js/
+│   │   │       └── about2.js
+│   │   ├── templates/
+│   │   │   └── About21.html
+│   │   ├── __init__.py
+│   │   ├── about2.py
+│   │   └── SelfNotes.txt
+│   ├── AppAdmin/
+│   │   ├── adminBoard/
+│   │   │   ├── static/
+│   │   │   ├── templates/
+│   │   │   │   ├── _board_admin_add.html
+│   │   │   │   ├── _board_reply.html
+│   │   │   │   └── board.html
+│   │   │   ├── __init__.py
+│   │   │   ├── adminBoard.py
+│   │   │   └── BoardModels.py
+│   │   ├── auth/
+│   │   │   ├── static/
+│   │   │   │   └── js/
+│   │   │   │       └── auth.js
+│   │   │   ├── templates/
+│   │   │   │   ├── auth_first_user.html
+│   │   │   │   ├── auth_login.html
+│   │   │   │   ├── auth_main.html
+│   │   │   │   ├── auth_register.html
+│   │   │   │   └── auth_update.html
+│   │   │   ├── __init__.py
+│   │   │   ├── auth_form.py
+│   │   │   └── auth.py
+│   │   ├── members/
+│   │   │   ├── templates/
+│   │   │   │   └── members.html
+│   │   │   ├── __init__.py
+│   │   │   ├── LoginForms.py
+│   │   │   ├── members.py
+│   │   │   └── models.py
+│   │   ├── .gitignore
+│   │   ├── LICENSE
+│   │   └── README.md
+│   ├── Board/
+│   │   ├── static/
+│   │   │   └── css/
+│   │   │       └── board_add.css
+│   │   ├── templates/
+│   │   │   └── board_general_add.html
+│   │   ├── __init__.py
+│   │   └── Board.py
+│   ├── Home2/
+│   │   ├── static/
+│   │   │   └── css/
+│   │   │       └── home2.css
+│   │   ├── templates/
+│   │   │   └── home2.html
+│   │   ├── __init__.py
+│   │   └── home2.py
+│   ├── logs/
+│   │   └── app.log
+│   ├── Projects/
+│   │   ├── BoardDemo/
+│   │   │   ├── static/
+│   │   │   │   ├── css/
+│   │   │   │   │   ├── board_add.css
+│   │   │   │   │   └── demo.css
+│   │   │   │   └── img/
+│   │   │   │       ├── DemoAddMsg2026-03-15.jpg
+│   │   │   │       └── DemoShowMsg2026-03-15.jpg
+│   │   │   ├── templates/
+│   │   │   │   ├── boardDemo_add.html
+│   │   │   │   ├── boardDemo.html
+│   │   │   │   └── project_board.html
+│   │   │   ├── __init__.py
+│   │   │   ├── BoardDemoModels.py
+│   │   │   ├── demoBoard.py
+│   │   │   └── routes_boardDemo.py
+│   │   ├── ePubConverter/
+│   │   │   ├── static/
+│   │   │   │   └── img/
+│   │   │   │       └── ePubConverterScreenShot.jpg
+│   │   │   ├── templates/
+│   │   │   │   └── project_conv.html
+│   │   │   ├── __init__.py
+│   │   │   ├── LICENSE
+│   │   │   └── routes_ePubConverter.py
+│   │   ├── ExchangeRates/
+│   │   │   ├── data/
+│   │   │   │   ├── Archive/
+│   │   │   │   │   └── ExchangeRate_2026-03-17.json
+│   │   │   │   ├── ExchangeRate_2026-03-19.json
+│   │   │   │   ├── ExchangeRate_2026-03-24.json
+│   │   │   │   └── LatestRate.json
+│   │   │   ├── static/
+│   │   │   │   ├── css/
+│   │   │   │   │   ├── demo.css
+│   │   │   │   │   └── ExchangeRates.css
+│   │   │   │   ├── img/
+│   │   │   │   │   ├── ExcRateViewer2026-03-25_dark.jpg
+│   │   │   │   │   └── ExcRateViewer2026-03-25_light.jpg
+│   │   │   │   └── js/
+│   │   │   │       └── ExchangeRates.js
+│   │   │   ├── templates/
+│   │   │   │   ├── exchangeRate.html
+│   │   │   │   └── project_exch.html
+│   │   │   ├── __init__.py
+│   │   │   ├── API_ExchangeRate.py
+│   │   │   ├── ExchangeRate_DevNote.txt
+│   │   │   ├── ExchangeRates.py
+│   │   │   └── routes_exch_rate.py
+│   │   └── Proj_template/
+│   │       ├── statics/
+│   │       │   ├── css/
+│   │       │   ├── data/
+│   │       │   ├── img/
+│   │       │   └── js/
+│   │       ├── templates/
+│   │       │   └── project_page.html
+│   │       ├── __init__.py
+│   │       └── routes.py
+│   ├── static/
 │   │   ├── css/
+│   │   │   ├── _table_old.css
 │   │   │   ├── bulma.min.css
-│   │   │   ├── NotoSanFonts.css
-│   │   │   ├── global_styles_.css
-│   │   │   └── ExchangeRates.css
+│   │   │   ├── global_styles.css
+│   │   │   ├── Noto_lang.css
+│   │   │   ├── NotoSansFonts.css
+│   │   │   └── table.css
 │   │   ├── data/
-│   │   │   └── LatesRate.json
+│   │   │   └── LICENSE
 │   │   ├── Fonts/
+│   │   │   ├── NotoSans-Italic-VariableFont_wdth,wght.ttf
 │   │   │   ├── NotoSans-VariableFont_wdth,wght.ttf
-│   │   │   ├── NotoSansDisplay-VariableFont_wdth,wght.ttf
-│   │   │   └── NotoSansDisplay-Italic-VariableFont_wdth,wght.ttf
+│   │   │   ├── NotoSansDisplay-Italic-VariableFont_wdth,wght.ttf
+│   │   │   └── NotoSansDisplay-VariableFont_wdth,wght.ttf
 │   │   ├── img/
 │   │   │   └── logo.jpg
 │   │   └── js/
-│   │       ├── layout.js
-│   │       └── ExchangeRates.js
-│   │   
-│   ├── templates/        # Contains HTML template files for rendering views
-│   │   ├── layout.html 
-│   │   ├── home.html 
-│   │   ├── exchangeRate.html 
-│   │   └── error404.html 
-│   │   
-│   ├── about/              # about me
-│   │   ├── static/           # Contains "about" static files like CSS, JavaScript, and images
-│   │   │   └── css/
-│   │   │      └── styles.css
-│   │   ├── templates/
-│   │   │   └── index.html
-│   │   ├── __init__.py
-│   │   ├── views.py
-│   │   └── models.py
-│   │   
-│   ├── auth/           # user-management authenication
-│   │   ├── templates/
-│   │   │   ├── auth_first_user.html
-│   │   │   ├── auth_login.html
-│   │   │   ├── auth_main.html
-│   │   │   ├── auth_register.html
-│   │   │   └── auth_update.html
-│   │   ├── __init__.py
-│   │   ├── auth.py
-│   │   └── auth__form.py
-│   │   
-│   ├── Board/              # Board (Contact me)
-│   │   ├── templates/
-│   │   │   ├── board.html
-│   │   │   ├── board_general_add.html
-│   │   │   └── board_reply_.html
-│   │   ├── Board.py
-│   │   └── BoardModels.py
-│   │   
-│   ├── members/ 
-│   │   ├── templates/
-│   │   │   └── members.html
-│   │   ├── __init__.py
-│   │   └── members.py
-│   │   
-│   └── test1/    # project template
-│       ├── static/           
-│       │   └── css/
-│       │       └── styles.css
-│       ├── templates/
-│       │   └── index.html
-│       ├── __init__.py
-│       ├── views.py
-│       ├── models.py
-│       └── forms.py
-│
-├── instance/               # SQLite3 database file
-│   ├── sys.db              # Production database file
-│   └── dev.db              # Development database file
-│
-├── migrations/             # Directory for database migrations
-│
-├── tests/                  # Unit tests for your application
-│
-├── .env                    # Production environment configuration
-├── .env.development        # Production environment configuration
-├── README.md               ## This file
-├── runapp.py               # Entry point to run the Flask application
-└── requirements.txt        # List of Python dependencies for the project
-
-## Updated project structure
-project/
-│
-├── static/
-│   ├── css/
-│   │   ├── bulma.min.css
-│   │   ├── global_styles.css
-│   │   └── layout.css (optional)
-│   ├── js/
-│   │   ├── layout.js        <-- global JS
-│   │   └── global_utils.js  <-- optional
-│   └── img/
-│       └── logo.png
-│
-├── home2/
+│   │       ├── _autoFlash.js
+│   │       └── layout.js
 │   ├── templates/
-│   │   └── home2.html
-│   └── static/
-│       ├── css/
-│       └── js/
-│
-├── about2/
-│   ├── templates/
-│   │   └── about2.html
-│   └── static/
-│       ├── css/
-│       └── js/
-│
-├── exchange_rate/
-│   ├── templates/
-│   └── static/
-│
-└── boardDemo/
-    ├── templates/
-    └── static/
-
-
-project_name/
-│
-├── __init__.py
-├── routes.py
-├── models.py          (optional, if project uses DB)
-│
-├── templates/
-│   └── project_name/
-│       └── project.html     ← main project page
-│
-├── static/
-│   ├── css/
-│   │   └── project.css      ← optional, project-specific styling
-│   ├── js/
-│   │   └── project.js       ← optional, project-specific JS
-│   └── img/
-│       ├── screenshot1.png
-│       ├── screenshot2.png
-│       └── diagram.png
-│
-└── data/                    ← optional (downloads, sample files)
-    └── sample.epub
+│   │   └── layout.html
+│   ├── utils/
+│   │   ├── data/
+│   │   │   ├── ePubConverter_Source.zip
+│   │   │   ├── ePubConverter.zip
+│   │   │   └── Test_参加奥运.epub
+│   │   └── obsolete.py
+│   ├── __init__.py
+│   ├── extensions.py
+│   ├── LICENSE
+│   ├── ReleaseNote.txt
+│   ├── SelfNotes.txt
+│   └── views.py
+├── instance/ 			--> SQLite3 database file
+│   ├── sys.db   --> Production database file		
+│   ├── demo.db   --> Demo database file (in momery)
+│   └── dev.db  	--> Development database file	
+├── migrations/
+│   └── versions/
+├── .env		
+├── .env.dev 
+├── .env.keys	  	--> dummie env.keys
+├── .env.seckeys    --> Real secret keys
+├── .gitattributes
+├── .gitignore
+├── BugReport.txt
+├── README.md
+├── requirements.txt
+└── runapp.py
 
 
 ## Note: pythonanywhere need to renew the website every 3 month.
