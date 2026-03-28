@@ -67,21 +67,6 @@ def demo_delete_message(id):      # R = Remove
     return redirect(url_for('boardDemo_bp.demo_show_message'
                             , page=request.args.get('page', 1)))
 
-# pre-populate 18 demo messages for PowerUser view
-# Purpose:  It makes the PowerUser page immediately useful and 
-#           shows pagination, sorting, and table layout without 
-#           requiring visitors to manually add messages.
-def seed_demo_messages():
-    if BoardDemoTbl.query.count() == 0:
-        for i in range(1, 16):
-            msg = BoardDemoTbl(
-                name=f"User {i}",
-                email=f"user{i}@example.com",
-                message=f"This is a sample message #{i}."
-            )
-            db.session.add(msg)
-        db.session.commit()
-
 # Operation: Create
 @boardDemo_bp.route('/Demo_add', methods=['GET', 'POST'])
 # @login_required
@@ -99,8 +84,6 @@ def demo_add_message():
         current_entries = BoardDemoTbl.query.count()  # Get the current number of entries
         if current_entries >= ENTRY_LIMIT:
             raise ValueError('The database has reached its limit of entries.')
-        
-        
         if sform.validate_on_submit():
             new_message = BoardDemoTbl(
                 name=sform.name.data.strip(), 
@@ -109,7 +92,6 @@ def demo_add_message():
                 )
             db.session.add(new_message)
             db.session.commit()
-            
             flash('Message added successfully!', 'success')
             logger.warning('New message added')
             
@@ -127,3 +109,18 @@ def demo_add_message():
             # return redirect(url_for('main.home'))
     # finally:
     return render_template('boardDemo_add.html', form=sform)
+
+# pre-populate 18 demo messages for PowerUser view
+# Purpose:  It makes the PowerUser page immediately useful and 
+#           shows pagination, sorting, and table layout without 
+#           requiring visitors to manually add messages.
+def seed_demo_messages():
+    if BoardDemoTbl.query.count() == 0:
+        for i in range(1, 16):
+            msg = BoardDemoTbl(
+                name=f"User {i}",
+                email=f"user{i}@example.com",
+                message=f"This is a sample message #{i}."
+            )
+            db.session.add(msg)
+        db.session.commit()

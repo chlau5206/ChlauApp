@@ -15,8 +15,6 @@ import os
 from dotenv import load_dotenv
 from zoneinfo import ZoneInfo
 
-FLASK_ENV = ''
-
 def utc_to_local(dt, tz_name):
     if dt is None:
         ZoneInfo.key
@@ -28,16 +26,16 @@ def utc_to_local(dt, tz_name):
 def create_logger(app):
     
     # Ensure the logs directory exists
-    log_directory = os.path.join(app.root_path, 'logs')
+    log_directory = os.path.join(app.root_path, "logs")
     if not os.path.exists(log_directory):
         os.makedirs(log_directory, exist_ok=True)
 
     # Create a formatter
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
     # Create a rotating file handler
     file_handler =  RotatingFileHandler(       # 10MB 
-                        os.path.join(log_directory, 'app.log'), 
+                        os.path.join(log_directory, "app.log"), 
                         maxBytes=10*1024*1024, 
                         backupCount=5
                         )
@@ -67,54 +65,56 @@ def create_logger(app):
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
-    ''' logger usage:
+    """ logger usage:
         # Log messages at different levels
         logger.debug('This is a debug message')
         logger.info('This is an info message')
         logger.warning('This is a warning message')
         logger.error('This is an error message')
         logger.critical('This is a critical message')
-    '''
+    """
     return logger
 
 def create_app():
-    app = Flask(__name__) 
+    DEBUG = True
 
     #################################################
     # Load configurations from environment variables
-    if  os.path.exists('.env.dev'):
-        load_dotenv(dotenv_path='.env.dev')
-        print ('load env.dev')
+    if  DEBUG and os.path.exists(".env.dev"):
+        load_dotenv(".env.dev", override=True)
+        print ("load env.dev")
     else: 
-        load_dotenv()
-        print ('load env (Production)')
+        load_dotenv(".env.prod", override=True)
+        print ("load env (Production)")
 
-    app.config["DEBUG"] = os.getenv("DEBUG", "False") == 'True'
-    app.config["TESTING"] = os.getenv("TESTING", "False") == 'True'
-    app.config['FLASK_APP'] = os.getenv("FLASK_APP", 'runapp.py') 
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'True'
-    app.config['APP_NAME'] = os.getenv("APP_NAME", 'ChlauApp')    
-    app.config['FLASK_ENV'] = os.getenv("FLASK_ENV", "production") # [development | production]
-    app.config['PERMANENT_SESSION_LIFETIME'] = int(os.getenv('PERMANENT_SESSION_LIFETIME' , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///sys.db')    # READ db
-    app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///:memory:'}  # DEMO db :  In-memory database
-    #  app.config["SQLALCHEMY_BINDS"] = {'demo': 'sqlite:///demo.db'}  # DEMO db :  debug
     
-    app.config['LOCAL_TIMEZONE'] = os.getenv("LOCAL_TIMEZONE", 'America/Los_Angeles')    
-    app.config['PROJECT_PATH'] = os.getenv('PROJECT_PATH')
-    app.config["WTF_CSRF_ENABLED"] = True
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'SecretKey') 
-    app.secret_key = app.config['SECRET_KEY']
 
-    app.jinja_env.filters['localtime'] = lambda dt: utc_to_local(dt, app.config['LOCAL_TIMEZONE'])
+    app = Flask(__name__) 
+    
+    DEBUG = app.config["DEBUG"] = os.getenv("DEBUG", "False") == "True"
+    TESTING = app.config["TESTING"] = os.getenv("TESTING", "False") == "True"
+    app.config["FLASK_APP"] = os.getenv("FLASK_APP", "runapp.py") 
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS") == "True"
+    app.config["APP_NAME"] = os.getenv("APP_NAME", "ChlauApp")    
+    app.config["FLASK_ENV"] = os.getenv("FLASK_ENV", "production") # [development | production]
+    app.config["PERMANENT_SESSION_LIFETIME"] = int(os.getenv("PERMANENT_SESSION_LIFETIME" , 300))  # Set session lifetime to 5 min (5 * 60 seconds)
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI", "sqlite:///sys.db")    # READ db
+    app.config["SQLALCHEMY_BINDS"] = {"demo": "sqlite:///:memory:"}  # DEMO db :  In-memory database
+    #  app.config["SQLALCHEMY_BINDS"] = {"demo": "sqlite:///demo.db"}  # DEMO db :  debug
+    
+    app.config["LOCAL_TIMEZONE"] = os.getenv("LOCAL_TIMEZONE", "America/Los_Angeles")    
+    # app.config["PROJECT_PATH"] = os.getenv("PROJECT_PATH")
+    app.config["WTF_CSRF_ENABLED"] = True
+    app.secret_key = app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "SecretKey") 
+    app.jinja_env.filters["localtime"] = lambda dt: utc_to_local(dt, app.config["LOCAL_TIMEZONE"])
 
     #######################################
     # Logging
     logger = create_logger(app)
     logger.info("Logging started.")
     # logger.info(f"DEBug = {app.config['DEBUG']}")
-    FLASK_ENV = {app.config['FLASK_ENV']}
-    if app.config['DEBUG']:
+    FLASK_ENV = {app.config["FLASK_ENV"]}
+    if app.config["DEBUG"]:
         logger.debug (f"App Name = {os.getenv('APP_NAME')}")
         logger.debug(f"FLASK_ENV={FLASK_ENV}")
     
@@ -145,13 +145,13 @@ def create_app():
         # DEBUG  print("DB Type:", type(db))
 
         migrate.init_app(app, db) #Bind SQLAlchemy to the app
-        logger.info('Bind SQLAlchemy to the app')
+        logger.info("Bind SQLAlchemy to the app")
         
         # Creates the demo tables manually
         with app.app_context():
             from .Projects.BoardDemo.BoardDemoModels import BoardDemoTbl
-            db.create_all(bind_key='demo')
-            # db.create_all(bind='demo')   # incorrect syntax
+            db.create_all(bind_key="demo")
+            # db.create_all()
 
             # debug  print (db.metadata.tables.keys())  #verify table created
 
@@ -159,22 +159,22 @@ def create_app():
             from .Projects.BoardDemo.demoBoard import seed_demo_messages
             seed_demo_messages()
 
-            logger.info('Demo db table created.')
+            logger.info("Demo db table created.")
 
     except Exception as e:
         error_message = handle_SQL_exception(e) 
-        logger.error (f'An unexpected SQL error occurred: {error_message}')
+        logger.error (f"An unexpected SQL error occurred: {error_message}")
 
     logger.info("Database init completed.")
 
     ########################################
     # init csrf
     csrf.init_app(app)
-    if app.config['DEBUG']:
-        logger.debug(f'csrf exempt={csrf._exempt_views}') 
-        logger.debug(f'csrf token= {csrf._get_csrf_token}')
+    if app.config["DEBUG"]:
+        logger.debug(f"csrf exempt={csrf._exempt_views}") 
+        logger.debug(f"csrf token= {csrf._get_csrf_token}")
 
-    logger.info ('CSRF init completed.')
+    logger.info ("CSRF init completed.")
     
     from .AppAdmin.members.models import User #, handle_exception
     
@@ -184,46 +184,46 @@ def create_app():
     app.register_blueprint(main)
     
     from .Board import board_bp
-    app.register_blueprint(board_bp, url_prefix='/Board')
+    app.register_blueprint(board_bp, url_prefix="/Board")
 
     from .About2 import about2_bp
-    app.register_blueprint(about2_bp, url_prefix='/about')
+    app.register_blueprint(about2_bp, url_prefix="/about")
 
 
     from .AppAdmin.members import members_bp
-    app.register_blueprint(members_bp, url_prefix='/members')
+    app.register_blueprint(members_bp, url_prefix="/members")
 
     from .AppAdmin.auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(auth_bp, url_prefix="/auth")
 
     from .AppAdmin.adminBoard import admin_board_bp
-    app.register_blueprint(admin_board_bp, url_prefix='/adminBoard')
+    app.register_blueprint(admin_board_bp, url_prefix="/adminBoard")
     
     
     from .Projects.ExchangeRates import exchange_rate_bp
-    app.register_blueprint(exchange_rate_bp, url_prefix='/ExchangeRates')
+    app.register_blueprint(exchange_rate_bp, url_prefix="/ExchangeRates")
     
     from .Projects.ePubConverter import ePubConv_bp
-    app.register_blueprint(ePubConv_bp, url_prefix='/ePubConv')
+    app.register_blueprint(ePubConv_bp, url_prefix="/ePubConv")
 
     from .Projects.BoardDemo import boardDemo_bp
-    app.register_blueprint(boardDemo_bp, url_prefix='/BoardDemo')
+    app.register_blueprint(boardDemo_bp, url_prefix="/BoardDemo")
 
     
     from .Home2 import home2_bp
-    app.register_blueprint(home2_bp, url_prefix='/home2')
+    app.register_blueprint(home2_bp, url_prefix="/home2")
 
     # # Old version. replace to About2
     # from .about import about_bp
-    # app.register_blueprint(about_bp, url_prefix='/about')
+    # app.register_blueprint(about_bp, url_prefix="/about")
     
-    print ('Blueprint init completed.')
+    print ("Blueprint init completed.")
 
     ########################################
     # ## User Create/login 
     # LoginManager is needed for our application 
     # to be able to log in and out users
-    login_manager.login_view = 'auth_bp.login'  # old settings 'admin.login'
+    login_manager.login_view = "auth_bp.login"  # old settings 'admin.login'
 
     ########################################
     # User loader callback
@@ -231,10 +231,10 @@ def create_app():
     def loader_user(user_id):
         return User.query.get(int(user_id))
 
-    logger.info('Login manager init completed.')
+    logger.info("Login manager init completed.")
 
 
-    logger.info('Flask application has started')
+    logger.info("Flask application has started")
 
     return app
 

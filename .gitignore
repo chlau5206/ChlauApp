@@ -8,6 +8,7 @@
 ## User-specific files
 !.env
 .env.*
+!.env.prod
 !.env.keys
 # .gitignore
 *.pyproj

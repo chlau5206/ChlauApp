@@ -1,0 +1,46 @@
+3/25    Add GitHub & LinkedIn & email links
+3/18    ExchangeRate API handler completed, and schedule to run at PythonAnywhere
+3/16    UI/UX enhancement and fixed bugs are completed. 
+3/1		DemoBoard: Change populate message count to 15. 
+
+==============================================================
+Run this on PythonAnywhere 
+from zoneinfo import ZoneInfo
+from tzdata
+from datetime import datetime
+
+utc = datetime(2026, 3, 13, 0, 0, 0, tzinfo=ZoneInfo("Etc/UTC"))
+local = utc.astimezone(ZoneInfo("America/Los_Angeles"))
+print(local)
+
+==============================================================
+## Note: pythonanywhere need to renew the website every 3 month.
+# directly replace your local files in PythonAnywhere with the remote repository's files, use:
+$ git fetch origin    # Fetch remote changes
+$ git reset --hard origin/<branch-name>    # Reset your branch
+
+- This will ensure that your local branch exactly matches the remote branch, including adding or deleting files as necessary.
+
+Optional:
+# to reset your Git repository to the last commit (discard every changed, --soft for kept change in staged)
+$ git reset --head HEAD     
+
+# update files only, no new file add or delete
+$ git fetch
+
+# 9. Temporarily saves your local changes, and apply them later.
+$ git stash
+$ git pull origin <feature-branch>
+$ git stash apply
+
+## install ChlauApp with VSCode
+1. Create project folder
+2. CD to project folder
+3. Create virtual environment from VSCode
+	>> Ctrl+Shift+P , select create environment
+4. Bash >  git clone {github repo}
+5. Create launch configuration { launch.json }
+
+## Note: 
+1. If SQLite databse needs rebuild.  Delete instance folder, it will recreate.
+2. Exchange rate json (LatestRate.json) required from API service.
