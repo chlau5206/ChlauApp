@@ -1,17 +1,15 @@
-﻿##  Project 
-##
-This project uses Flask framework based.  The project is pubished in pythonanywhere.com. 
-https://chlau5206.pythonanywhere.com
-This Flask project is using Blueprint, Bulma, SQLAlchemy, Login-Manager, Flask-WTF, Logging.
+##  Project: Web Portfolio & Lab Demo
+Technologies: Python, Flask (Blueprints), Bulma CSS, SQLAlchemy (SQLite), Flask-Login, Flask-WTF, Logging
 
-Flask project using:
-1. Blueprint , made modular portable and independant
-2. Bulma's CSS
-3. SQLAlchemy (SQLite3)
-4. Login-Manager 
-5. Flask-WTF for handling forms.
-6. Logging
-7. Flask-Mail for email -- not implemented, due to require oAuth.
+Modular Architecture: Engineered a modular web application using Flask Blueprints to ensure independent, portable, and scalable component management.
+
+Security & Auth: Implemented secure user authentication and session management using Flask-Login and SQLAlchemy, including protected routes and hashed credentials.
+
+Systems Monitoring: Integrated a robust Logging framework to track application health, user activity, and system errors—essential for root-cause analysis in production environments.
+
+Responsive UI: Developed a clean, professional front-end using Bulma CSS, prioritizing mobile-friendly design and high-performance asset loading.
+
+Data Integrity: Utilized Flask-WTF for secure form handling, including CSRF protection and server-side validation to ensure data quality.
 
 =====================
 = Project structure =
@@ -164,34 +162,106 @@ ChlauApp
 │   │       ├── _autoFlash.js
 │   │       └── layout.js
 │   ├── templates/
-│   │   └── layout.html
-│   ├── utils/
-│   │   ├── data/
-│   │   │   ├── ePubConverter_Source.zip
-│   │   │   ├── ePubConverter.zip
-│   │   │   └── Test_参加奥运.epub
-│   │   └── obsolete.py
-│   ├── __init__.py
-│   ├── extensions.py
-│   ├── LICENSE
-│   ├── ReleaseNote.txt
-│   ├── SelfNotes.txt
-│   └── views.py
-├── instance/ 			--> SQLite3 database file
-│   ├── sys.db   --> Production database file		
-│   ├── demo.db   --> Demo database file (in momery)
-│   └── dev.db  	--> Development database file	
-├── migrations/
-│   └── versions/
-├── .env		
-├── .env.dev 
-├── .env.keys	  	--> dummie env.keys
-├── .env.seckeys    --> Real secret keys
-├── .gitattributes
-├── .gitignore
-├── BugReport.txt
-├── README.md
-├── requirements.txt
-└── runapp.py
+│   │   └── about2.html
+│   └── static/
+│       ├── css/
+│       └── js/
+│
+├── exchange_rate/
+│   ├── templates/
+│   └── static/
+│
+└── boardDemo/
+    ├── templates/
+    └── static/
 
 
+project_name/
+│
+├── __init__.py
+├── routes.py
+├── models.py          (optional, if project uses DB)
+│
+├── templates/
+│   └── project_name/
+│       └── project.html     ← main project page
+│
+├── static/
+│   ├── css/
+│   │   └── project.css      ← optional, project-specific styling
+│   ├── js/
+│   │   └── project.js       ← optional, project-specific JS
+│   └── img/
+│       ├── screenshot1.png
+│       ├── screenshot2.png
+│       └── diagram.png
+│
+└── data/                    ← optional (downloads, sample files)
+    └── sample.epub
+
+
+## Note: pythonanywhere need to renew the website every 3 month.
+
+# Commit the "Skeleton" On your local machine (PC), commit these changes and push to GitHub:
+Bash
+git add .
+git commit -m "Admin: Added WorkDirectory skeleton and updated ignore rules"
+git push origin main
+
+# The PAW "Sync" Now, on PythonAnywhere:
+Bash
+git fetch origin main
+git reset --hard origin/main
+
+
+Optional:
+# to reset your Git repository to the last commit (discard every changed, --soft for kept change in staged)
+$ git reset --head HEAD     
+
+# update files only, no new file add or delete
+$ git fetch
+
+# 9. Temporarily saves your local changes, and apply them later.
+$ git stash
+$ git pull origin [main | <feature-branch>]
+$ git stash [apply | pop]
+
+## install ChlauApp with VSCode
+1. Create project folder
+2. CD to project folder
+3. Create virtual environment from VSCode
+	>> Ctrl+Shift+P , select create environment
+4. Bash >  git clone {github repo}
+5. Create launch configuration { launch.json }
+
+## Note: 
+1. If SQLite databse needs rebuild.  Delete instance folder, it will recreate.
+2. Exchange rate json (LatestRate.json) required from API service.
+
+Automate this entire process—running Python code, copying files, and committing/pushing to 
+a Git repository—using a combination of Python scripting and Git hooks(e.g., pre-push hook).
+
+
+1. Write the Python Script to Generate the Supplement file
+import shutil
+
+def generate_file():
+    # Generate the supplementary file (example content)
+    with open("supplement.txt", "w") as f:
+        f.write("This is the generated supplement file.\n")
+    print("Supplement file generated.")
+
+def copy_file():
+    source = "supplement.txt"
+    destination = "/path/to/specific/folder/supplement.txt"  # Change to your folder
+    shutil.copy(source, destination)
+    print(f"File copied to {destination}.")
+
+if __name__ == "__main__":
+    generate_file()
+    copy_file()
+
+2. Set Up a Git Hook (e.g. pre-push)
+
+
+3. Push Your Changes to the Repository
