@@ -86,7 +86,7 @@
    RESUME BUTTON
    ============================ */
 
-.has-text-centered .button {
+.resume-button .button {
     min-width: 200px;
 }
 

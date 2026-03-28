@@ -4,6 +4,7 @@ This script is for the ChlauApp application's entry point.
 
 import os, sys
 from ChlauApp import app
+DEBUG = True
 
 if __name__ == '__main__':
     
@@ -18,8 +19,10 @@ if __name__ == '__main__':
     # print(f"Template folder:  {app.jinja_env.loader.searchpath}")
     # print(f"Static folder:    {app.static_folder}")
 
-    if app.config['FLASK_ENV'] == 'development':
-        DEBUG = app.config['DEBUG'] == True
+    print (f"runapp FLASK Env = {app.config['FLASK_ENV']}")
+    print (F"app config DEBUG = {app.config['DEBUG']}")
+
+    if DEBUG:
         HOST = os.environ.get('SERVER_HOST', 'localhost')
         try:
             PORT = int(os.environ.get('SERVER_PORT', '5555'))

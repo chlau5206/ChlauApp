@@ -1,6 +1,6 @@
 # boardDemo/routes_boardDemo.py
 
-
+import os
 from flask import render_template
 from . import boardDemo_bp, demoBoard
 
@@ -9,12 +9,13 @@ logger = logging.getLogger(__name__)
 
 @boardDemo_bp.route('/')
 def project():
+    screenshots = get_screenshots(boardDemo_bp.static_folder)
     context = {
         "project_title": "boardDemo",
         "project_subtitle": "A safe, dual-database message board demo.",
         "project_tags": ["Python", "Flask", "SQLAlchemy", "SQLite", "Bulma", "csrf"],
-        "screenshots": ["DemoAddMsg2026-03-15.jpg", "DemoShowMsg2026-03-15.jpg"],
-
+        "screenshots": screenshots,
+            # ["DemoAddMsg2026-03-15.jpg", "DemoShowMsg2026-03-15.jpg"],
         "project_description": """
             <p>
                 boardDemo is a lightweight, safe, and public-friendly message board designed to
@@ -63,3 +64,14 @@ def project():
     }
 
     return render_template("project_board.html", **context)
+
+def get_screenshots(folder_path):
+    img_path = os.path.join(folder_path, "img")
+    if not os.path.exists(img_path):
+        return []
+
+    files = sorted([
+        f for f in os.listdir(img_path)
+        if f.lower().endswith((".png", ".jpg", ".jpeg", ".webp"))
+    ])
+    return files

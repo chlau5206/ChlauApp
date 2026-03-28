@@ -23,7 +23,7 @@
             <div class="screenshots">
                 {% for img in screenshots %}
                 <figure class="image is-4by3">
-                    <img src="{{ url_for('boardDemo_bp.static', filename='img/' + img) }}">
+                    <img src="{{ url_for('boardDemo_bp.static', filename='img/' ~ img) }}">
                 </figure>
                 {% endfor %}
             </div>
@@ -60,7 +60,7 @@
             <h2 class="title is-5">Links</h2>
             <p>
                 <a class="button is-link" href="{{ demo_link }}" target="_blank">Live Demo</a>
-                <a class="button is-dark" href="{{ source_link }}" target="_blank">Source Code</a>
+                <a class="button is-dark" href="{{ source_link }}" target="_blank">GitHub Source Code</a>
                 {% if download_link %}
                 <a class="button is-info" href="{{ download_link }}" target="_blank">Download</a>
                 {% endif %}
