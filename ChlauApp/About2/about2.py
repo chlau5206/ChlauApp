@@ -19,4 +19,4 @@ def index():
 def download_resume():
     about2_bp.root_path
     data_folder = os.path.join(about2_bp.root_path, "data")
-    return send_from_directory(data_folder, "current_resume.pdf", as_attachment=True)
+    return send_from_directory(data_folder, "Current_Resume.pdf", as_attachment=True)
