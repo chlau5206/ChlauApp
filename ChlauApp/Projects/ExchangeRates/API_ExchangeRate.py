@@ -82,7 +82,7 @@ class ExchangeRateOps():
 
         self.latest_file = os.path.join(self.project_path,
                                         "ChlauApp", "Projects", "ExchangeRates",
-                                        "static", "data", "LatestRate.json")
+                                        "data", "LatestRate.json")
         
         today_date = date.today().isoformat()
             # today_date = JSON_data.get('date')

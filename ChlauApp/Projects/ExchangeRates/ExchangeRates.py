@@ -15,8 +15,8 @@ def exchangeRate():
 
 @exchange_rate_bp.route("/loadExchangeRate", methods=['GET'])
 def load_exchange_rate():
-    
-    FILE_PATH = os.path.join(exchange_rate_bp.static_folder, 'data', 'LatestRate.json')
+    # print (f"root path = {exchange_rate_bp.root_path}")
+    FILE_PATH = os.path.join(exchange_rate_bp.root_path, 'data', 'LatestRate.json')
     #logger.debug(f'File_path = {FILE_PATH}')
     try:
         ## for debug:
