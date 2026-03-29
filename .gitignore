@@ -6,10 +6,8 @@
 * text=auto
 
 ## User-specific files
-!.env
+.env
 .env.*
-!.env.prod
-!.env.keys
 # .gitignore
 *.pyproj
 *.pyproj.user
@@ -21,8 +19,8 @@ FirstUser.html
 selections.js
 app.log
 # API_ExchangeRate.py
-Current_Resume.pdf
-LatestRate.json
+!Current_Resume.pdf
+!LatestRate.json
 ExchangeRate_????-??-??.json
 obsolete.py
 
