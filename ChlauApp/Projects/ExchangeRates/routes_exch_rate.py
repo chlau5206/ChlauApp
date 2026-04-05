@@ -15,50 +15,59 @@ def project():
         "project_subtitle": "A simple, clean currency-rate viewer built for clarity and stable demos.",
         "project_tags": ["Python", "Flask", "Bulma", "API"],
         "screenshots": screenshots,
-            #["ExcRateViewer2026-03-25_light.jpg","ExcRateViewer2026-03-25_dark.jpg"],
         "project_description": """
-            <p>Exchange Rate Viewer is a lightweight web application that displays currency exchange rates
-            in a clean, easy-to-read interface. The demo uses a static JSON dataset to ensure consistent
-            performance and avoid dependency on external services.
+            <p>
+            ExchangeRate Viewer is a lightweight, fast currency lookup tool designed for clarity and reliability. It retrieves daily exchange rate data from a live API, stores the results as JSON, and performs EUR‑to‑USD conversion directly in the browser using JavaScript. The UI is clean, responsive, and optimized for quick reference on any device.
             </p>
         """,
         "features": [ 
-            "Simple UI: Quick, readable currency lookup in a clean table layout.",
-            "Static data source: Uses JSON for stable, predictab le demos.",
-            "Responsive layout: Designed to stay usable on different screen sizes.",
-            "Modular structure: Matches my reusable project-page and folder template.",
-            "No external dependencies: Fast load times without live API calls.",
+            "⚡ Automated Daily Updates: A scheduled PythonAnywhere task refreshes exchange rates every day, ensuring the data stays current without manual intervention.",
+            "🔁 Hybrid ETL Pipeline-Extract(Server): API handler retrieves EUR‑based exchange rates.",
+            "🔁 Hybrid ETL Pipeline-Load(Server): Results are saved as JSON for fast UI loading",
+            "🔁 Hybrid ETL Pipeline-Transform(Client): JavaScript converts EUR‑based values into USD‑based rates dynamically",
+            "🧩 Clean, Simple UI: A minimal table layout provides quick, readable currency lookup without distractions.",
+            "🌙 Responsive + Dark-Mode Aware: The layout adapts to different screen sizes and respects the user’s system/browser dark‑mode preference.",
+            "⚡ Fast, Stable Data Delivery: The UI loads instantly using pre‑processed JSON, avoiding API delays, rate limits, and unnecessary client‑side calls.",
+            "🗂️ Modular, Reusable Structure: Built using my universal project‑page and folder template, making the module easy to maintain and extend.",
         ],
         "architecture_notes": """
-            <h4>Data layer</h4>
-            <p>
-                The app loads a static JSON file containing exchange-rate data. This keeps the demo stable,
-                avoids API limits, and removes the need for API keys in the public version.
-            </p>
+            <h4>Scheduled Task (PythonAnywhere)</h4>
+            <p>  
+            - Runs daily <br>
+            - Calls the API handler <br>
+            - Saves raw EUR‑based JSON <br>
+            </p> 
 
-            <h4>UI layer</h4>
-            <p>
-                The UI renders the rates in a simple, responsive table with minimal styling for clarity and
-                readability. The visual style is aligned with the rest of my portfolio.
-            </p>
+            <h4>API Handler (Server)</h4>
+            <p>  
+            - Fetches EUR‑based exchange rates <br>
+            - Validates and normalizes the dataset <br>
+            - Stores the raw JSON for the frontend <br>
+            </p> 
+            
+            <h4>Frontend Logic (Client)</h4>
+            <p>  
+            - Loads the JSON file <br>
+            - Converts EUR‑based values into USD‑based rates using JavaScript <br>
+            - Renders the table dynamically <br>
+            </p> 
 
-            <h4>Project structure</h4>
-            <p> 
-                The code follows my universal project template, keeping data, layout and assets separated. 
-                This makes it easy to upgrade later-for example, by swapping the static JSON for a live
-                API handler. 
+            <h4>UI Layer</h4>
+            <p>  
+            - Bulma‑based responsive table <br>
+            - Dark‑mode aware <br>
+            - No external JS dependencies <br>
             </p> 
             """,
         "demo_link": "ExchangeRateViewer",
         "source_link": "https://github.com/chlau5206/ChlauApp/tree/main/ChlauApp/Projects/ExchangeRates", 
         "download_link": None,
         "future_work": [
-            # "API integration: Swap static JSON for a controlled API handler.", --- Done
-            "Last updated: Show a timestamp for the latest data refresh.",
-            "Search/filter: Quickly find specific currencies.",
-            "Mobile polish: Further refine the compact layout.",
-            "Trends: Optional small chart for USD trends over time.",
-
+            "Add currency search/filter",
+            "Add 'favorite currencies' section",
+            "Add historical trend charts",
+            "Add multi‑base currency toggle",
+            "Add last‑updated timestamp in UI",
         ],
         "last_updated": "March 2026"
     }

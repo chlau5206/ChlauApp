@@ -288,6 +288,20 @@ article, footer {
 /*        BREAKPOINTS        */
 /* ========================= */
 
+.icon-key {
+    font-size: 1.4rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navbar-text, #363636);
+    transition: color 0.2s ease;
+}
+
+.navbar-item:hover .icon-key {
+    color: var(--primary, #3273dc);
+}
+
 /* Desktop + tablet */
 @media (min-width: 1025px) {
     .navbar-burger {
