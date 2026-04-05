@@ -12,3 +12,13 @@
 .contact-card .field {
     margin-bottom: 1.5rem;
 }
+
+@media (prefers-color-scheme: dark) {
+    .dark-mode .section-bg {
+        background-color: darkblue; 
+    }
+
+    .dark-mode .contact-card {
+        background-color: dodgerblue;
+    }
+}
